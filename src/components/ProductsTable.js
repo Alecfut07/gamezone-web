@@ -22,6 +22,25 @@ const ProductsTable = () => {
     navigateNewproduct("/products/new");
   };
 
+  const deleteProduct = async (id) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(
+      `https://localhost:7269/products/${id}`,
+      options
+    );
+    if (response.ok) {
+      const results = await response.json();
+      console.log("asdfasdf");
+    } else {
+      console.log("error");
+    }
+  };
+
   return (
     <React.Fragment>
       <div>
@@ -62,7 +81,11 @@ const ProductsTable = () => {
                     <button type="button" class="btn btn-info">
                       Update
                     </button>
-                    <button type="button" class="btn btn-danger">
+                    <button
+                      onClick={() => deleteProduct(product.id)}
+                      type="button"
+                      class="btn btn-danger"
+                    >
                       Delete
                     </button>
                   </div>
