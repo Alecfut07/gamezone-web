@@ -1,10 +1,11 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
 
 const HomePage = () => {
   return (
-    <React.Fragment>
+    <Container>
       <h1>Home Page</h1>
-    </React.Fragment>
+    </Container>
   );
 };
 

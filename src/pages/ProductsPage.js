@@ -1,11 +1,12 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
 import { ProductsTable } from "../components/ProductsTable";
 
 const ProductsPage = () => {
   return (
-    <React.Fragment>
+    <Container>
       <ProductsTable />
-    </React.Fragment>
+    </Container>
   );
 };
 
