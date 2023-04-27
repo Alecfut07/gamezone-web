@@ -4,8 +4,6 @@ import { Container } from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import { NavbarRouter } from "./components/NavbarRouter";
-import { CustomNavbar } from "./components/CustomNavbar";
-import { ProductsPage } from "./pages/ProductsPage";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

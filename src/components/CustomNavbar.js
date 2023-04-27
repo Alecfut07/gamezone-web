@@ -27,6 +27,9 @@ const CustomNavbar = () => {
               <Nav.Link as={NavLink} to={"/home"}>
                 Home
               </Nav.Link>
+              <Nav.Link as={NavLink} to={"/products"}>
+                Products
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
