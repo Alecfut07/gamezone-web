@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProductsTable = () => {
   const [products, setProducts] = useState();
@@ -15,10 +16,20 @@ const ProductsTable = () => {
     })();
   }, []);
 
+  const navigateNewproduct = useNavigate();
+
+  const handleNewProductClick = () => {
+    navigateNewproduct("/products/new");
+  };
+
   return (
     <React.Fragment>
       <div>
-        <button type="button" class="btn btn-primary">
+        <button
+          type="button"
+          onClick={handleNewProductClick}
+          class="btn btn-primary"
+        >
           Create new product
         </button>
       </div>

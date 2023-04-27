@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HomePage } from "../pages/HomePage";
 import { ProductsPage } from "../pages/ProductsPage";
+import { CreateNewProduct } from "../pages/CreateNewProduct";
 import { CustomNavbar } from "./CustomNavbar";
 
 const NavbarRouter = () => {
@@ -12,6 +13,7 @@ const NavbarRouter = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/new" element={<CreateNewProduct />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
