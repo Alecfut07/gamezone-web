@@ -13,7 +13,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const CreateNewProduct = () => {
   const [validated, setValidated] = useState(false);
-  const [name, setName] = useState("");
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -26,11 +25,15 @@ const CreateNewProduct = () => {
     setValidated(true);
   };
 
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [releaseDate, setReleaseDate] = useState(new Date());
+
   const sendNewProduct = async () => {
     const body = {
       name: name,
-      price: 0.0,
-      releaseDate: new Date().toISOString(),
+      price: price,
+      releaseDate: releaseDate.toISOString(),
       condition_id: 1,
       edition_id: 1,
     };
@@ -44,7 +47,7 @@ const CreateNewProduct = () => {
     const response = await fetch("https://localhost:7269/products", options);
     if (response.ok) {
       const results = await response.json();
-      console.log("asdfasdf");
+      console.log("ok");
     } else {
       console.log("error");
     }
@@ -54,7 +57,10 @@ const CreateNewProduct = () => {
     setName(e.target.value);
   };
 
-  const [startDate, setStartDate] = useState(new Date());
+  const onPriceChange = (e) => {
+    setPrice(e.target.value);
+  };
+
   const years = range(1800, getYear(new Date()) + 1, 1);
   const months = [
     "January",
@@ -70,6 +76,10 @@ const CreateNewProduct = () => {
     "November",
     "December",
   ];
+
+  const onReleaseDateChange = (e) => {
+    setReleaseDate(e.target.value);
+  };
 
   return (
     <Container>
@@ -99,6 +109,7 @@ const CreateNewProduct = () => {
               <Form.Control
                 type="text"
                 aria-aria-describedby="inputGroupPrepend"
+                onChange={onPriceChange}
                 required
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -166,8 +177,8 @@ const CreateNewProduct = () => {
                   </button>
                 </div>
               )}
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              selected={releaseDate}
+              onChange={(date, e) => setReleaseDate(date, e)}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
