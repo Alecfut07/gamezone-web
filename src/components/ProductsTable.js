@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const ProductsTable = () => {
   const [products, setProducts] = useState();
@@ -73,7 +74,7 @@ const ProductsTable = () => {
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.description}</td>
-                <td>{product.release_date}</td>
+                <td>{moment(product.release_date).local().format("LLL")}</td>
                 <td>{product.condition.state}</td>
                 <td>{product.edition.type}</td>
                 <td>

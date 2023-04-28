@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -28,14 +28,20 @@ const CreateNewProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
+  const [description, setDescription] = useState("");
+  const [conditionId, setConditionId] = useState();
+  const [conditions, setConditions] = useState();
+  const [editionId, setEditionId] = useState();
+  const [editions, setEditions] = useState();
 
   const sendNewProduct = async () => {
     const body = {
       name: name,
       price: price,
       releaseDate: releaseDate.toISOString(),
-      condition_id: 1,
-      edition_id: 1,
+      description: description,
+      condition_id: conditionId,
+      edition_id: editionId,
     };
     const options = {
       method: "POST",
@@ -61,6 +67,51 @@ const CreateNewProduct = () => {
     setPrice(e.target.value);
   };
 
+  const onDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("https://localhost:7269/conditions");
+      if (response.ok) {
+        const results = await response.json();
+        setConditions(results);
+      } else {
+        setConditions(null);
+      }
+    })();
+  }, []);
+
+  const onConditionChange = (e) => {
+    const index = e.target.selectedIndex;
+    const el = e.target.childNodes[index];
+    const option = el.getAttribute("id");
+    setConditionId(option);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("https://localhost:7269/editions");
+      if (response.ok) {
+        const results = await response.json();
+        setEditions(results);
+      } else {
+        setEditions(null);
+      }
+    })();
+  }, []);
+
+  const onEditionChange = (e) => {
+    const index = e.target.selectedIndex;
+    console.log("index: ", index);
+    const el = e.target.childNodes[index];
+    console.log("el: ", el);
+    const option = el.getAttribute("id");
+    console.log("option: ", option);
+    setEditionId(option);
+  };
+
   const years = range(1800, getYear(new Date()) + 1, 1);
   const months = [
     "January",
@@ -76,10 +127,6 @@ const CreateNewProduct = () => {
     "November",
     "December",
   ];
-
-  const onReleaseDateChange = (e) => {
-    setReleaseDate(e.target.value);
-  };
 
   return (
     <Container>
@@ -123,7 +170,7 @@ const CreateNewProduct = () => {
           <Form.Group as={Col} md="4" controlId="releaseDateValidation">
             <Form.Label>Release Date</Form.Label>
             <DatePicker
-              dateFormat="yyyy/MM/dd"
+              dateFormat="MMMM d, yyyy"
               placeholderText="Click to select a date"
               renderCustomHeader={({
                 date,
@@ -189,7 +236,12 @@ const CreateNewProduct = () => {
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="descriptionValidation">
             <Form.Label>Description</Form.Label>
-            <Form.Control type="text" placeholder="Description" required />
+            <Form.Control
+              type="text"
+              placeholder="Description"
+              onChange={onDescriptionChange}
+              required
+            />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Please provide a valid description.
@@ -199,11 +251,17 @@ const CreateNewProduct = () => {
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="conditionValidation">
             <Form.Label>Condition</Form.Label>
-            <Form.Select aria-label="Default select example" required>
+            <Form.Select
+              aria-label="Default select example"
+              onChange={onConditionChange}
+              required
+            >
               <option selected disabled value="">
                 Choose condition...
               </option>
-              <option>NEW</option>
+              {(conditions ?? []).map((condition) => {
+                return <option id={condition.id}>{condition.state}</option>;
+              })}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
@@ -212,11 +270,17 @@ const CreateNewProduct = () => {
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="editionValidation">
             <Form.Label>Edition</Form.Label>
-            <Form.Select aria-label="Default select example" required>
+            <Form.Select
+              aria-label="Default select example"
+              onChange={onEditionChange}
+              required
+            >
               <option selected disabled value="">
                 Choose edition...
               </option>
-              <option>DELUXE EDITION</option>
+              {(editions ?? []).map((edition) => {
+                return <option id={edition.id}>{edition.type}</option>;
+              })}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
