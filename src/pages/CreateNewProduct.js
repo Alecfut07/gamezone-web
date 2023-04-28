@@ -7,6 +7,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 
 import DatePicker from "react-datepicker";
+import { getMonth, getYear } from "date-fns";
+import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateNewProduct = () => {
@@ -52,22 +54,22 @@ const CreateNewProduct = () => {
     setName(e.target.value);
   };
 
-  //   const [startDate, setStartDate] = useState(new Date());
-  //   const years = range(1800, getYear(new Date()) + 1, 1);
-  //   const months = [
-  //     "January",
-  //     "February",
-  //     "March",
-  //     "April",
-  //     "May",
-  //     "June",
-  //     "July",
-  //     "August",
-  //     "September",
-  //     "October",
-  //     "November",
-  //     "December",
-  //   ];
+  const [startDate, setStartDate] = useState(new Date());
+  const years = range(1800, getYear(new Date()) + 1, 1);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   return (
     <Container>
@@ -106,10 +108,11 @@ const CreateNewProduct = () => {
             </InputGroup>
           </Form.Group>
         </Row>
-        {/* <Row className="mb-3">
+        <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="releaseDateValidation">
             <Form.Label>Release Date</Form.Label>
             <DatePicker
+              dateFormat="yyyy/MM/dd"
               placeholderText="Click to select a date"
               renderCustomHeader={({
                 date,
@@ -171,7 +174,7 @@ const CreateNewProduct = () => {
               Please provide a valid release date.
             </Form.Control.Feedback>
           </Form.Group>
-        </Row> */}
+        </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="descriptionValidation">
             <Form.Label>Description</Form.Label>
