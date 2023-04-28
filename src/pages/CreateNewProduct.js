@@ -234,18 +234,13 @@ const CreateNewProduct = () => {
           </Form.Group>
         </Row>
         <Row className="mb-3">
-          <Form.Group as={Col} md="6" controlId="descriptionValidation">
+          <Form.Group as={Col} md="6">
             <Form.Label>Description</Form.Label>
             <Form.Control
               type="text"
               placeholder="Description"
               onChange={onDescriptionChange}
-              required
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid description.
-            </Form.Control.Feedback>
           </Form.Group>
         </Row>
         <Row className="mb-3">
