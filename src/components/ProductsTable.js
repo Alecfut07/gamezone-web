@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { DeleteConfirmation } from "./DeleteConfirmation";
 import Row from "react-bootstrap/Row";
@@ -97,6 +97,12 @@ const ProductsTable = () => {
     setDisplayConfirmationModal(false);
   };
 
+  const navigateUpdateProduct = useNavigate();
+
+  const handleUpdateProductClick = (id) => {
+    navigateUpdateProduct(`/products/${id}`);
+  };
+
   return (
     <React.Fragment>
       <Row>
@@ -139,7 +145,11 @@ const ProductsTable = () => {
                 <td>{product.edition.type}</td>
                 <td>
                   <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-info">
+                    <button
+                      onClick={() => handleUpdateProductClick(product.id)}
+                      type="button"
+                      class="btn btn-info"
+                    >
                       Update
                     </button>
                     <button

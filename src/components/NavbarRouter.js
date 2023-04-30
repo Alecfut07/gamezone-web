@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HomePage } from "../pages/HomePage";
 import { ProductsPage } from "../pages/ProductsPage";
 import { CreateNewProduct } from "../pages/CreateNewProduct";
+import { UpdateProduct } from "../pages/UpdateProduct";
 import { CustomNavbar } from "./CustomNavbar";
 
 const NavbarRouter = () => {
@@ -14,6 +15,7 @@ const NavbarRouter = () => {
         <Route path="/home" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/new" element={<CreateNewProduct />} />
+        <Route path="/products/:id" element={<UpdateProduct />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
