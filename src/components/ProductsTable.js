@@ -140,7 +140,7 @@ const ProductsTable = () => {
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.description}</td>
-                <td>{moment(product.release_date).local().format("LLL")}</td>
+                <td>{moment(product.release_date).local().format("LL")}</td>
                 <td>{product.condition.state}</td>
                 <td>{product.edition.type}</td>
                 <td>
