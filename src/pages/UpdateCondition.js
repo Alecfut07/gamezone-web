@@ -54,7 +54,7 @@ const UpdateCondition = () => {
 
   return (
     <Container>
-      <h1>Update Condition {id}</h1>
+      <h1>Update Condition</h1>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="stateValidation">
