@@ -153,7 +153,7 @@ const ProductsTable = () => {
             showModal={displayConfirmationModal}
             confirmModal={submitDeleteProduct}
             hideModal={hideConfirmationModal}
-            product={product}
+            type={product}
             id={productId}
             message={deleteMessage}
           ></DeleteConfirmation>

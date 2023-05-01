@@ -1,14 +1,14 @@
-const ProductsService = {
-  getProducts: async () => {
+const ConditionsService = {
+  getConditions: async () => {
     try {
-      const response = await fetch("https://localhost:7269/products");
+      const response = await fetch("https://localhost:7269/conditions");
       return response.json();
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
-  getProductById: async (id) => {
+  getConditionById: async (id) => {
     const options = {
       method: "GET",
       headers: {
@@ -17,7 +17,7 @@ const ProductsService = {
     };
     try {
       const response = await fetch(
-        `https://localhost:7269/products/${id}`,
+        `https://localhost:7269/conditions/${id}`,
         options
       );
       return response.json();
@@ -26,21 +26,9 @@ const ProductsService = {
       throw error;
     }
   },
-  createNewProduct: async (
-    name,
-    price,
-    releaseDate,
-    description,
-    conditionId,
-    editionId
-  ) => {
+  createNewCondition: async (state) => {
     const body = {
-      name: name,
-      price: price,
-      releaseDate: releaseDate.toISOString(),
-      description: description,
-      condition_id: conditionId,
-      edition_id: editionId,
+      state: state,
     };
     const options = {
       method: "POST",
@@ -50,29 +38,19 @@ const ProductsService = {
       body: JSON.stringify(body),
     };
     try {
-      const response = await fetch("https://localhost:7269/products", options);
+      const response = await fetch(
+        "https://localhost:7269/conditions",
+        options
+      );
       return response.json();
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
-  updateProduct: async (
-    id,
-    name,
-    price,
-    releaseDate,
-    description,
-    conditionId,
-    editionId
-  ) => {
+  updateCondition: async (id, state) => {
     const body = {
-      name: name,
-      price: price,
-      releaseDate: releaseDate,
-      description: description,
-      condition_id: conditionId,
-      edition_id: editionId,
+      state: state,
     };
     const options = {
       method: "PUT",
@@ -83,7 +61,7 @@ const ProductsService = {
     };
     try {
       const response = await fetch(
-        `https://localhost:7269/products/${id}`,
+        `https://localhost:7269/conditions/${id}`,
         options
       );
       return response.json();
@@ -92,7 +70,7 @@ const ProductsService = {
       throw error;
     }
   },
-  deleteProduct: async (id) => {
+  deleteCondition: async (id) => {
     const options = {
       method: "DELETE",
       headers: {
@@ -101,7 +79,7 @@ const ProductsService = {
     };
     try {
       const response = await fetch(
-        `https://localhost:7269/products/${id}`,
+        `https://localhost:7269/conditions/${id}`,
         options
       );
       return response.json();
@@ -112,4 +90,4 @@ const ProductsService = {
   },
 };
 
-export { ProductsService };
+export { ConditionsService };

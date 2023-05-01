@@ -30,6 +30,9 @@ const CustomNavbar = () => {
               <Nav.Link as={NavLink} to={"/products"}>
                 Products
               </Nav.Link>
+              <Nav.Link as={NavLink} to={"/conditions"}>
+                Conditions
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

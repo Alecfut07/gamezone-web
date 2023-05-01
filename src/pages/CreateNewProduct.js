@@ -10,6 +10,8 @@ import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
+import { ProductsService } from "../services/ProductsService";
+import { ConditionsService } from "../services/ConditionsService";
 
 const CreateNewProduct = () => {
   const [validated, setValidated] = useState(false);
@@ -35,27 +37,22 @@ const CreateNewProduct = () => {
   const [editions, setEditions] = useState();
 
   const sendNewProduct = async () => {
-    const body = {
-      name: name,
-      price: price,
-      releaseDate: releaseDate.toISOString(),
-      description: description,
-      condition_id: conditionId,
-      edition_id: editionId,
-    };
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    };
-    const response = await fetch("https://localhost:7269/products", options);
-    if (response.ok) {
-      const results = await response.json();
-      console.log("ok");
-    } else {
-      console.log("error");
+    try {
+      const result = await ProductsService.createNewProduct(
+        name,
+        price,
+        releaseDate,
+        description,
+        conditionId,
+        editionId
+      );
+    } catch (error) {
+      setName(null);
+      setPrice(null);
+      setReleaseDate(null);
+      setDescription(null);
+      setConditionId(null);
+      setEditionId(null);
     }
   };
 
@@ -73,11 +70,10 @@ const CreateNewProduct = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://localhost:7269/conditions");
-      if (response.ok) {
-        const results = await response.json();
+      try {
+        const results = await ConditionsService.getConditions();
         setConditions(results);
-      } else {
+      } catch (error) {
         setConditions(null);
       }
     })();

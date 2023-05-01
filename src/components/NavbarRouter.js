@@ -5,6 +5,9 @@ import { ProductsPage } from "../pages/ProductsPage";
 import { CreateNewProduct } from "../pages/CreateNewProduct";
 import { UpdateProduct } from "../pages/UpdateProduct";
 import { CustomNavbar } from "./CustomNavbar";
+import { ConditionsPage } from "../pages/ConditionsPage";
+import { CreateNewCondition } from "../pages/CreateNewCondition";
+import { UpdateCondition } from "../pages/UpdateCondition";
 
 const NavbarRouter = () => {
   return (
@@ -16,6 +19,9 @@ const NavbarRouter = () => {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/new" element={<CreateNewProduct />} />
         <Route path="/products/:id" element={<UpdateProduct />} />
+        <Route path="/conditions" element={<ConditionsPage />} />
+        <Route path="/conditions/new" element={<CreateNewCondition />} />
+        <Route path="/conditions/:id" element={<UpdateCondition />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

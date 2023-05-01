@@ -8,7 +8,7 @@ const DeleteConfirmation = ({
   hideModal,
   confirmModal,
   id,
-  product,
+  type,
   message,
 }) => {
   return (
@@ -21,7 +21,7 @@ const DeleteConfirmation = ({
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Delete Product Confirmation
+          Delete Confirmation
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -31,7 +31,7 @@ const DeleteConfirmation = ({
         <Button variant="light" onClick={hideModal}>
           Cancel
         </Button>
-        <Button variant="danger" onClick={() => confirmModal(product, id)}>
+        <Button variant="danger" onClick={() => confirmModal(type, id)}>
           Delete
         </Button>
       </Modal.Footer>
