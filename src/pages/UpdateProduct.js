@@ -13,6 +13,8 @@ import moment from "moment";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { ProductsService } from "../services/ProductsService";
+
 const UpdateProduct = () => {
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
@@ -23,35 +25,45 @@ const UpdateProduct = () => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      updateProduct(id);
+      updateProduct(
+        id,
+        name,
+        price,
+        releaseDate,
+        description,
+        conditionId,
+        editionId
+      );
     }
     setValidated(true);
   };
 
-  const updateProduct = async (id) => {
-    const body = {
-      name: name,
-      price: price,
-      releaseDate: releaseDate,
-      description: description,
-      condition_id: conditionId,
-      edition_id: editionId,
-    };
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    };
-    const response = await fetch(
-      `https://localhost:7269/products/${id}`,
-      options
-    );
-    if (response.ok) {
-      const result = await response.json();
-    } else {
-      console.log("error");
+  const updateProduct = async (
+    id,
+    name,
+    price,
+    releaseDate,
+    description,
+    conditionId,
+    editionId
+  ) => {
+    try {
+      const results = await ProductsService.updateProduct(
+        id,
+        name,
+        price,
+        releaseDate,
+        description,
+        conditionId,
+        editionId
+      );
+    } catch (error) {
+      setName(null);
+      setPrice(null);
+      setReleaseDate(null);
+      setDescription(null);
+      setConditionId(null);
+      setEditionId(null);
     }
   };
 
@@ -62,26 +74,21 @@ const UpdateProduct = () => {
   }, []);
 
   const searchProduct = async (id) => {
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await fetch(
-      `https://localhost:7269/products/${id}`,
-      options
-    );
-    if (response.ok) {
-      const result = await response.json();
+    try {
+      const result = await ProductsService.getProductById(id);
       setName(result.name);
       setPrice(result.price);
       setReleaseDate(result.release_date);
       setDescription(result.description);
       setConditionId(result.condition.id);
       setEditionId(result.edition.id);
-    } else {
-      console.log("error");
+    } catch (error) {
+      setName(null);
+      setPrice(null);
+      setReleaseDate(null);
+      setDescription(null);
+      setConditionId(null);
+      setEditionId(null);
     }
   };
 

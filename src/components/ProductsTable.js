@@ -5,6 +5,7 @@ import { DeleteConfirmation } from "./DeleteConfirmation";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Alert from "react-bootstrap/Alert";
+import { ProductsService } from "../services/ProductsService";
 
 const ProductsTable = () => {
   const [productId, setProductId] = useState();
@@ -18,11 +19,10 @@ const ProductsTable = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://localhost:7269/products");
-      if (response.ok) {
-        const results = await response.json();
+      try {
+        const results = await ProductsService.getProducts();
         setProducts(results);
-      } else {
+      } catch (error) {
         setProducts(null);
       }
     })();
@@ -35,41 +35,22 @@ const ProductsTable = () => {
   };
 
   const searchProduct = async (id) => {
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await fetch(
-      `https://localhost:7269/products/${id}`,
-      options
-    );
-    if (response.ok) {
-      const result = await response.json();
+    try {
+      const result = await ProductsService.getProductById(id);
       setProduct(result);
       setProductId(result["id"]);
-    } else {
+    } catch (error) {
       setProduct(null);
       setProductId(null);
     }
   };
 
   const deleteProduct = async (id) => {
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await fetch(
-      `https://localhost:7269/products/${id}`,
-      options
-    );
-    if (response.ok) {
-      const results = await response.json();
-    } else {
-      console.log("error");
+    try {
+      const result = await ProductsService.deleteProduct(id);
+    } catch (error) {
+      setProduct(null);
+      setProductId(null);
     }
   };
 
