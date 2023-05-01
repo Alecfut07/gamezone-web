@@ -17,6 +17,8 @@ const ProductsTable = () => {
   const [deleteMessage, setDeleteMessage] = useState(null);
   const [productMessage, setProductMessage] = useState(null);
 
+  const [isFormValid, setFormValid] = useState();
+
   useEffect(() => {
     (async () => {
       try {
@@ -55,8 +57,6 @@ const ProductsTable = () => {
   };
 
   const showDeleteProductModal = (productName, id) => {
-    // setProduct(product);
-    // setProductId(id);
     searchProduct(id);
     setProductMessage(null);
 
@@ -71,11 +71,23 @@ const ProductsTable = () => {
     setDisplayConfirmationModal(false);
   };
 
-  const submitDeleteProduct = (product, id) => {
-    deleteProduct(id);
-    setProductMessage(`The product: ${product.name} was deleted successfully.`);
-    setProducts(products.filter((p) => p.id !== id));
-    setDisplayConfirmationModal(false);
+  const submitDeleteProduct = async (product, id) => {
+    try {
+      await ProductsService.deleteProduct(id);
+      setFormValid(true);
+      setProductMessage(
+        `The product: ${product.name} was deleted successfully.`
+      );
+      setProducts(products.filter((p) => p.id !== id));
+    } catch (error) {
+      console.log(error);
+      setFormValid(false);
+      setProductMessage(`The product: ${product.name} was not deleted.`);
+      setProduct(null);
+      setProductId(null);
+    } finally {
+      setDisplayConfirmationModal(false);
+    }
   };
 
   const navigateUpdateProduct = useNavigate();
@@ -88,7 +100,14 @@ const ProductsTable = () => {
     <React.Fragment>
       <Row>
         <Card.Body>
-          {productMessage && <Alert variant="success">{productMessage}</Alert>}
+          {isFormValid === undefined ? (
+            <></>
+          ) : (
+            <Alert variant={isFormValid ? "success" : "danger"}>
+              {productMessage}
+            </Alert>
+          )}
+          {/* {productMessage && <Alert variant="success">{productMessage}</Alert>} */}
         </Card.Body>
       </Row>
       <div>

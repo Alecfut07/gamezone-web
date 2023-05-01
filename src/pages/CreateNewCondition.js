@@ -6,14 +6,18 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
 import { ConditionsService } from "../services/ConditionsService";
+import { useNavigate } from "react-router-dom";
 
 const CreateNewCondition = () => {
   const [validated, setValidated] = useState(false);
+
+  const navigateConditions = useNavigate();
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       sendNewCondition();
+      navigateConditions("/conditions");
     } else {
       event.preventDefault();
       event.stopPropagation();

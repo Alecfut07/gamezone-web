@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -19,6 +19,8 @@ const UpdateProduct = () => {
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
 
+  const navigateProducts = useNavigate();
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -34,6 +36,7 @@ const UpdateProduct = () => {
         conditionId,
         editionId
       );
+      navigateProducts("/products");
     }
     setValidated(true);
   };

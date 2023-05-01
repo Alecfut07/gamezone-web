@@ -16,6 +16,8 @@ const ConditionsTable = () => {
   const [deleteMessage, setDeleteMessage] = useState(null);
   const [conditionMessage, setConditionMessage] = useState(null);
 
+  const [isFormValid, setFormValid] = useState();
+
   useEffect(() => {
     (async () => {
       try {
@@ -44,15 +46,6 @@ const ConditionsTable = () => {
     }
   };
 
-  const deleteCondition = async (id) => {
-    try {
-      const result = await ConditionsService.deleteCondition(id);
-    } catch (error) {
-      setCondition(null);
-      setConditionId(null);
-    }
-  };
-
   const showDeleteConditionModal = (conditionState, id) => {
     searchCondition(id);
     setConditionMessage(null);
@@ -68,13 +61,24 @@ const ConditionsTable = () => {
     setDisplayConfirmationModal(false);
   };
 
-  const submitDeleteCondition = (condition, id) => {
-    deleteCondition(id);
-    setConditionMessage(
-      `The condition: ${condition.state} was deleted successfully.`
-    );
-    setConditions(conditions.filter((c) => c.id !== id));
-    setDisplayConfirmationModal(false);
+  const submitDeleteCondition = async (condition, id) => {
+    try {
+      await ConditionsService.deleteCondition(id);
+      setFormValid(true);
+      setConditionMessage(
+        `The condition: ${condition.state} was deleted successfully.`
+      );
+      setConditions(conditions.filter((c) => c.id !== id));
+    } catch (error) {
+      console.log(error);
+
+      setFormValid(false);
+      setConditionMessage(`The condition: ${condition.state} was not deleted.`);
+      setCondition(null);
+      setConditionId(null);
+    } finally {
+      setDisplayConfirmationModal(false);
+    }
   };
 
   const navigateUpdateCondition = useNavigate();
@@ -87,8 +91,12 @@ const ConditionsTable = () => {
     <React.Fragment>
       <Row>
         <Card.Body>
-          {conditionMessage && (
-            <Alert variant="success">{conditionMessage}</Alert>
+          {isFormValid === undefined ? (
+            <></>
+          ) : (
+            <Alert variant={isFormValid ? "success" : "danger"}>
+              {conditionMessage}
+            </Alert>
           )}
         </Card.Body>
       </Row>

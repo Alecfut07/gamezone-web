@@ -99,16 +99,14 @@ const ProductsService = {
         "Content-Type": "application/json",
       },
     };
-    try {
-      const response = await fetch(
-        `https://localhost:7269/products/${id}`,
-        options
-      );
-      return response.json();
-    } catch (error) {
-      console.log(error);
-      throw error;
+    const response = await fetch(
+      `https://localhost:7269/products/${id}`,
+      options
+    );
+    if (response.ok) {
+      return null;
     }
+    throw Error("Something went wrong");
   },
 };
 

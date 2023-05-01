@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -16,10 +17,13 @@ import { ConditionsService } from "../services/ConditionsService";
 const CreateNewProduct = () => {
   const [validated, setValidated] = useState(false);
 
+  const navigateProducts = useNavigate();
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       sendNewProduct();
+      navigateProducts("/products");
     } else {
       event.preventDefault();
       event.stopPropagation();
