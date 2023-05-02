@@ -1,7 +1,9 @@
 const ConditionsService = {
   getConditions: async () => {
     try {
-      const response = await fetch("https://localhost:7269/conditions");
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/conditions`
+      );
       return response.json();
     } catch (error) {
       console.log(error);
@@ -17,7 +19,7 @@ const ConditionsService = {
     };
     try {
       const response = await fetch(
-        `https://localhost:7269/conditions/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/conditions/${id}`,
         options
       );
       return response.json();
@@ -39,7 +41,7 @@ const ConditionsService = {
     };
     try {
       const response = await fetch(
-        "https://localhost:7269/conditions",
+        `${process.env.REACT_APP_BASE_URL}/conditions`,
         options
       );
       return response.json();
@@ -61,7 +63,7 @@ const ConditionsService = {
     };
     try {
       const response = await fetch(
-        `https://localhost:7269/conditions/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/conditions/${id}`,
         options
       );
       return response.json();
@@ -78,7 +80,7 @@ const ConditionsService = {
       },
     };
     const response = await fetch(
-      `https://localhost:7269/conditions/${id}`,
+      `${process.env.REACT_APP_BASE_URL}/conditions/${id}`,
       options
     );
     if (response.ok) {

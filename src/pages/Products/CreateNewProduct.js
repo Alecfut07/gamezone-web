@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -9,50 +9,41 @@ import Row from "react-bootstrap/Row";
 
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
-import moment from "moment";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
+import { ProductsService } from "../../services/ProductsService";
+import { ConditionsService } from "../../services/ConditionsService";
+import "./CreateNewProduct.css";
 
-import { ProductsService } from "../services/ProductsService";
-
-const UpdateProduct = () => {
-  const { id } = useParams();
+const CreateNewProduct = () => {
   const [validated, setValidated] = useState(false);
 
   const navigateProducts = useNavigate();
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    if (form.checkValidity()) {
+      sendNewProduct();
+      navigateProducts("/products");
+    } else {
       event.preventDefault();
       event.stopPropagation();
-    } else {
-      updateProduct(
-        id,
-        name,
-        price,
-        releaseDate,
-        description,
-        conditionId,
-        editionId
-      );
-      navigateProducts("/products");
     }
     setValidated(true);
   };
 
-  const updateProduct = async (
-    id,
-    name,
-    price,
-    releaseDate,
-    description,
-    conditionId,
-    editionId
-  ) => {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [releaseDate, setReleaseDate] = useState(new Date());
+  const [description, setDescription] = useState("");
+  const [conditionId, setConditionId] = useState();
+  const [conditions, setConditions] = useState();
+  const [editionId, setEditionId] = useState();
+  const [editions, setEditions] = useState();
+
+  const sendNewProduct = async () => {
     try {
-      const results = await ProductsService.updateProduct(
-        id,
+      const result = await ProductsService.createNewProduct(
         name,
         price,
         releaseDate,
@@ -70,42 +61,35 @@ const UpdateProduct = () => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      searchProduct(id);
-    })();
-  }, []);
+  const onNameChange = (e) => {
+    setName(e.target.value);
+  };
 
-  const searchProduct = async (id) => {
-    try {
-      const result = await ProductsService.getProductById(id);
-      setName(result.name);
-      setPrice(result.price);
-      setReleaseDate(result.release_date);
-      setDescription(result.description);
-      setConditionId(result.condition.id);
-      setEditionId(result.edition.id);
-    } catch (error) {
-      setName(null);
-      setPrice(null);
-      setReleaseDate(null);
-      setDescription(null);
-      setConditionId(null);
-      setEditionId(null);
-    }
+  const onPriceChange = (e) => {
+    setPrice(e.target.value);
+  };
+
+  const onDescriptionChange = (e) => {
+    setDescription(e.target.value);
   };
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://localhost:7269/conditions");
-      if (response.ok) {
-        const results = await response.json();
+      try {
+        const results = await ConditionsService.getConditions();
         setConditions(results);
-      } else {
+      } catch (error) {
         setConditions(null);
       }
     })();
   }, []);
+
+  const onConditionChange = (e) => {
+    const index = e.target.selectedIndex;
+    const el = e.target.childNodes[index];
+    const option = el.getAttribute("id");
+    setConditionId(option);
+  };
 
   useEffect(() => {
     (async () => {
@@ -119,14 +103,15 @@ const UpdateProduct = () => {
     })();
   }, []);
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [releaseDate, setReleaseDate] = useState(new Date());
-  const [description, setDescription] = useState("");
-  const [conditionId, setConditionId] = useState();
-  const [conditions, setConditions] = useState();
-  const [editionId, setEditionId] = useState();
-  const [editions, setEditions] = useState();
+  const onEditionChange = (e) => {
+    const index = e.target.selectedIndex;
+    console.log("index: ", index);
+    const el = e.target.childNodes[index];
+    console.log("el: ", el);
+    const option = el.getAttribute("id");
+    console.log("option: ", option);
+    setEditionId(option);
+  };
 
   const years = range(1800, getYear(new Date()) + 1, 1);
   const months = [
@@ -144,31 +129,10 @@ const UpdateProduct = () => {
     "December",
   ];
 
-  const onNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const onPriceChange = (e) => {
-    setPrice(e.target.value);
-  };
-
-  const onDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const onConditionChange = (e) => {
-    const index = e.target.selectedIndex;
-    setConditionId(index);
-  };
-
-  const onEditionChange = (e) => {
-    const index = e.target.selectedIndex;
-    setEditionId(index);
-  };
-
   return (
     <Container>
-      <h1>Update Product</h1>
+      <h1>Create New Product</h1>
+
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="nameValidation">
@@ -176,9 +140,8 @@ const UpdateProduct = () => {
             <Form.Control
               required
               type="text"
-              value={name}
-              onChange={onNameChange}
               placeholder="Name"
+              onChange={onNameChange}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
@@ -193,9 +156,8 @@ const UpdateProduct = () => {
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
               <Form.Control
                 type="text"
-                value={price}
-                onChange={onPriceChange}
                 aria-aria-describedby="inputGroupPrepend"
+                onChange={onPriceChange}
                 required
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -209,8 +171,8 @@ const UpdateProduct = () => {
           <Form.Group as={Col} md="4" controlId="releaseDateValidation">
             <Form.Label>Release Date</Form.Label>
             <DatePicker
-              utcOffset={0}
               dateFormat="MMMM d, yyyy"
+              placeholderText="Click to select a date"
               renderCustomHeader={({
                 date,
                 changeYear,
@@ -263,7 +225,7 @@ const UpdateProduct = () => {
                   </button>
                 </div>
               )}
-              selected={moment(releaseDate).toDate()}
+              selected={releaseDate}
               onChange={(date, e) => setReleaseDate(date, e)}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -277,7 +239,6 @@ const UpdateProduct = () => {
             <Form.Label>Description</Form.Label>
             <Form.Control
               type="text"
-              value={description}
               placeholder="Description"
               onChange={onDescriptionChange}
             />
@@ -291,15 +252,11 @@ const UpdateProduct = () => {
               onChange={onConditionChange}
               required
             >
-              <option disabled value="">
+              <option selected disabled value="">
                 Choose condition...
               </option>
               {(conditions ?? []).map((condition) => {
-                return (
-                  <option selected={condition.id === conditionId}>
-                    {condition.state}
-                  </option>
-                );
+                return <option id={condition.id}>{condition.state}</option>;
               })}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -314,15 +271,11 @@ const UpdateProduct = () => {
               onChange={onEditionChange}
               required
             >
-              <option disabled value="">
+              <option selected disabled value="">
                 Choose edition...
               </option>
               {(editions ?? []).map((edition) => {
-                return (
-                  <option selected={edition.id === editionId}>
-                    {edition.type}
-                  </option>
-                );
+                return <option id={edition.id}>{edition.type}</option>;
               })}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -339,4 +292,4 @@ const UpdateProduct = () => {
   );
 };
 
-export { UpdateProduct };
+export { CreateNewProduct };

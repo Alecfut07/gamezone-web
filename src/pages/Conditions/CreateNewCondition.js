@@ -5,8 +5,10 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-import { ConditionsService } from "../services/ConditionsService";
+import { ConditionsService } from "../../services/ConditionsService";
 import { useNavigate } from "react-router-dom";
+
+import "./CreateNewCondition.css";
 
 const CreateNewCondition = () => {
   const [validated, setValidated] = useState(false);

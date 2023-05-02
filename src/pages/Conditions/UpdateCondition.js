@@ -6,7 +6,9 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-import { ConditionsService } from "../services/ConditionsService";
+import { ConditionsService } from "../../services/ConditionsService";
+
+import "./UpdateCondition.css";
 
 const UpdateCondition = () => {
   const { id } = useParams();

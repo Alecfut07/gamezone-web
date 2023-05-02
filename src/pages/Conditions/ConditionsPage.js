@@ -1,6 +1,8 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import { ConditionsTable } from "../components/ConditionsTable";
+import { ConditionsTable } from "../../components/ConditionsTable";
+
+import "./ConditionsPage.css";
 
 const ConditionsPage = () => {
   return (

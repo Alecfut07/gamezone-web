@@ -1,13 +1,17 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { HomePage } from "../pages/HomePage";
-import { ProductsPage } from "../pages/ProductsPage";
-import { CreateNewProduct } from "../pages/CreateNewProduct";
-import { UpdateProduct } from "../pages/UpdateProduct";
 import { CustomNavbar } from "./CustomNavbar";
-import { ConditionsPage } from "../pages/ConditionsPage";
-import { CreateNewCondition } from "../pages/CreateNewCondition";
-import { UpdateCondition } from "../pages/UpdateCondition";
+import { HomePage } from "../pages/Home";
+import {
+  UpdateProduct,
+  ProductsPage,
+  CreateNewProduct,
+} from "../pages/Products";
+import {
+  UpdateCondition,
+  ConditionsPage,
+  CreateNewCondition,
+} from "../pages/Conditions";
 
 const NavbarRouter = () => {
   return (
