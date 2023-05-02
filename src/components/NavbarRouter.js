@@ -12,6 +12,7 @@ import {
   ConditionsPage,
   CreateNewCondition,
 } from "../pages/Conditions";
+import { NotFoundPage } from "../pages/NotFound";
 
 const NavbarRouter = () => {
   return (
@@ -26,7 +27,7 @@ const NavbarRouter = () => {
         <Route path="/conditions" element={<ConditionsPage />} />
         <Route path="/conditions/new" element={<CreateNewCondition />} />
         <Route path="/conditions/:id" element={<UpdateCondition />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
