@@ -82,7 +82,7 @@ const ProductsTable = () => {
   const navigateUpdateProduct = useNavigate();
 
   const handleUpdateProductClick = (id) => {
-    navigateUpdateProduct(`/products/${id}`);
+    navigateUpdateProduct(`/products/update/${id}`);
   };
 
   return (

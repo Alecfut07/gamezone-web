@@ -6,8 +6,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { ProductsService } from "../services/ProductsService";
-
 const SearchBar = () => {
   const [input, setInput] = useState("");
   // const [searchParams, setSearchParams] = useSearchParams();
@@ -15,18 +13,6 @@ const SearchBar = () => {
 
   const navigateSearchProductsPage = useNavigate();
 
-  const [products, setProducts] = useState([]);
-
-  //   useEffect(() => {
-  //     (async () => {
-  //       try {
-  //         const results = await ProductsService.getProducts();
-  //         setProducts(results);
-  //       } catch (error) {
-  //         setProducts(null);
-  //       }
-  //     })();
-  //   }, []);
   const params = { name: input };
 
   const formRef = useRef(null);
@@ -48,18 +34,7 @@ const SearchBar = () => {
     setInput(e.target.value);
   };
 
-  // const onProductNameSearchBarKeyDown = (e) => {
-  //   if (e.key === "Enter") {
-  //     navigateSearchProductsPage({
-  //       pathname: "/products/search",
-  //       search: `?${createSearchParams(params)}`,
-  //     });
-  //   }
-  // };
-
   const handleSearchClick = (e) => {
-    // const params = { name: input };
-    // setSearchParams({ name: input });
     navigateSearchProductsPage({
       pathname: "/products/search",
       search: `?${createSearchParams(params)}`,
