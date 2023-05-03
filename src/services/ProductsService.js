@@ -23,12 +23,10 @@ const ProductsService = {
       throw error;
     }
   },
-  searchProducts: async () => {
+  searchProducts: async (name) => {
     try {
-      // const query = new URLSearchParams(useLocation().search)
-      // const name = query.get("name");
       const { data } = await axios.get(
-        `https://localhost:7269/products/search?q=mario`
+        `${process.env.REACT_APP_BASE_URL}/products/search?q=${name}`
       );
       return data;
     } catch (error) {

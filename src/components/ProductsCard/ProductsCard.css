@@ -1,0 +1,5 @@
+.product-card:hover {
+  cursor: pointer;
+  box-shadow: 0 4px 15px 4px rgba(0, 0, 0, 0.16);
+  z-index: 2;
+}
