@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Row from "react-bootstrap/Row";
+import {
+  Container,
+  Button,
+  Image,
+  Col,
+  Form,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
 
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
@@ -13,10 +16,21 @@ import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 import { ProductsService } from "../../services/ProductsService";
 import { ConditionsService } from "../../services/ConditionsService";
+import { EditionsService } from "../../services/EditionsService";
 import "./CreateNewProduct.css";
 
 const CreateNewProduct = () => {
   const [validated, setValidated] = useState(false);
+
+  const [imageURL, setImageURL] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [releaseDate, setReleaseDate] = useState(new Date());
+  const [description, setDescription] = useState("");
+  const [conditionId, setConditionId] = useState();
+  const [conditions, setConditions] = useState();
+  const [editionId, setEditionId] = useState();
+  const [editions, setEditions] = useState();
 
   const navigateProducts = useNavigate();
 
@@ -32,18 +46,10 @@ const CreateNewProduct = () => {
     setValidated(true);
   };
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [releaseDate, setReleaseDate] = useState(new Date());
-  const [description, setDescription] = useState("");
-  const [conditionId, setConditionId] = useState();
-  const [conditions, setConditions] = useState();
-  const [editionId, setEditionId] = useState();
-  const [editions, setEditions] = useState();
-
   const sendNewProduct = async () => {
     try {
-      const result = await ProductsService.createNewProduct(
+      await ProductsService.createNewProduct(
+        imageURL,
         name,
         price,
         releaseDate,
@@ -52,6 +58,7 @@ const CreateNewProduct = () => {
         editionId
       );
     } catch (error) {
+      setImageURL(null);
       setName(null);
       setPrice(null);
       setReleaseDate(null);
@@ -59,6 +66,10 @@ const CreateNewProduct = () => {
       setConditionId(null);
       setEditionId(null);
     }
+  };
+
+  const onImageURL_Change = (e) => {
+    setImageURL(e.target.value);
   };
 
   const onNameChange = (e) => {
@@ -93,11 +104,10 @@ const CreateNewProduct = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://localhost:7269/editions");
-      if (response.ok) {
-        const results = await response.json();
+      try {
+        const results = await EditionsService.getEditions();
         setEditions(results);
-      } else {
+      } catch (error) {
         setEditions(null);
       }
     })();
@@ -105,11 +115,8 @@ const CreateNewProduct = () => {
 
   const onEditionChange = (e) => {
     const index = e.target.selectedIndex;
-    console.log("index: ", index);
     const el = e.target.childNodes[index];
-    console.log("el: ", el);
     const option = el.getAttribute("id");
-    console.log("option: ", option);
     setEditionId(option);
   };
 
@@ -132,11 +139,30 @@ const CreateNewProduct = () => {
   return (
     <Container>
       <h1>Create New Product</h1>
-
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
+          <Form.Group as={Col} md="4" controlId="imageURLValidation">
+            <Image src={imageURL} width="300px"></Image>
+            <Form.Label>
+              <b>Image URL</b>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              value={imageURL}
+              onChange={onImageURL_Change}
+              placeholder="Image URL"
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid image url.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="nameValidation">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>
+              <b>Name</b>
+            </Form.Label>
             <Form.Control
               required
               type="text"
@@ -151,7 +177,9 @@ const CreateNewProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="priceValidation">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>
+              <b>Price</b>
+            </Form.Label>
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
               <Form.Control
@@ -169,7 +197,9 @@ const CreateNewProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="releaseDateValidation">
-            <Form.Label>Release Date</Form.Label>
+            <Form.Label>
+              <b>Release Date</b>
+            </Form.Label>
             <DatePicker
               dateFormat="MMMM d, yyyy"
               placeholderText="Click to select a date"
@@ -236,7 +266,9 @@ const CreateNewProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="6">
-            <Form.Label>Description</Form.Label>
+            <Form.Label>
+              <b>Description</b>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="Description"
@@ -246,7 +278,9 @@ const CreateNewProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="conditionValidation">
-            <Form.Label>Condition</Form.Label>
+            <Form.Label>
+              <b>Condition</b>
+            </Form.Label>
             <Form.Select
               aria-label="Default select example"
               onChange={onConditionChange}
@@ -265,7 +299,9 @@ const CreateNewProduct = () => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="editionValidation">
-            <Form.Label>Edition</Form.Label>
+            <Form.Label>
+              <b>Edition</b>
+            </Form.Label>
             <Form.Select
               aria-label="Default select example"
               onChange={onEditionChange}

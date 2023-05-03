@@ -23,7 +23,21 @@ const ProductsService = {
       throw error;
     }
   },
+  searchProducts: async () => {
+    try {
+      // const query = new URLSearchParams(useLocation().search)
+      // const name = query.get("name");
+      const { data } = await axios.get(
+        `https://localhost:7269/products/search?q=mario`
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   createNewProduct: async (
+    image_url,
     name,
     price,
     releaseDate,
@@ -32,9 +46,10 @@ const ProductsService = {
     editionId
   ) => {
     const body = {
+      image_url: image_url,
       name: name,
       price: price,
-      releaseDate: releaseDate.toISOString(),
+      release_date: releaseDate.toISOString(),
       description: description,
       condition_id: conditionId,
       edition_id: editionId,
@@ -52,6 +67,7 @@ const ProductsService = {
   },
   updateProduct: async (
     id,
+    image_url,
     name,
     price,
     releaseDate,
@@ -60,9 +76,10 @@ const ProductsService = {
     editionId
   ) => {
     const body = {
+      image_url: image_url,
       name: name,
       price: price,
-      releaseDate: releaseDate,
+      release_date: releaseDate,
       description: description,
       condition_id: conditionId,
       edition_id: editionId,
@@ -79,13 +96,12 @@ const ProductsService = {
     }
   },
   deleteProduct: async (id) => {
-    const { data } = await axios.delete(
-      `${process.env.REACT_APP_BASE_URL}/products/${id}`
-    );
-    if (data === null) {
-      return null;
+    try {
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/products/${id}`);
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-    throw Error("Something went wrong");
   },
 };
 

@@ -47,15 +47,6 @@ const ProductsTable = () => {
     }
   };
 
-  const deleteProduct = async (id) => {
-    try {
-      const result = await ProductsService.deleteProduct(id);
-    } catch (error) {
-      setProduct(null);
-      setProductId(null);
-    }
-  };
-
   const showDeleteProductModal = (productName, id) => {
     searchProduct(id);
     setProductMessage(null);
@@ -63,7 +54,6 @@ const ProductsTable = () => {
     setDeleteMessage(
       `Are you sure you want to delete this product: ${productName}?`
     );
-
     setDisplayConfirmationModal(true);
   };
 
@@ -80,7 +70,6 @@ const ProductsTable = () => {
       );
       setProducts(products.filter((p) => p.id !== id));
     } catch (error) {
-      console.log(error);
       setFormValid(false);
       setProductMessage(`The product: ${product.name} was not deleted.`);
       setProduct(null);
@@ -114,12 +103,12 @@ const ProductsTable = () => {
         <button
           type="button"
           onClick={handleNewProductClick}
-          class="btn btn-primary"
+          className="btn btn-primary"
         >
           Create new product
         </button>
       </div>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -144,11 +133,11 @@ const ProductsTable = () => {
                 <td>{product.condition.state}</td>
                 <td>{product.edition.type}</td>
                 <td>
-                  <div class="d-grid gap-2">
+                  <div className="d-grid gap-2">
                     <button
                       onClick={() => handleUpdateProductClick(product.id)}
                       type="button"
-                      class="btn btn-info"
+                      className="btn btn-info"
                     >
                       Update
                     </button>
@@ -157,7 +146,7 @@ const ProductsTable = () => {
                         showDeleteProductModal(product.name, product.id)
                       }
                       type="button"
-                      class="btn btn-danger"
+                      className="btn btn-danger"
                     >
                       Delete
                     </button>

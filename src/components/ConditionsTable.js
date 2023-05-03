@@ -104,12 +104,12 @@ const ConditionsTable = () => {
         <button
           type="button"
           onClick={handleNewConditionClick}
-          class="btn btn-primary"
+          className="btn btn-primary"
         >
           Create new condition
         </button>
       </div>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -124,11 +124,11 @@ const ConditionsTable = () => {
                 <th scope="row">{condition.id}</th>
                 <td>{condition.state}</td>
                 <td>
-                  <div class="d-grid gap-2">
+                  <div className="d-grid gap-2">
                     <button
                       onClick={() => handleUpdateConditionClick(condition.id)}
                       type="button"
-                      class="btn btn-info"
+                      className="btn btn-info"
                     >
                       Update
                     </button>
@@ -137,7 +137,7 @@ const ConditionsTable = () => {
                         showDeleteConditionModal(condition.state, condition.id)
                       }
                       type="button"
-                      class="btn btn-danger"
+                      className="btn btn-danger"
                     >
                       Delete
                     </button>

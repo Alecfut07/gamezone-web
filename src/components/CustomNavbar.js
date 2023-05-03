@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
+import { SearchBar } from "./SearchBar";
 
 const CustomNavbar = () => {
   const title = "GameZone";
@@ -34,6 +35,7 @@ const CustomNavbar = () => {
                 Conditions
               </Nav.Link>
             </Nav>
+            <SearchBar />
           </Navbar.Collapse>
         </Container>
       </Navbar>

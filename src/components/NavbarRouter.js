@@ -6,6 +6,7 @@ import {
   UpdateProduct,
   ProductsPage,
   CreateNewProduct,
+  SearchProductsPage,
 } from "../pages/Products";
 import {
   UpdateCondition,
@@ -24,6 +25,7 @@ const NavbarRouter = () => {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/new" element={<CreateNewProduct />} />
         <Route path="/products/:id" element={<UpdateProduct />} />
+        <Route path="/products/search" element={<SearchProductsPage />} />
         <Route path="/conditions" element={<ConditionsPage />} />
         <Route path="/conditions/new" element={<CreateNewCondition />} />
         <Route path="/conditions/:id" element={<UpdateCondition />} />

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Row from "react-bootstrap/Row";
+import {
+  Container,
+  Button,
+  Col,
+  Form,
+  Image,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
 
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
@@ -14,11 +17,23 @@ import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { ProductsService } from "../../services/ProductsService";
+import { ConditionsService } from "../../services/ConditionsService";
+import { EditionsService } from "../../services/EditionsService";
 import "./UpdateProduct.css";
 
 const UpdateProduct = () => {
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [releaseDate, setReleaseDate] = useState(new Date());
+  const [description, setDescription] = useState("");
+  const [conditionId, setConditionId] = useState();
+  const [conditions, setConditions] = useState();
+  const [editionId, setEditionId] = useState();
+  const [editions, setEditions] = useState();
+  const [imageURL, setImageURL] = useState();
 
   const navigateProducts = useNavigate();
 
@@ -30,6 +45,7 @@ const UpdateProduct = () => {
     } else {
       updateProduct(
         id,
+        imageURL,
         name,
         price,
         releaseDate,
@@ -44,6 +60,7 @@ const UpdateProduct = () => {
 
   const updateProduct = async (
     id,
+    imageURL,
     name,
     price,
     releaseDate,
@@ -54,6 +71,7 @@ const UpdateProduct = () => {
     try {
       const results = await ProductsService.updateProduct(
         id,
+        imageURL,
         name,
         price,
         releaseDate,
@@ -62,6 +80,7 @@ const UpdateProduct = () => {
         editionId
       );
     } catch (error) {
+      setImageURL(null);
       setName(null);
       setPrice(null);
       setReleaseDate(null);
@@ -80,6 +99,7 @@ const UpdateProduct = () => {
   const searchProduct = async (id) => {
     try {
       const result = await ProductsService.getProductById(id);
+      setImageURL(result.image_url);
       setName(result.name);
       setPrice(result.price);
       setReleaseDate(result.release_date);
@@ -87,6 +107,7 @@ const UpdateProduct = () => {
       setConditionId(result.condition.id);
       setEditionId(result.edition.id);
     } catch (error) {
+      setImageURL(null);
       setName(null);
       setPrice(null);
       setReleaseDate(null);
@@ -98,11 +119,10 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://localhost:7269/conditions");
-      if (response.ok) {
-        const results = await response.json();
+      try {
+        const results = await ConditionsService.getConditions();
         setConditions(results);
-      } else {
+      } catch (error) {
         setConditions(null);
       }
     })();
@@ -110,24 +130,14 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://localhost:7269/editions");
-      if (response.ok) {
-        const results = await response.json();
+      try {
+        const results = await EditionsService.getEditions();
         setEditions(results);
-      } else {
+      } catch (error) {
         setEditions(null);
       }
     })();
   }, []);
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [releaseDate, setReleaseDate] = useState(new Date());
-  const [description, setDescription] = useState("");
-  const [conditionId, setConditionId] = useState();
-  const [conditions, setConditions] = useState();
-  const [editionId, setEditionId] = useState();
-  const [editions, setEditions] = useState();
 
   const years = range(1800, getYear(new Date()) + 1, 1);
   const months = [
@@ -144,6 +154,10 @@ const UpdateProduct = () => {
     "November",
     "December",
   ];
+
+  const onImageURL_Change = (e) => {
+    setImageURL(e.target.value);
+  };
 
   const onNameChange = (e) => {
     setName(e.target.value);
@@ -172,8 +186,29 @@ const UpdateProduct = () => {
       <h1>Update Product</h1>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
+          <Form.Group as={Col} md="4" controlId="imageURLValidation">
+            <Image src={imageURL} width="300px"></Image>
+            <Form.Label>
+              <b>Image URL</b>
+            </Form.Label>
+            <Form.Control
+              required
+              type="text"
+              value={imageURL}
+              onChange={onImageURL_Change}
+              placeholder="Image URL"
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid image url.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="nameValidation">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>
+              <b>Name</b>
+            </Form.Label>
             <Form.Control
               required
               type="text"
@@ -189,7 +224,9 @@ const UpdateProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="priceValidation">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>
+              <b>Price</b>
+            </Form.Label>
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
               <Form.Control
@@ -208,7 +245,9 @@ const UpdateProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="releaseDateValidation">
-            <Form.Label>Release Date</Form.Label>
+            <Form.Label>
+              <b>Release Date</b>
+            </Form.Label>
             <DatePicker
               utcOffset={0}
               dateFormat="MMMM d, yyyy"
@@ -275,7 +314,9 @@ const UpdateProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="6">
-            <Form.Label>Description</Form.Label>
+            <Form.Label>
+              <b>Description</b>
+            </Form.Label>
             <Form.Control
               type="text"
               value={description}
@@ -286,7 +327,9 @@ const UpdateProduct = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="conditionValidation">
-            <Form.Label>Condition</Form.Label>
+            <Form.Label>
+              <b>Condition</b>
+            </Form.Label>
             <Form.Select
               aria-label="Default select example"
               onChange={onConditionChange}
@@ -309,7 +352,9 @@ const UpdateProduct = () => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="editionValidation">
-            <Form.Label>Edition</Form.Label>
+            <Form.Label>
+              <b>Edition</b>
+            </Form.Label>
             <Form.Select
               aria-label="Default select example"
               onChange={onEditionChange}
