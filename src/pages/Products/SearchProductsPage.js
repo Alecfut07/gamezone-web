@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import { ProductsGrid } from "../../components/ProductsGrid";
 import { ProductsService } from "../../services/ProductsService";
+import "./SearchProductsPage.css";
 
 const SearchProductsPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  // let search = window.location.search;
-  // let params = new URLSearchParams(search);
-  // let name = params.get("name");
 
   const [products, setProducts] = useState();
 
@@ -19,6 +18,10 @@ const SearchProductsPage = () => {
       try {
         const results = await ProductsService.searchProducts(productName);
         setProducts(results);
+        setTimeout(() => {
+          setIsLoading(true);
+        }, 3000);
+        setIsLoading(false);
       } catch (error) {
         setProducts(null);
       }
@@ -27,8 +30,18 @@ const SearchProductsPage = () => {
 
   return (
     <Container>
-      <h1>You searched for: {productName}</h1>
-      <ProductsGrid products={products} />
+      {isLoading ? (
+        [
+          <h1>You searched for: {productName}</h1>,
+          <ProductsGrid products={products} />,
+        ]
+      ) : (
+        <div className="spinner-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      )}
     </Container>
   );
 };
