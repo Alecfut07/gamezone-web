@@ -2,7 +2,7 @@ const EditionsService = {
   getEditions: async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/editions`
+        `${process.env.REACT_APP_BASE_URL}/admin/editions`
       );
       return response.json();
     } catch (error) {
@@ -41,7 +41,7 @@ const EditionsService = {
     };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/editions`,
+        `${process.env.REACT_APP_BASE_URL}/admin/editions`,
         options
       );
       return response.json();
@@ -63,7 +63,7 @@ const EditionsService = {
     };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/editions/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/admin/editions/${id}`,
         options
       );
       return response.json();
@@ -80,7 +80,7 @@ const EditionsService = {
       },
     };
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/editions/${id}`,
+      `${process.env.REACT_APP_BASE_URL}/admin/editions/${id}`,
       options
     );
     if (response.ok) {

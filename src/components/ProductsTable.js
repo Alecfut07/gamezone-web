@@ -113,9 +113,9 @@ const ProductsTable = () => {
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Description</th>
             <th scope="col">Release Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
             <th scope="col">State</th>
             <th scope="col">Type</th>
             <th scope="col">Actions</th>
@@ -123,37 +123,39 @@ const ProductsTable = () => {
         </thead>
         <tbody>
           {(products ?? []).map((product) => {
-            return (
-              <tr>
-                <th scope="row">{product.id}</th>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.description}</td>
-                <td>{moment(product.release_date).local().format("LL")}</td>
-                <td>{product.condition.state}</td>
-                <td>{product.edition.type}</td>
-                <td>
-                  <div className="d-grid gap-2">
-                    <button
-                      onClick={() => handleUpdateProductClick(product.id)}
-                      type="button"
-                      className="btn btn-info"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() =>
-                        showDeleteProductModal(product.name, product.id)
-                      }
-                      type="button"
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
+            return product.product_variants.map((pv) => {
+              return (
+                <tr>
+                  <th scope="row">{product.id}</th>
+                  <td>{product.name}</td>
+                  <td>{moment(product.release_date).local().format("LL")}</td>
+                  <td>{product.description}</td>
+                  <td>{pv.price}</td>
+                  <td>{pv.condition.state}</td>
+                  <td>{pv.edition.type}</td>
+                  <td>
+                    <div className="d-grid gap-2">
+                      <button
+                        onClick={() => handleUpdateProductClick(product.id)}
+                        type="button"
+                        className="btn btn-info"
+                      >
+                        Update
+                      </button>
+                      <button
+                        onClick={() =>
+                          showDeleteProductModal(product.name, product.id)
+                        }
+                        type="button"
+                        className="btn btn-danger"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            });
           })}
         </tbody>
         <tfoot>

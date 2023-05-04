@@ -4,7 +4,7 @@ const ProductsService = {
   getProducts: async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/products`
+        `${process.env.REACT_APP_BASE_URL}/admin/products`
       );
       return data;
     } catch (error) {
@@ -54,7 +54,7 @@ const ProductsService = {
     };
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/products`,
+        `${process.env.REACT_APP_BASE_URL}/admin/products`,
         body
       );
       return data;
@@ -84,7 +84,7 @@ const ProductsService = {
     };
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/products/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/admin/products/${id}`,
         body
       );
       return data;
@@ -95,7 +95,9 @@ const ProductsService = {
   },
   deleteProduct: async (id) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/products/${id}`);
+      await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/admin/products/${id}`
+      );
     } catch (error) {
       console.log(error);
       throw error;
