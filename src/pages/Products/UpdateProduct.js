@@ -98,14 +98,16 @@ const UpdateProduct = () => {
 
   const searchProduct = async (id) => {
     try {
+      debugger;
       const result = await ProductsService.getProductById(id);
+      debugger;
       setImageURL(result.image_url);
       setName(result.name);
-      setPrice(result.price);
+      setPrice(result.product_variants[0].price);
       setReleaseDate(result.release_date);
       setDescription(result.description);
-      setConditionId(result.condition.id);
-      setEditionId(result.edition.id);
+      setConditionId(result.product_variants[0].condition.id);
+      setEditionId(result.product_variants[0].edition.id);
     } catch (error) {
       setImageURL(null);
       setName(null);

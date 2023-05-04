@@ -24,9 +24,10 @@ const CreateNewProduct = () => {
 
   const [imageURL, setImageURL] = useState("");
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [description, setDescription] = useState("");
+  const [productVariants, setProductVariants] = useState([]);
+  const [price, setPrice] = useState("");
   const [conditionId, setConditionId] = useState();
   const [conditions, setConditions] = useState();
   const [editionId, setEditionId] = useState();
@@ -51,20 +52,21 @@ const CreateNewProduct = () => {
       await ProductsService.createNewProduct(
         imageURL,
         name,
-        price,
         releaseDate,
         description,
-        conditionId,
-        editionId
+        [productVariants]
       );
+      // debugger;
     } catch (error) {
+      debugger;
       setImageURL(null);
       setName(null);
-      setPrice(null);
       setReleaseDate(null);
       setDescription(null);
-      setConditionId(null);
-      setEditionId(null);
+      setProductVariants(null);
+      // setPrice(null);
+      // setConditionId(null);
+      // setEditionId(null);
     }
   };
 
@@ -76,12 +78,15 @@ const CreateNewProduct = () => {
     setName(e.target.value);
   };
 
-  const onPriceChange = (e) => {
-    setPrice(e.target.value);
-  };
-
   const onDescriptionChange = (e) => {
     setDescription(e.target.value);
+  };
+
+  const onPriceChange = (e) => {
+    const price = parseFloat(e.target.value);
+    setPrice(price);
+
+    setProductVariants({ ...productVariants, ["price"]: price });
   };
 
   useEffect(() => {
@@ -100,6 +105,11 @@ const CreateNewProduct = () => {
     const el = e.target.childNodes[index];
     const option = el.getAttribute("id");
     setConditionId(option);
+
+    setProductVariants({
+      ...productVariants,
+      ["condition_id"]: parseInt(option),
+    });
   };
 
   useEffect(() => {
@@ -118,6 +128,11 @@ const CreateNewProduct = () => {
     const el = e.target.childNodes[index];
     const option = el.getAttribute("id");
     setEditionId(option);
+
+    setProductVariants({
+      ...productVariants,
+      ["edition_id"]: parseInt(option),
+    });
   };
 
   const years = range(1800, getYear(new Date()) + 1, 1);
@@ -183,7 +198,7 @@ const CreateNewProduct = () => {
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
               <Form.Control
-                type="text"
+                type="number"
                 aria-aria-describedby="inputGroupPrepend"
                 onChange={onPriceChange}
                 required
