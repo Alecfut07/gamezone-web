@@ -39,7 +39,8 @@ const CreateNewProduct = () => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       sendNewProduct();
-      navigateProducts("/products");
+      navigateProducts("/admin/products");
+      navigateProducts(0);
     } else {
       event.preventDefault();
       event.stopPropagation();
@@ -57,7 +58,6 @@ const CreateNewProduct = () => {
         [productVariants]
       );
     } catch (error) {
-      debugger;
       setImageURL(null);
       setName(null);
       setReleaseDate(null);

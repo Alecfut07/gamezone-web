@@ -19,7 +19,7 @@ const CreateNewCondition = () => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       sendNewCondition();
-      navigateConditions("/conditions");
+      navigateConditions("/admin/conditions");
     } else {
       event.preventDefault();
       event.stopPropagation();

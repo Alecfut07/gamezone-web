@@ -52,8 +52,8 @@ const UpdateProduct = () => {
         description,
         productVariants
       );
-      navigateProducts("/products");
-      debugger;
+      navigateProducts("/admin/products");
+      navigateProducts(0);
     }
     setValidated(true);
   };

@@ -9,7 +9,7 @@ const ProductsCard = ({ product }) => {
 
   const handleProductCardClick = () => {
     navigateProductPage({
-      pathname: `/products/${product.name}`,
+      pathname: `/products/${product.id}`,
     });
   };
 

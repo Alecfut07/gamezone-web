@@ -33,7 +33,7 @@ const ProductsTable = () => {
   const navigateNewproduct = useNavigate();
 
   const handleNewProductClick = () => {
-    navigateNewproduct("/products/new");
+    navigateNewproduct("/admin/products/new");
   };
 
   const searchProduct = async (id) => {
@@ -82,7 +82,7 @@ const ProductsTable = () => {
   const navigateUpdateProduct = useNavigate();
 
   const handleUpdateProductClick = (id) => {
-    navigateUpdateProduct(`/products/update/${id}`);
+    navigateUpdateProduct(`/admin/products/update/${id}`);
   };
 
   return (

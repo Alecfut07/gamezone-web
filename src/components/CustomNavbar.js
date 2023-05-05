@@ -28,10 +28,10 @@ const CustomNavbar = () => {
               <Nav.Link as={NavLink} to={"/home"}>
                 Home
               </Nav.Link>
-              <Nav.Link as={NavLink} to={"/products"}>
+              <Nav.Link as={NavLink} to={"/admin/products"}>
                 Products
               </Nav.Link>
-              <Nav.Link as={NavLink} to={"/conditions"}>
+              <Nav.Link as={NavLink} to={"/admin/conditions"}>
                 Conditions
               </Nav.Link>
             </Nav>

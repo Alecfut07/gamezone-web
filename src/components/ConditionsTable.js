@@ -32,7 +32,7 @@ const ConditionsTable = () => {
   const navigateNewCondition = useNavigate();
 
   const handleNewConditionClick = () => {
-    navigateNewCondition("/conditions/new");
+    navigateNewCondition("/admin/conditions/new");
   };
 
   const searchCondition = async (id) => {
@@ -84,7 +84,7 @@ const ConditionsTable = () => {
   const navigateUpdateCondition = useNavigate();
 
   const handleUpdateConditionClick = (id) => {
-    navigateUpdateCondition(`/conditions/${id}`);
+    navigateUpdateCondition(`/admin/conditions/${id}`);
   };
 
   return (

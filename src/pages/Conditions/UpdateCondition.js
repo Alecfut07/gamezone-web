@@ -25,7 +25,7 @@ const UpdateCondition = () => {
       event.stopPropagation();
     } else {
       updateCondition(id, state);
-      navigateConditions("/conditions");
+      navigateConditions("/admin/conditions");
     }
     setValidated(true);
   };
