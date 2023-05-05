@@ -48,7 +48,6 @@ const ProductsService = {
       description: description,
       product_variants: product_variants,
     };
-    // debugger;
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/admin/products`,
@@ -64,20 +63,16 @@ const ProductsService = {
     id,
     image_url,
     name,
-    price,
     releaseDate,
     description,
-    conditionId,
-    editionId
+    product_variants
   ) => {
     const body = {
       image_url: image_url,
       name: name,
-      price: price,
       release_date: releaseDate,
       description: description,
-      condition_id: conditionId,
-      edition_id: editionId,
+      product_variants: product_variants,
     };
     try {
       const { data } = await axios.put(

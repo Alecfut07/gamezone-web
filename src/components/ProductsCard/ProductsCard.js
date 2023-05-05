@@ -26,7 +26,7 @@ const ProductsCard = ({ product }) => {
         </Card.Body>
         <Card.Footer>
           <p>
-            <b>${product.price}</b>
+            <b>${product.product_variants[0].price}</b>
           </p>
           <p>
             Release Date: {moment(product.release_date).local().format("LL")}

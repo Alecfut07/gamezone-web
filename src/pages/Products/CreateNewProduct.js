@@ -56,7 +56,6 @@ const CreateNewProduct = () => {
         description,
         [productVariants]
       );
-      // debugger;
     } catch (error) {
       debugger;
       setImageURL(null);
@@ -64,9 +63,6 @@ const CreateNewProduct = () => {
       setReleaseDate(null);
       setDescription(null);
       setProductVariants(null);
-      // setPrice(null);
-      // setConditionId(null);
-      // setEditionId(null);
     }
   };
 
