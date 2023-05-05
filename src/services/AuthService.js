@@ -33,6 +33,23 @@ const AuthService = {
       throw error;
     }
   },
+  getProfile: async (access_token) => {
+    const axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/users/me`,
+        axiosConfig
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };
 
 export { AuthService };

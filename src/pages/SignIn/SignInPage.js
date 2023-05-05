@@ -67,13 +67,12 @@ const SignInPage = () => {
           <Form.Control
             onChange={onPasswordChange}
             type="password"
-            pattern=""
             placeholder="Password"
             required
           />
-          {/* <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type="invalid">
             Password is incorrect.
-          </Form.Control.Feedback> */}
+          </Form.Control.Feedback>
         </Form.Group>
         {/* <Form.Group
           className="d-flex justify-content-between mx-3 mb-4"

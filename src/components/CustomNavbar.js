@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
+
+import { AuthService } from "../services/AuthService";
 
 const CustomNavbar = () => {
   const title = "GameZone";
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    setLoggedIn(accessToken != null);
+    (async () => {
+      const accessToken = localStorage.getItem("access_token");
+      const user = await AuthService.getProfile(accessToken);
+      setLoggedInUser(user);
+      setLoggedIn(accessToken != null);
+    })();
   }, []);
 
+  // console.log(result);
   return (
     <React.Fragment>
       <Navbar bg="light" expand="lg">
@@ -42,12 +50,17 @@ const CustomNavbar = () => {
             <SearchBar />
             {isLoggedIn ? (
               <div>
-                <Button
-                  variant="outline-dark"
-                  onClick={() => localStorage.removeItem("access_token")}
+                <NavDropdown
+                  title={loggedInUser ? loggedInUser.email : ""}
+                  id="user-nav-dropdown"
                 >
-                  Sign out
-                </Button>
+                  <NavDropdown.Item>Your profile</NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => localStorage.removeItem("access_token")}
+                  >
+                    Sign out
+                  </NavDropdown.Item>
+                </NavDropdown>
               </div>
             ) : (
               <div>
