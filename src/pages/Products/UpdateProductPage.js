@@ -21,7 +21,7 @@ import { ConditionsService } from "../../services/ConditionsService";
 import { EditionsService } from "../../services/EditionsService";
 import "./UpdateProduct.css";
 
-const UpdateProduct = () => {
+const UpdateProductPage = () => {
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
 
@@ -397,4 +397,4 @@ const UpdateProduct = () => {
   );
 };
 
-export { UpdateProduct };
+export { UpdateProductPage };

@@ -1,5 +1,5 @@
-export { CreateNewProduct } from "./CreateNewProduct";
 export { ProductsPage } from "./ProductsPage";
-export { UpdateProduct } from "./UpdateProduct";
+export { CreateNewProductPage } from "./CreateNewProductPage";
+export { UpdateProductPage } from "./UpdateProductPage";
 export { SearchProductsPage } from "./SearchProductsPage";
 export { ProductDetailsPage } from "./ProductDetailsPage";

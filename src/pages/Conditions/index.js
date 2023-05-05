@@ -1,3 +1,3 @@
-export { CreateNewCondition } from "./CreateNewCondition";
 export { ConditionsPage } from "./ConditionsPage";
-export { UpdateCondition } from "./UpdateCondition";
+export { CreateNewConditionPage } from "./CreateNewConditionPage";
+export { UpdateConditionPage } from "./UpdateConditionPage";

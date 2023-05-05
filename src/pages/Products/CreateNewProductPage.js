@@ -19,7 +19,7 @@ import { ConditionsService } from "../../services/ConditionsService";
 import { EditionsService } from "../../services/EditionsService";
 import "./CreateNewProduct.css";
 
-const CreateNewProduct = () => {
+const CreateNewProductPage = () => {
   const [validated, setValidated] = useState(false);
 
   const [imageURL, setImageURL] = useState("");
@@ -339,4 +339,4 @@ const CreateNewProduct = () => {
   );
 };
 
-export { CreateNewProduct };
+export { CreateNewProductPage };

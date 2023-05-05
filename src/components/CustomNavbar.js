@@ -1,12 +1,16 @@
-import React from "react";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 
 const CustomNavbar = () => {
   const title = "GameZone";
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    setLoggedIn(accessToken != null);
+  }, []);
 
   return (
     <React.Fragment>
@@ -36,6 +40,25 @@ const CustomNavbar = () => {
               </Nav.Link>
             </Nav>
             <SearchBar />
+            {isLoggedIn ? (
+              <div>
+                <Button
+                  variant="outline-dark"
+                  onClick={() => localStorage.removeItem("access_token")}
+                >
+                  Sign out
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button variant="outline-dark" href="/users/sign_in">
+                  SignIn
+                </Button>
+                <Button variant="outline-dark" href="/users/sign_up">
+                  SignUp
+                </Button>
+              </div>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>

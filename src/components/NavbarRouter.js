@@ -1,19 +1,20 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { CustomNavbar } from "./CustomNavbar";
-import { LoginPage } from "../pages/Login";
+import { SignInPage } from "../pages/SignIn";
+import { SignUpPage } from "../pages/SignUp";
 import { HomePage } from "../pages/Home";
 import {
-  UpdateProduct,
   ProductsPage,
-  CreateNewProduct,
+  CreateNewProductPage,
+  UpdateProductPage,
   SearchProductsPage,
   ProductDetailsPage,
 } from "../pages/Products";
 import {
-  UpdateCondition,
   ConditionsPage,
-  CreateNewCondition,
+  CreateNewConditionPage,
+  UpdateConditionPage,
 } from "../pages/Conditions";
 import { NotFoundPage } from "../pages/NotFound";
 
@@ -23,16 +24,23 @@ const NavbarRouter = () => {
       <CustomNavbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/users/sign_in" element={<SignInPage />} />
+        <Route path="/users/sign_up" element={<SignUpPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/admin/products" element={<ProductsPage />} />
-        <Route path="/admin/products/new" element={<CreateNewProduct />} />
-        <Route path="/admin/products/update/:id" element={<UpdateProduct />} />
+        <Route path="/admin/products/new" element={<CreateNewProductPage />} />
+        <Route
+          path="/admin/products/update/:id"
+          element={<UpdateProductPage />}
+        />
         <Route path="/products/search" element={<SearchProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
         <Route path="/admin/conditions" element={<ConditionsPage />} />
-        <Route path="/admin/conditions/new" element={<CreateNewCondition />} />
-        <Route path="/admin/conditions/:id" element={<UpdateCondition />} />
+        <Route
+          path="/admin/conditions/new"
+          element={<CreateNewConditionPage />}
+        />
+        <Route path="/admin/conditions/:id" element={<UpdateConditionPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

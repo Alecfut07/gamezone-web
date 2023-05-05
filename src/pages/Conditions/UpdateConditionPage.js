@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -6,32 +7,47 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
 import { ConditionsService } from "../../services/ConditionsService";
-import { useNavigate } from "react-router-dom";
 
-import "./CreateNewCondition.css";
+import "./UpdateCondition.css";
 
-const CreateNewCondition = () => {
+const UpdateConditionPage = () => {
+  const { id } = useParams();
   const [validated, setValidated] = useState(false);
+
+  const [state, setState] = useState("");
 
   const navigateConditions = useNavigate();
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity()) {
-      sendNewCondition();
-      navigateConditions("/admin/conditions");
-    } else {
+    if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      updateCondition(id, state);
+      navigateConditions("/admin/conditions");
     }
     setValidated(true);
   };
 
-  const [state, setState] = useState("");
-
-  const sendNewCondition = async () => {
+  const updateCondition = async (id, state) => {
     try {
-      const result = await ConditionsService.createNewCondition(state);
+      const result = await ConditionsService.updateCondition(id, state);
+    } catch (error) {
+      setState(null);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      searchCondition(id);
+    })();
+  }, []);
+
+  const searchCondition = async (id) => {
+    try {
+      const result = await ConditionsService.getConditionById(id);
+      setState(result.state);
     } catch (error) {
       setState(null);
     }
@@ -43,7 +59,7 @@ const CreateNewCondition = () => {
 
   return (
     <Container>
-      <h1>Create New Condition</h1>
+      <h1>Update Condition</h1>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="stateValidation">
@@ -51,6 +67,7 @@ const CreateNewCondition = () => {
             <Form.Control
               required
               type="text"
+              value={state}
               placeholder="State"
               onChange={onStateChange}
             />
@@ -68,4 +85,4 @@ const CreateNewCondition = () => {
   );
 };
 
-export { CreateNewCondition };
+export { UpdateConditionPage };
