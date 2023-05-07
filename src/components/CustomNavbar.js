@@ -54,7 +54,9 @@ const CustomNavbar = () => {
                   title={loggedInUser ? loggedInUser.email : ""}
                   id="user-nav-dropdown"
                 >
-                  <NavDropdown.Item>Your profile</NavDropdown.Item>
+                  <NavDropdown.Item href="/users/profile">
+                    Your profile
+                  </NavDropdown.Item>
                   <NavDropdown.Item
                     onClick={() => localStorage.removeItem("access_token")}
                   >

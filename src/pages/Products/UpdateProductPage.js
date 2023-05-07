@@ -67,7 +67,6 @@ const UpdateProductPage = () => {
     productVariants
   ) => {
     try {
-      debugger;
       await ProductsService.updateProduct(
         id,
         imageURL,
@@ -76,7 +75,6 @@ const UpdateProductPage = () => {
         description,
         [productVariants]
       );
-      debugger;
     } catch (error) {
       setImageURL(null);
       setName(null);

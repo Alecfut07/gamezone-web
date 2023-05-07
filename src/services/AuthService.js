@@ -50,6 +50,38 @@ const AuthService = {
       throw error;
     }
   },
+  updateProfile: async (
+    access_token,
+    first_name,
+    last_name,
+    email,
+    phone,
+    birthdate
+  ) => {
+    const axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    };
+    const body = {
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      phone: phone,
+      birthdate: birthdate,
+    };
+    try {
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/users/me`,
+        body,
+        axiosConfig
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };
 
 export { AuthService };
