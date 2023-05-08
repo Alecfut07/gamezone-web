@@ -8,7 +8,7 @@ import moment from "moment";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { AuthService } from "../../services/AuthService";
+import { UsersService } from "../../services/UsersService";
 
 import "./ProfilePage.css";
 
@@ -19,7 +19,6 @@ const ProfilePage = () => {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [birthdate, setBirthdate] = useState(new Date());
 
@@ -45,21 +44,24 @@ const ProfilePage = () => {
 
   useEffect(() => {
     (async () => {
-      const user = await AuthService.getProfile(accessToken);
+      const user = await UsersService.getProfile(accessToken);
       setLoggedInUser(user);
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+      setPhone(user.phone);
+      setBirthdate(user.birthdate);
       setLoggedIn(accessToken != null);
     })();
   }, []);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      updateProfile(accessToken, firstName, lastName, email, phone, birthdate);
+    if (form.checkValidity()) {
+      updateProfile(accessToken, firstName, lastName, phone, birthdate);
       navigateProfilePage(0);
     }
+    event.preventDefault();
+    event.stopPropagation();
     setValidated(true);
   };
 
@@ -67,23 +69,20 @@ const ProfilePage = () => {
     accessToken,
     firstName,
     lastName,
-    email,
     phone,
     birthdate
   ) => {
     try {
-      await AuthService.updateProfile(
+      await UsersService.updateProfile(
         accessToken,
         firstName,
         lastName,
-        email,
         phone,
         birthdate
       );
     } catch (error) {
       setFirstName(null);
       setLastName(null);
-      setEmail(null);
       setPhone(null);
       setBirthdate(null);
     }
@@ -95,10 +94,6 @@ const ProfilePage = () => {
 
   const onLastNameChange = (e) => {
     setLastName(e.target.value);
-  };
-
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
   };
 
   const onPhoneChange = (e) => {
@@ -116,7 +111,7 @@ const ProfilePage = () => {
             </Form.Label>
             <Form.Control
               type="text"
-              value={loggedInUser ? loggedInUser.first_name : ""}
+              value={firstName}
               onChange={onFirstNameChange}
             />
           </Form.Group>
@@ -128,7 +123,7 @@ const ProfilePage = () => {
             </Form.Label>
             <Form.Control
               type="text"
-              value={loggedInUser ? loggedInUser.last_name : ""}
+              value={lastName}
               onChange={onLastNameChange}
             />
           </Form.Group>
@@ -138,11 +133,7 @@ const ProfilePage = () => {
             <Form.Label>
               <b>Email</b>
             </Form.Label>
-            <Form.Control
-              type="text"
-              value={loggedInUser ? loggedInUser.email : ""}
-              onChange={onEmailChange}
-            />
+            <p>{loggedInUser ? loggedInUser.email : ""}</p>
           </Form.Group>
         </Row>
         <Row className="mb-3">
@@ -150,11 +141,7 @@ const ProfilePage = () => {
             <Form.Label>
               <b>Phone</b>
             </Form.Label>
-            <Form.Control
-              type="text"
-              value={loggedInUser ? loggedInUser.phone : ""}
-              onChange={onPhoneChange}
-            />
+            <Form.Control type="text" value={phone} onChange={onPhoneChange} />
           </Form.Group>
         </Row>
         <Row className="mb-3">

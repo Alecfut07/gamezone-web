@@ -3,7 +3,7 @@ import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 
-import { AuthService } from "../services/AuthService";
+import { UsersService } from "../services/UsersService";
 
 const CustomNavbar = () => {
   const title = "GameZone";
@@ -13,7 +13,7 @@ const CustomNavbar = () => {
   useEffect(() => {
     (async () => {
       const accessToken = localStorage.getItem("access_token");
-      const user = await AuthService.getProfile(accessToken);
+      const user = await UsersService.getProfile(accessToken);
       setLoggedInUser(user);
       setLoggedIn(accessToken != null);
     })();
