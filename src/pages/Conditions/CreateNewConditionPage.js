@@ -15,6 +15,8 @@ function CreateNewConditionPage() {
   const sendNewCondition = async () => {
     try {
       await ConditionsService.createNewCondition(state);
+      navigateConditions("/admin/conditions");
+      navigateConditions(0);
     } catch (error) {
       setState(null);
     }
@@ -23,11 +25,9 @@ function CreateNewConditionPage() {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       sendNewCondition();
-      navigateConditions("/admin/conditions");
-    } else {
-      event.preventDefault();
-      event.stopPropagation();
     }
+    event.preventDefault();
+    event.stopPropagation();
     setValidated(true);
   };
 

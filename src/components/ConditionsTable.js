@@ -91,7 +91,7 @@ function ConditionsTable() {
     <>
       <Row>
         <Card.Body>
-          {isFormValid === false && (
+          {isFormValid === true && (
             <Alert variant={isFormValid ? "success" : "danger"}>
               {conditionMessage}
             </Alert>
