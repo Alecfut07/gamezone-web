@@ -30,7 +30,7 @@ const ConditionsService = {
   },
   createNewCondition: async (state) => {
     const body = {
-      state: state,
+      state,
     };
     const options = {
       method: "POST",
@@ -52,7 +52,7 @@ const ConditionsService = {
   },
   updateCondition: async (id, state) => {
     const body = {
-      state: state,
+      state,
     };
     const options = {
       method: "PUT",
@@ -90,4 +90,4 @@ const ConditionsService = {
   },
 };
 
-export { ConditionsService };
+export default { ConditionsService };

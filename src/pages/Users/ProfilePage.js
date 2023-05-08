@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Form, Row, Col, InputGroup, Button } from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
@@ -217,4 +217,4 @@ const ProfilePage = () => {
   );
 };
 
-export { ProfilePage };
+export default { ProfilePage };

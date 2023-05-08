@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import { ProductsTable } from "../../components/ProductsTable";
+import ProductsTable from "../../components/ProductsTable";
 import "./ProductsPage.css";
 
 const ProductsPage = () => {
@@ -11,4 +11,4 @@ const ProductsPage = () => {
   );
 };
 
-export { ProductsPage };
+export default { ProductsPage };

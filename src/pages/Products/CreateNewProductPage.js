@@ -35,6 +35,22 @@ const CreateNewProductPage = () => {
 
   const navigateProducts = useNavigate();
 
+  const years = range(1800, getYear(new Date()) + 1, 1);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
@@ -130,22 +146,6 @@ const CreateNewProductPage = () => {
       ["edition_id"]: parseInt(option),
     });
   };
-
-  const years = range(1800, getYear(new Date()) + 1, 1);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   return (
     <Container>
@@ -339,4 +339,4 @@ const CreateNewProductPage = () => {
   );
 };
 
-export { CreateNewProductPage };
+export default { CreateNewProductPage };

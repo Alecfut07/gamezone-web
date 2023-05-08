@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { DeleteConfirmation } from "./DeleteConfirmation";
-import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
-import Alert from "react-bootstrap/Alert";
+import { Row, Card, Alert } from "react-bootstrap";
+import DeleteConfirmation from "./DeleteConfirmation";
 import { ProductsService } from "../services/ProductsService";
 
 const ProductsTable = () => {
@@ -19,6 +17,10 @@ const ProductsTable = () => {
 
   const [isFormValid, setFormValid] = useState();
 
+  const navigateNewproduct = useNavigate();
+
+  const navigateUpdateProduct = useNavigate();
+
   useEffect(() => {
     (async () => {
       try {
@@ -29,8 +31,6 @@ const ProductsTable = () => {
       }
     })();
   }, []);
-
-  const navigateNewproduct = useNavigate();
 
   const handleNewProductClick = () => {
     navigateNewproduct("/admin/products/new");
@@ -78,8 +78,6 @@ const ProductsTable = () => {
       setDisplayConfirmationModal(false);
     }
   };
-
-  const navigateUpdateProduct = useNavigate();
 
   const handleUpdateProductClick = (id) => {
     navigateUpdateProduct(`/admin/products/update/${id}`);
@@ -173,4 +171,4 @@ const ProductsTable = () => {
   );
 };
 
-export { ProductsTable };
+export default { ProductsTable };

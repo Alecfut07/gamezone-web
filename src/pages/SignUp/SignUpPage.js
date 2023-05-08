@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
-import { ErrorList } from "../../components/ErrorList";
+// import { ErrorList } from "../../components/ErrorList";
 import { AuthService } from "../../services/AuthService";
 
 import "./SignUpPage.css";
@@ -97,4 +97,4 @@ const SignUpPage = () => {
   );
 };
 
-export { SignUpPage };
+export default { SignUpPage };

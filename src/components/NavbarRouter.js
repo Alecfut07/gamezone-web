@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { CustomNavbar } from "./CustomNavbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CustomNavbar from "./CustomNavbar";
 import { SignInPage } from "../pages/SignIn";
 import { SignUpPage } from "../pages/SignUp";
 import { ProfilePage } from "../pages/Users";
@@ -49,4 +49,4 @@ const NavbarRouter = () => {
   );
 };
 
-export { NavbarRouter };
+export default { NavbarRouter };

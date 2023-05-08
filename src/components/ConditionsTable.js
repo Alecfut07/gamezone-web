@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { DeleteConfirmation } from "./DeleteConfirmation";
-import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
-import Alert from "react-bootstrap/Alert";
+import { useNavigate } from "react-router-dom";
+import { Row, Card, Alert } from "react-bootstrap";
+import DeleteConfirmation from "./DeleteConfirmation";
 import { ConditionsService } from "../services/ConditionsService";
 
 const ConditionsTable = () => {
@@ -18,6 +16,8 @@ const ConditionsTable = () => {
 
   const [isFormValid, setFormValid] = useState();
 
+  const navigateNewCondition = useNavigate();
+
   useEffect(() => {
     (async () => {
       try {
@@ -28,8 +28,6 @@ const ConditionsTable = () => {
       }
     })();
   }, []);
-
-  const navigateNewCondition = useNavigate();
 
   const handleNewConditionClick = () => {
     navigateNewCondition("/admin/conditions/new");
@@ -162,4 +160,4 @@ const ConditionsTable = () => {
   );
 };
 
-export { ConditionsTable };
+export default { ConditionsTable };

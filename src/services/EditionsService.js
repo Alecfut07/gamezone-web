@@ -30,7 +30,7 @@ const EditionsService = {
   },
   createNewEdition: async (state) => {
     const body = {
-      state: state,
+      state,
     };
     const options = {
       method: "POST",
@@ -52,7 +52,7 @@ const EditionsService = {
   },
   updateEdition: async (id, state) => {
     const body = {
-      state: state,
+      state,
     };
     const options = {
       method: "PUT",
@@ -90,4 +90,4 @@ const EditionsService = {
   },
 };
 
-export { EditionsService };
+export default { EditionsService };

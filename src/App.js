@@ -1,7 +1,3 @@
-import React from "react";
-
-function App() {
-  return;
-}
+function App() {}
 
 export default App;

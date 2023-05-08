@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const UsersService = {
-  getProfile: async (access_token) => {
+  getProfile: async (accessToken) => {
     const axiosConfig = {
       headers: {
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     try {
@@ -18,22 +18,16 @@ const UsersService = {
       throw error;
     }
   },
-  updateProfile: async (
-    access_token,
-    first_name,
-    last_name,
-    phone,
-    birthdate
-  ) => {
+  updateProfile: async (accessToken, firstName, lastName, phone, birthdate) => {
     const axiosConfig = {
       headers: {
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const body = {
-      first_name: first_name,
-      last_name: last_name,
-      phone: phone,
+      first_name: firstName,
+      last_name: lastName,
+      phone,
       birthdate: birthdate.toISOString(),
     };
     try {
@@ -50,4 +44,4 @@ const UsersService = {
   },
 };
 
-export { UsersService };
+export default { UsersService };

@@ -36,6 +36,22 @@ const UpdateProductPage = () => {
   const [editionId, setEditionId] = useState();
   const [editions, setEditions] = useState();
 
+  const years = range(1800, getYear(new Date()) + 1, 1);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   const navigateProducts = useNavigate();
 
   const handleSubmit = (event) => {
@@ -103,18 +119,12 @@ const UpdateProductPage = () => {
         ["condition_id"]: result.product_variants[0].condition.id,
         ["edition_id"]: result.product_variants[0].edition.id,
       });
-      // setPrice(result.product_variants[0].price);
-      // setConditionId(result.product_variants[0].condition.id);
-      // setEditionId(result.product_variants[0].edition.id);
     } catch (error) {
       setImageURL(null);
       setName(null);
       setReleaseDate(null);
       setDescription(null);
       setProductVariants(null);
-      // setPrice(null);
-      // setConditionId(null);
-      // setEditionId(null);
     }
   };
 
@@ -139,22 +149,6 @@ const UpdateProductPage = () => {
       }
     })();
   }, []);
-
-  const years = range(1800, getYear(new Date()) + 1, 1);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   const onImageURL_Change = (e) => {
     setImageURL(e.target.value);
@@ -395,4 +389,4 @@ const UpdateProductPage = () => {
   );
 };
 
-export { UpdateProductPage };
+export default { UpdateProductPage };

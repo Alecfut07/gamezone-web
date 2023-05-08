@@ -94,4 +94,4 @@ const SignInPage = () => {
   );
 };
 
-export { SignInPage };
+export default { SignInPage };

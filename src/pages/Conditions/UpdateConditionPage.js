@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
+import { Container, Button, Col, Form, Row } from "react-bootstrap";
 
 import { ConditionsService } from "../../services/ConditionsService";
 
@@ -85,4 +81,4 @@ const UpdateConditionPage = () => {
   );
 };
 
-export { UpdateConditionPage };
+export default { UpdateConditionPage };

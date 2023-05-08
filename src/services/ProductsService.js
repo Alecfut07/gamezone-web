@@ -35,18 +35,18 @@ const ProductsService = {
     }
   },
   createNewProduct: async (
-    image_url,
+    imageUrl,
     name,
     releaseDate,
     description,
-    product_variants
+    productVariants
   ) => {
     const body = {
-      image_url: image_url,
-      name: name,
+      image_url: imageUrl,
+      name,
       release_date: releaseDate.toISOString(),
-      description: description,
-      product_variants: product_variants,
+      description,
+      product_variants: productVariants,
     };
     try {
       const { data } = await axios.post(
@@ -61,18 +61,18 @@ const ProductsService = {
   },
   updateProduct: async (
     id,
-    image_url,
+    imageUrl,
     name,
     releaseDate,
     description,
-    product_variants
+    productVariants
   ) => {
     const body = {
-      image_url: image_url,
-      name: name,
+      image_url: imageUrl,
+      name,
       release_date: releaseDate,
-      description: description,
-      product_variants: product_variants,
+      description,
+      product_variants: productVariants,
     };
     try {
       const { data } = await axios.put(
@@ -97,4 +97,4 @@ const ProductsService = {
   },
 };
 
-export { ProductsService };
+export default { ProductsService };

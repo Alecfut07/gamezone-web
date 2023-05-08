@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Container, Button, Col, Form, Row } from "react-bootstrap";
 
 import { ConditionsService } from "../../services/ConditionsService";
-import { useNavigate } from "react-router-dom";
 
 import "./CreateNewCondition.css";
 
 const CreateNewConditionPage = () => {
   const [validated, setValidated] = useState(false);
+  const [state, setState] = useState("");
 
   const navigateConditions = useNavigate();
 
@@ -26,8 +23,6 @@ const CreateNewConditionPage = () => {
     }
     setValidated(true);
   };
-
-  const [state, setState] = useState("");
 
   const sendNewCondition = async () => {
     try {
@@ -68,4 +63,4 @@ const CreateNewConditionPage = () => {
   );
 };
 
-export { CreateNewConditionPage };
+export default { CreateNewConditionPage };

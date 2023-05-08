@@ -1,7 +1,5 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Alert from "react-bootstrap/Alert";
+import { Button, Modal, Alert } from "react-bootstrap";
 
 const DeleteConfirmation = ({
   showModal,
@@ -39,4 +37,4 @@ const DeleteConfirmation = ({
   );
 };
 
-export { DeleteConfirmation };
+export default { DeleteConfirmation };

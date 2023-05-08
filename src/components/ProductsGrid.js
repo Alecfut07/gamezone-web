@@ -1,6 +1,6 @@
 import React from "react";
-import { Row, Col, Container, Card } from "react-bootstrap";
-import { ProductsCard } from "./ProductsCard";
+import { Row, Col } from "react-bootstrap";
+import ProductsCard from "./ProductsCard";
 
 const ProductsGrid = ({ products }) => {
   const columnsPerRow = 3;
@@ -20,4 +20,4 @@ const ProductsGrid = ({ products }) => {
   );
 };
 
-export { ProductsGrid };
+export default { ProductsGrid };

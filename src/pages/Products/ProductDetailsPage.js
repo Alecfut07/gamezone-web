@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Stack } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { ProductsService } from "../../services/ProductsService";
 
 const ProductDetailsPage = () => {
@@ -32,4 +32,4 @@ const ProductDetailsPage = () => {
   );
 };
 
-export { ProductDetailsPage };
+export default { ProductDetailsPage };

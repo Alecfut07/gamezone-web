@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { SearchBar } from "./SearchBar";
+import SearchBar from "./SearchBar";
 
 import { UsersService } from "../services/UsersService";
 
@@ -19,7 +19,6 @@ const CustomNavbar = () => {
     })();
   }, []);
 
-  // console.log(result);
   return (
     <React.Fragment>
       <Navbar bg="light" expand="lg">
@@ -81,4 +80,4 @@ const CustomNavbar = () => {
   );
 };
 
-export { CustomNavbar };
+export default { CustomNavbar };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Container, Spinner } from "react-bootstrap";
-import { ProductsGrid } from "../../components/ProductsGrid";
+import ProductsGrid from "../../components/ProductsGrid";
 import { ProductsService } from "../../services/ProductsService";
 import "./SearchProductsPage.css";
 
@@ -46,4 +46,4 @@ const SearchProductsPage = () => {
   );
 };
 
-export { SearchProductsPage };
+export default { SearchProductsPage };

@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import {
-  createSearchParams,
-  useSearchParams,
-  useNavigate,
-} from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const [input, setInput] = useState("");
@@ -58,4 +54,4 @@ const SearchBar = () => {
   );
 };
 
-export { SearchBar };
+export default { SearchBar };

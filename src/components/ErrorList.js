@@ -31,4 +31,4 @@ const ErrorList = ({ value, setValueValid }) => {
   );
 };
 
-export { ErrorList };
+export default { ErrorList };
