@@ -67,6 +67,7 @@ function ProfilePage() {
         userPhone,
         userBirthdate
       );
+      navigateProfilePage(0);
     } catch (error) {
       setFirstName(null);
       setLastName(null);
@@ -79,7 +80,6 @@ function ProfilePage() {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       updateProfile(accessToken, firstName, lastName, phone, birthdate);
-      navigateProfilePage(0);
     }
     event.preventDefault();
     event.stopPropagation();

@@ -17,6 +17,8 @@ function SignInPage() {
     try {
       const accessToken = await AuthService.signIn(userEmail, userPassword);
       localStorage.setItem("access_token", accessToken);
+      navigateHomePage("/home");
+      navigateHomePage(0);
     } catch (error) {
       setEmail(null);
       setPassword(null);
@@ -27,7 +29,6 @@ function SignInPage() {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       signIn(email, password);
-      navigateHomePage("/home");
     }
     event.preventDefault();
     event.stopPropagation();

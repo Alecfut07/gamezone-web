@@ -18,6 +18,8 @@ function SignUpPage() {
     try {
       const accessToken = await AuthService.signUp(userEmail, userPassword);
       localStorage.setItem("access_token", accessToken);
+      navigateHomePage("/home");
+      navigateHomePage(0);
     } catch (error) {
       setEmail(null);
       setPassword(null);
@@ -28,7 +30,6 @@ function SignUpPage() {
     const form = event.currentTarget;
     if (form.checkValidity()) {
       signUp(email, password);
-      navigateHomePage("/home");
     }
     event.preventDefault();
     event.stopPropagation();
