@@ -2,16 +2,23 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Button, Col, Form, Row } from "react-bootstrap";
 
-import { ConditionsService } from "../../services/ConditionsService";
+import ConditionsService from "../../services/ConditionsService";
 
 import "./CreateNewCondition.css";
 
-const CreateNewConditionPage = () => {
+function CreateNewConditionPage() {
   const [validated, setValidated] = useState(false);
   const [state, setState] = useState("");
 
   const navigateConditions = useNavigate();
 
+  const sendNewCondition = async () => {
+    try {
+      await ConditionsService.createNewCondition(state);
+    } catch (error) {
+      setState(null);
+    }
+  };
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
@@ -22,14 +29,6 @@ const CreateNewConditionPage = () => {
       event.stopPropagation();
     }
     setValidated(true);
-  };
-
-  const sendNewCondition = async () => {
-    try {
-      const result = await ConditionsService.createNewCondition(state);
-    } catch (error) {
-      setState(null);
-    }
   };
 
   const onStateChange = (e) => {
@@ -61,6 +60,6 @@ const CreateNewConditionPage = () => {
       </Form>
     </Container>
   );
-};
+}
 
-export default { CreateNewConditionPage };
+export default CreateNewConditionPage;

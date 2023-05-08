@@ -1,1 +1,3 @@
-export { ProductsCard } from "./ProductsCard";
+import ProductsCard from "./ProductsCard";
+
+export default ProductsCard;

@@ -2,17 +2,25 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Button, Col, Form, Row } from "react-bootstrap";
 
-import { ConditionsService } from "../../services/ConditionsService";
+import ConditionsService from "../../services/ConditionsService";
 
 import "./UpdateCondition.css";
 
-const UpdateConditionPage = () => {
+function UpdateConditionPage() {
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
 
   const [state, setState] = useState("");
 
   const navigateConditions = useNavigate();
+
+  const updateCondition = async (conditionId, conditionState) => {
+    try {
+      await ConditionsService.updateCondition(conditionId, conditionState);
+    } catch (error) {
+      setState(null);
+    }
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -26,9 +34,10 @@ const UpdateConditionPage = () => {
     setValidated(true);
   };
 
-  const updateCondition = async (id, state) => {
+  const searchCondition = async (conditionId) => {
     try {
-      const result = await ConditionsService.updateCondition(id, state);
+      const result = await ConditionsService.getConditionById(conditionId);
+      setState(result.state);
     } catch (error) {
       setState(null);
     }
@@ -39,15 +48,6 @@ const UpdateConditionPage = () => {
       searchCondition(id);
     })();
   }, []);
-
-  const searchCondition = async (id) => {
-    try {
-      const result = await ConditionsService.getConditionById(id);
-      setState(result.state);
-    } catch (error) {
-      setState(null);
-    }
-  };
 
   const onStateChange = (e) => {
     setState(e.target.value);
@@ -79,6 +79,6 @@ const UpdateConditionPage = () => {
       </Form>
     </Container>
   );
-};
+}
 
-export default { UpdateConditionPage };
+export default UpdateConditionPage;

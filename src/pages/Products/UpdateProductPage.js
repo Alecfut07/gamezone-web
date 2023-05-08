@@ -16,12 +16,12 @@ import moment from "moment";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { ProductsService } from "../../services/ProductsService";
-import { ConditionsService } from "../../services/ConditionsService";
-import { EditionsService } from "../../services/EditionsService";
+import ProductsService from "../../services/ProductsService";
+import ConditionsService from "../../services/ConditionsService";
+import EditionsService from "../../services/EditionsService";
 import "./UpdateProduct.css";
 
-const UpdateProductPage = () => {
+function UpdateProductPage() {
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
 
@@ -29,8 +29,7 @@ const UpdateProductPage = () => {
   const [name, setName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [description, setDescription] = useState("");
-  const [productVariants, setProductVariants] = useState([]);
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState();
   const [conditionId, setConditionId] = useState();
   const [conditions, setConditions] = useState();
   const [editionId, setEditionId] = useState();
@@ -54,50 +53,79 @@ const UpdateProductPage = () => {
 
   const navigateProducts = useNavigate();
 
+  const getProductById = async (productId) => {
+    try {
+      const result = await ProductsService.getProductById(productId);
+      setImageURL(result.image_url);
+      setName(result.name);
+      setReleaseDate(result.release_date);
+      setDescription(result.description);
+      setPrice(result.product_variants[0].price);
+      setConditionId(result.product_variants[0].condition.id);
+      setEditionId(result.product_variants[0].edition.id);
+    } catch (error) {
+      setImageURL(null);
+      setName(null);
+      setReleaseDate(null);
+      setDescription(null);
+      setPrice(null);
+      setConditionId(null);
+      setEditionId(null);
+    }
+  };
+
+  const updateProduct = async (
+    productId,
+    productImageURL,
+    productName,
+    productReleaseDate,
+    productDescription,
+    productVariantPrice,
+    productVariantConditionId,
+    productVariantEditionId
+  ) => {
+    try {
+      await ProductsService.updateProduct(
+        productId,
+        productImageURL,
+        productName,
+        productReleaseDate,
+        productDescription,
+        [
+          {
+            price: productVariantPrice,
+            condition_id: productVariantConditionId,
+            edition_id: productVariantEditionId,
+          },
+        ]
+      );
+      navigateProducts("/admin/products");
+      navigateProducts(0);
+    } catch (error) {
+      setImageURL(null);
+      setName(null);
+      setReleaseDate(null);
+      setDescription(null);
+    }
+  };
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
+    if (form.checkValidity()) {
       updateProduct(
         id,
         imageURL,
         name,
         releaseDate,
         description,
-        productVariants
+        price,
+        conditionId,
+        editionId
       );
-      navigateProducts("/admin/products");
-      navigateProducts(0);
     }
+    event.preventDefault();
+    event.stopPropagation();
     setValidated(true);
-  };
-
-  const updateProduct = async (
-    id,
-    imageURL,
-    name,
-    releaseDate,
-    description,
-    productVariants
-  ) => {
-    try {
-      await ProductsService.updateProduct(
-        id,
-        imageURL,
-        name,
-        releaseDate,
-        description,
-        [productVariants]
-      );
-    } catch (error) {
-      setImageURL(null);
-      setName(null);
-      setReleaseDate(null);
-      setDescription(null);
-      setProductVariants(null);
-    }
   };
 
   useEffect(() => {
@@ -105,28 +133,6 @@ const UpdateProductPage = () => {
       getProductById(id);
     })();
   }, []);
-
-  const getProductById = async (id) => {
-    try {
-      const result = await ProductsService.getProductById(id);
-      setImageURL(result.image_url);
-      setName(result.name);
-      setReleaseDate(result.release_date);
-      setDescription(result.description);
-      setProductVariants({
-        ...productVariants,
-        ["price"]: result.product_variants[0].price,
-        ["condition_id"]: result.product_variants[0].condition.id,
-        ["edition_id"]: result.product_variants[0].edition.id,
-      });
-    } catch (error) {
-      setImageURL(null);
-      setName(null);
-      setReleaseDate(null);
-      setDescription(null);
-      setProductVariants(null);
-    }
-  };
 
   useEffect(() => {
     (async () => {
@@ -150,7 +156,7 @@ const UpdateProductPage = () => {
     })();
   }, []);
 
-  const onImageURL_Change = (e) => {
+  const onImageUrlChange = (e) => {
     setImageURL(e.target.value);
   };
 
@@ -163,24 +169,18 @@ const UpdateProductPage = () => {
   };
 
   const onPriceChange = (e) => {
-    const price = parseFloat(e.target.value);
-    setPrice(price);
-
-    setProductVariants({ ...productVariants, ["price"]: price });
+    const productPrice = parseFloat(e.target.value);
+    setPrice(productPrice);
   };
 
   const onConditionChange = (e) => {
-    const index = e.target.selectedIndex;
-    setConditionId(index);
-
-    setProductVariants({ ...productVariants, ["condition_id"]: index });
+    const conditionIndex = e.target.selectedIndex;
+    setConditionId(parseInt(conditionIndex, 10));
   };
 
   const onEditionChange = (e) => {
-    const index = e.target.selectedIndex;
-    setEditionId(index);
-
-    setProductVariants({ ...productVariants, ["edition_id"]: index });
+    const editionIndex = e.target.selectedIndex;
+    setEditionId(parseInt(editionIndex, 10));
   };
 
   return (
@@ -189,7 +189,7 @@ const UpdateProductPage = () => {
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="imageURLValidation">
-            <Image src={imageURL} width="300px"></Image>
+            <Image src={imageURL} width="300px" />
             <Form.Label>
               <b>Image URL</b>
             </Form.Label>
@@ -197,7 +197,7 @@ const UpdateProductPage = () => {
               required
               type="text"
               value={imageURL}
-              onChange={onImageURL_Change}
+              onChange={onImageUrlChange}
               placeholder="Image URL"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -233,9 +233,8 @@ const UpdateProductPage = () => {
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
               <Form.Control
                 type="number"
-                value={productVariants.price}
+                value={price}
                 onChange={onPriceChange}
-                aria-aria-describedby="inputGroupPrepend"
                 required
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -270,6 +269,7 @@ const UpdateProductPage = () => {
                   }}
                 >
                   <button
+                    type="button"
                     onClick={decreaseMonth}
                     disabled={prevMonthButtonDisabled}
                   >
@@ -298,6 +298,7 @@ const UpdateProductPage = () => {
                     ))}
                   </select>
                   <button
+                    type="button"
                     onClick={increaseMonth}
                     disabled={nextMonthButtonDisabled}
                   >
@@ -340,15 +341,14 @@ const UpdateProductPage = () => {
               <option disabled value="">
                 Choose condition...
               </option>
-              {(conditions ?? []).map((condition) => {
-                return (
-                  <option
-                    selected={condition.id === productVariants.condition_id}
-                  >
-                    {condition.state}
-                  </option>
-                );
-              })}
+              {(conditions ?? []).map((condition) => (
+                <option
+                  key={condition.id}
+                  selected={condition.id === conditionId}
+                >
+                  {condition.state}
+                </option>
+              ))}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
@@ -367,13 +367,11 @@ const UpdateProductPage = () => {
               <option disabled value="">
                 Choose edition...
               </option>
-              {(editions ?? []).map((edition) => {
-                return (
-                  <option selected={edition.id === productVariants.edition_id}>
-                    {edition.type}
-                  </option>
-                );
-              })}
+              {(editions ?? []).map((edition) => (
+                <option key={edition.id} selected={edition.id === editionId}>
+                  {edition.type}
+                </option>
+              ))}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
@@ -387,6 +385,6 @@ const UpdateProductPage = () => {
       </Form>
     </Container>
   );
-};
+}
 
-export default { UpdateProductPage };
+export default UpdateProductPage;

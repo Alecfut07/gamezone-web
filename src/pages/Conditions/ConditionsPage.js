@@ -4,12 +4,12 @@ import ConditionsTable from "../../components/ConditionsTable";
 
 import "./ConditionsPage.css";
 
-const ConditionsPage = () => {
+function ConditionsPage() {
   return (
     <Container>
       <ConditionsTable />
     </Container>
   );
-};
+}
 
-export default { ConditionsPage };
+export default ConditionsPage;

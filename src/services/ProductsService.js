@@ -97,4 +97,4 @@ const ProductsService = {
   },
 };
 
-export default { ProductsService };
+export default ProductsService;

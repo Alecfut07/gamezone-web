@@ -8,13 +8,12 @@ import moment from "moment";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { UsersService } from "../../services/UsersService";
+import UsersService from "../../services/UsersService";
 
 import "./ProfilePage.css";
 
-const ProfilePage = () => {
+function ProfilePage() {
   const [validated, setValidated] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState();
 
   const [firstName, setFirstName] = useState("");
@@ -50,9 +49,31 @@ const ProfilePage = () => {
       setLastName(user.last_name);
       setPhone(user.phone);
       setBirthdate(user.birthdate);
-      setLoggedIn(accessToken != null);
     })();
   }, []);
+
+  const updateProfile = async (
+    userAccessToken,
+    userFirstName,
+    userLastName,
+    userPhone,
+    userBirthdate
+  ) => {
+    try {
+      await UsersService.updateProfile(
+        userAccessToken,
+        userFirstName,
+        userLastName,
+        userPhone,
+        userBirthdate
+      );
+    } catch (error) {
+      setFirstName(null);
+      setLastName(null);
+      setPhone(null);
+      setBirthdate(null);
+    }
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -63,29 +84,6 @@ const ProfilePage = () => {
     event.preventDefault();
     event.stopPropagation();
     setValidated(true);
-  };
-
-  const updateProfile = async (
-    accessToken,
-    firstName,
-    lastName,
-    phone,
-    birthdate
-  ) => {
-    try {
-      await UsersService.updateProfile(
-        accessToken,
-        firstName,
-        lastName,
-        phone,
-        birthdate
-      );
-    } catch (error) {
-      setFirstName(null);
-      setLastName(null);
-      setPhone(null);
-      setBirthdate(null);
-    }
   };
 
   const onFirstNameChange = (e) => {
@@ -169,6 +167,7 @@ const ProfilePage = () => {
                   }}
                 >
                   <button
+                    type="button"
                     onClick={decreaseMonth}
                     disabled={prevMonthButtonDisabled}
                   >
@@ -197,6 +196,7 @@ const ProfilePage = () => {
                     ))}
                   </select>
                   <button
+                    type="button"
                     onClick={increaseMonth}
                     disabled={nextMonthButtonDisabled}
                   >
@@ -215,6 +215,6 @@ const ProfilePage = () => {
       </Form>
     </Container>
   );
-};
+}
 
-export default { ProfilePage };
+export default ProfilePage;

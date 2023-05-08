@@ -1,17 +1,27 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../services/AuthService";
+import AuthService from "../../services/AuthService";
 
 import "./SignInPage.css";
 
-const SignInPage = () => {
+function SignInPage() {
   const [validated, setValidated] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigateHomePage = useNavigate();
+
+  const signIn = async (userEmail, userPassword) => {
+    try {
+      const accessToken = await AuthService.signIn(userEmail, userPassword);
+      localStorage.setItem("access_token", accessToken);
+    } catch (error) {
+      setEmail(null);
+      setPassword(null);
+    }
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -30,16 +40,6 @@ const SignInPage = () => {
 
   const onPasswordChange = (e) => {
     setPassword(e.target.value);
-  };
-
-  const signIn = async (email, password) => {
-    try {
-      const accessToken = await AuthService.signIn(email, password);
-      localStorage.setItem("access_token", accessToken);
-    } catch (error) {
-      setEmail(null);
-      setPassword(null);
-    }
   };
 
   return (
@@ -92,6 +92,6 @@ const SignInPage = () => {
       </Form>
     </Container>
   );
-};
+}
 
-export default { SignInPage };
+export default SignInPage;

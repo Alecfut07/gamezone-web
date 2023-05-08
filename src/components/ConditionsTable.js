@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Row, Card, Alert } from "react-bootstrap";
 import DeleteConfirmation from "./DeleteConfirmation";
-import { ConditionsService } from "../services/ConditionsService";
+import ConditionsService from "../services/ConditionsService";
 
-const ConditionsTable = () => {
+function ConditionsTable() {
   const [conditionId, setConditionId] = useState();
   const [conditions, setConditions] = useState();
   const [condition, setCondition] = useState();
@@ -37,7 +37,7 @@ const ConditionsTable = () => {
     try {
       const result = await ConditionsService.getConditionById(id);
       setCondition(result);
-      setConditionId(result["id"]);
+      setConditionId(result.id);
     } catch (error) {
       setCondition(null);
       setConditionId(null);
@@ -59,19 +59,21 @@ const ConditionsTable = () => {
     setDisplayConfirmationModal(false);
   };
 
-  const submitDeleteCondition = async (condition, id) => {
+  const submitDeleteCondition = async (conditionToDelete, id) => {
     try {
       await ConditionsService.deleteCondition(id);
       setFormValid(true);
       setConditionMessage(
-        `The condition: ${condition.state} was deleted successfully.`
+        `The condition: ${conditionToDelete.state} was deleted successfully.`
       );
       setConditions(conditions.filter((c) => c.id !== id));
     } catch (error) {
       console.log(error);
 
       setFormValid(false);
-      setConditionMessage(`The condition: ${condition.state} was not deleted.`);
+      setConditionMessage(
+        `The condition: ${conditionToDelete.state} was not deleted.`
+      );
       setCondition(null);
       setConditionId(null);
     } finally {
@@ -86,12 +88,10 @@ const ConditionsTable = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Row>
         <Card.Body>
-          {isFormValid === undefined ? (
-            <></>
-          ) : (
+          {isFormValid === false && (
             <Alert variant={isFormValid ? "success" : "danger"}>
               {conditionMessage}
             </Alert>
@@ -116,34 +116,32 @@ const ConditionsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {(conditions ?? []).map((condition) => {
-            return (
-              <tr>
-                <th scope="row">{condition.id}</th>
-                <td>{condition.state}</td>
-                <td>
-                  <div className="d-grid gap-2">
-                    <button
-                      onClick={() => handleUpdateConditionClick(condition.id)}
-                      type="button"
-                      className="btn btn-info"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() =>
-                        showDeleteConditionModal(condition.state, condition.id)
-                      }
-                      type="button"
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+          {(conditions ?? []).map((cond) => (
+            <tr key={cond.id}>
+              <th scope="row">{cond.id}</th>
+              <td>{cond.state}</td>
+              <td>
+                <div className="d-grid gap-2">
+                  <button
+                    onClick={() => handleUpdateConditionClick(cond.id)}
+                    type="button"
+                    className="btn btn-info"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() =>
+                      showDeleteConditionModal(cond.state, cond.id)
+                    }
+                    type="button"
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
         <tfoot>
           <DeleteConfirmation
@@ -153,11 +151,11 @@ const ConditionsTable = () => {
             type={condition}
             id={conditionId}
             message={deleteMessage}
-          ></DeleteConfirmation>
+          />
         </tfoot>
       </table>
-    </React.Fragment>
+    </>
   );
-};
+}
 
-export default { ConditionsTable };
+export default ConditionsTable;

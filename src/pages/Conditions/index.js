@@ -1,3 +1,5 @@
-export { ConditionsPage } from "./ConditionsPage";
-export { CreateNewConditionPage } from "./CreateNewConditionPage";
-export { UpdateConditionPage } from "./UpdateConditionPage";
+import ConditionsPage from "./ConditionsPage";
+import CreateNewConditionPage from "./CreateNewConditionPage";
+import UpdateConditionPage from "./UpdateConditionPage";
+
+export { ConditionsPage, CreateNewConditionPage, UpdateConditionPage };

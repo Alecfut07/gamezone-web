@@ -14,23 +14,20 @@ import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
-import { ProductsService } from "../../services/ProductsService";
-import { ConditionsService } from "../../services/ConditionsService";
-import { EditionsService } from "../../services/EditionsService";
+import ProductsService from "../../services/ProductsService";
+import ConditionsService from "../../services/ConditionsService";
+import EditionsService from "../../services/EditionsService";
 import "./CreateNewProduct.css";
 
-const CreateNewProductPage = () => {
+function CreateNewProductPage() {
   const [validated, setValidated] = useState(false);
 
   const [imageURL, setImageURL] = useState("");
   const [name, setName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [description, setDescription] = useState("");
-  const [productVariants, setProductVariants] = useState([]);
-  const [price, setPrice] = useState("");
-  const [conditionId, setConditionId] = useState();
+  const [productVariant, setProductVariant] = useState({});
   const [conditions, setConditions] = useState();
-  const [editionId, setEditionId] = useState();
   const [editions, setEditions] = useState();
 
   const navigateProducts = useNavigate();
@@ -51,19 +48,6 @@ const CreateNewProductPage = () => {
     "December",
   ];
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity()) {
-      sendNewProduct();
-      navigateProducts("/admin/products");
-      navigateProducts(0);
-    } else {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    setValidated(true);
-  };
-
   const sendNewProduct = async () => {
     try {
       await ProductsService.createNewProduct(
@@ -71,18 +55,30 @@ const CreateNewProductPage = () => {
         name,
         releaseDate,
         description,
-        [productVariants]
+        [productVariant]
       );
+      navigateProducts("/admin/products");
+      navigateProducts(0);
     } catch (error) {
       setImageURL(null);
       setName(null);
       setReleaseDate(null);
       setDescription(null);
-      setProductVariants(null);
+      // setProductVariant({});
     }
   };
 
-  const onImageURL_Change = (e) => {
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity()) {
+      sendNewProduct();
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    setValidated(true);
+  };
+
+  const onImageUrlChange = (e) => {
     setImageURL(e.target.value);
   };
 
@@ -95,10 +91,25 @@ const CreateNewProductPage = () => {
   };
 
   const onPriceChange = (e) => {
-    const price = parseFloat(e.target.value);
-    setPrice(price);
+    const productPrice = parseFloat(e.target.value);
+    productVariant.price = productPrice;
+    setProductVariant(productVariant);
+  };
 
-    setProductVariants({ ...productVariants, ["price"]: price });
+  const onConditionChange = (e) => {
+    const index = e.target.selectedIndex;
+    const el = e.target.childNodes[index];
+    const option = el.getAttribute("id");
+    productVariant.condition_id = parseInt(option, 10);
+    setProductVariant(productVariant);
+  };
+
+  const onEditionChange = (e) => {
+    const index = e.target.selectedIndex;
+    const el = e.target.childNodes[index];
+    const option = el.getAttribute("id");
+    productVariant.edition_id = parseInt(option, 10);
+    setProductVariant(productVariant);
   };
 
   useEffect(() => {
@@ -112,18 +123,6 @@ const CreateNewProductPage = () => {
     })();
   }, []);
 
-  const onConditionChange = (e) => {
-    const index = e.target.selectedIndex;
-    const el = e.target.childNodes[index];
-    const option = el.getAttribute("id");
-    setConditionId(option);
-
-    setProductVariants({
-      ...productVariants,
-      ["condition_id"]: parseInt(option),
-    });
-  };
-
   useEffect(() => {
     (async () => {
       try {
@@ -135,32 +134,20 @@ const CreateNewProductPage = () => {
     })();
   }, []);
 
-  const onEditionChange = (e) => {
-    const index = e.target.selectedIndex;
-    const el = e.target.childNodes[index];
-    const option = el.getAttribute("id");
-    setEditionId(option);
-
-    setProductVariants({
-      ...productVariants,
-      ["edition_id"]: parseInt(option),
-    });
-  };
-
   return (
     <Container>
       <h1>Create New Product</h1>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="imageURLValidation">
-            <Image src={imageURL} width="300px"></Image>
+            <Image src={imageURL} width="300px" />
             <Form.Label>
               <b>Image URL</b>
             </Form.Label>
             <Form.Control
               type="text"
               value={imageURL}
-              onChange={onImageURL_Change}
+              onChange={onImageUrlChange}
               placeholder="Image URL"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -193,12 +180,7 @@ const CreateNewProductPage = () => {
             </Form.Label>
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
-              <Form.Control
-                type="number"
-                aria-aria-describedby="inputGroupPrepend"
-                onChange={onPriceChange}
-                required
-              />
+              <Form.Control type="number" onChange={onPriceChange} required />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type="invalid">
                 Please provide a valid price.
@@ -231,6 +213,7 @@ const CreateNewProductPage = () => {
                   }}
                 >
                   <button
+                    type="button"
                     onClick={decreaseMonth}
                     disabled={prevMonthButtonDisabled}
                   >
@@ -241,7 +224,7 @@ const CreateNewProductPage = () => {
                     onChange={({ target: { value } }) => changeYear(value)}
                   >
                     {years.map((option) => (
-                      <option key={option} value={option}>
+                      <option key={option.id} value={option}>
                         {option}
                       </option>
                     ))}
@@ -253,12 +236,13 @@ const CreateNewProductPage = () => {
                     }
                   >
                     {months.map((option) => (
-                      <option key={option} value={option}>
+                      <option key={option.id} value={option}>
                         {option}
                       </option>
                     ))}
                   </select>
                   <button
+                    type="button"
                     onClick={increaseMonth}
                     disabled={nextMonthButtonDisabled}
                   >
@@ -300,9 +284,11 @@ const CreateNewProductPage = () => {
               <option selected disabled value="">
                 Choose condition...
               </option>
-              {(conditions ?? []).map((condition) => {
-                return <option id={condition.id}>{condition.state}</option>;
-              })}
+              {(conditions ?? []).map((condition) => (
+                <option id={condition.id} key={condition.id}>
+                  {condition.state}
+                </option>
+              ))}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
@@ -321,9 +307,11 @@ const CreateNewProductPage = () => {
               <option selected disabled value="">
                 Choose edition...
               </option>
-              {(editions ?? []).map((edition) => {
-                return <option id={edition.id}>{edition.type}</option>;
-              })}
+              {(editions ?? []).map((edition) => (
+                <option id={edition.id} key={edition.id}>
+                  {edition.type}
+                </option>
+              ))}
             </Form.Select>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
@@ -337,6 +325,6 @@ const CreateNewProductPage = () => {
       </Form>
     </Container>
   );
-};
+}
 
-export default { CreateNewProductPage };
+export default CreateNewProductPage;

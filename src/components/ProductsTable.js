@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { Row, Card, Alert } from "react-bootstrap";
 import DeleteConfirmation from "./DeleteConfirmation";
-import { ProductsService } from "../services/ProductsService";
+import ProductsService from "../services/ProductsService";
 
-const ProductsTable = () => {
+function ProductsTable() {
   const [productId, setProductId] = useState();
   const [products, setProducts] = useState();
   const [product, setProduct] = useState();
@@ -40,7 +40,7 @@ const ProductsTable = () => {
     try {
       const result = await ProductsService.getProductById(id);
       setProduct(result);
-      setProductId(result["id"]);
+      setProductId(result.id);
     } catch (error) {
       setProduct(null);
       setProductId(null);
@@ -61,17 +61,19 @@ const ProductsTable = () => {
     setDisplayConfirmationModal(false);
   };
 
-  const submitDeleteProduct = async (product, id) => {
+  const submitDeleteProduct = async (productToDelete, id) => {
     try {
       await ProductsService.deleteProduct(id);
       setFormValid(true);
       setProductMessage(
-        `The product: ${product.name} was deleted successfully.`
+        `The product: ${productToDelete.name} was deleted successfully.`
       );
       setProducts(products.filter((p) => p.id !== id));
     } catch (error) {
       setFormValid(false);
-      setProductMessage(`The product: ${product.name} was not deleted.`);
+      setProductMessage(
+        `The product: ${productToDelete.name} was not deleted.`
+      );
       setProduct(null);
       setProductId(null);
     } finally {
@@ -84,17 +86,14 @@ const ProductsTable = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Row>
         <Card.Body>
-          {isFormValid === undefined ? (
-            <></>
-          ) : (
+          {isFormValid === false && (
             <Alert variant={isFormValid ? "success" : "danger"}>
               {productMessage}
             </Alert>
           )}
-          {/* {productMessage && <Alert variant="success">{productMessage}</Alert>} */}
         </Card.Body>
       </Row>
       <div>
@@ -120,41 +119,37 @@ const ProductsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {(products ?? []).map((product) => {
-            return product.product_variants.map((pv) => {
-              return (
-                <tr>
-                  <th scope="row">{product.id}</th>
-                  <td>{product.name}</td>
-                  <td>{moment(product.release_date).local().format("LL")}</td>
-                  <td>{product.description}</td>
-                  <td>{pv.price}</td>
-                  <td>{pv.condition.state}</td>
-                  <td>{pv.edition.type}</td>
-                  <td>
-                    <div className="d-grid gap-2">
-                      <button
-                        onClick={() => handleUpdateProductClick(product.id)}
-                        type="button"
-                        className="btn btn-info"
-                      >
-                        Update
-                      </button>
-                      <button
-                        onClick={() =>
-                          showDeleteProductModal(product.name, product.id)
-                        }
-                        type="button"
-                        className="btn btn-danger"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            });
-          })}
+          {(products ?? []).map((prod) =>
+            prod.product_variants.map((pv) => (
+              <tr key={pv.id}>
+                <th scope="row">{prod.id}</th>
+                <td>{prod.name}</td>
+                <td>{moment(prod.release_date).local().format("LL")}</td>
+                <td>{prod.description}</td>
+                <td>{pv.price}</td>
+                <td>{pv.condition.state}</td>
+                <td>{pv.edition.type}</td>
+                <td>
+                  <div className="d-grid gap-2">
+                    <button
+                      onClick={() => handleUpdateProductClick(prod.id)}
+                      type="button"
+                      className="btn btn-info"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={() => showDeleteProductModal(prod.name, prod.id)}
+                      type="button"
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
         <tfoot>
           <DeleteConfirmation
@@ -164,11 +159,11 @@ const ProductsTable = () => {
             type={product}
             id={productId}
             message={deleteMessage}
-          ></DeleteConfirmation>
+          />
         </tfoot>
       </table>
-    </React.Fragment>
+    </>
   );
-};
+}
 
-export default { ProductsTable };
+export default ProductsTable;

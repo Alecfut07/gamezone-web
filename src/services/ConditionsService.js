@@ -90,4 +90,4 @@ const ConditionsService = {
   },
 };
 
-export default { ConditionsService };
+export default ConditionsService;

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Container, Spinner } from "react-bootstrap";
 import ProductsGrid from "../../components/ProductsGrid";
-import { ProductsService } from "../../services/ProductsService";
+import ProductsService from "../../services/ProductsService";
 import "./SearchProductsPage.css";
 
-const SearchProductsPage = () => {
+function SearchProductsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -16,7 +16,9 @@ const SearchProductsPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ProductsService.searchProducts(productName);
+        const results = await ProductsService.searchProducts(
+          setSearchParams(productName)
+        );
         setProducts(results);
         setTimeout(() => {
           setIsLoading(true);
@@ -44,6 +46,6 @@ const SearchProductsPage = () => {
       )}
     </Container>
   );
-};
+}
 
-export default { SearchProductsPage };
+export default SearchProductsPage;

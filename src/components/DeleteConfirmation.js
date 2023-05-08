@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, Modal, Alert } from "react-bootstrap";
 
-const DeleteConfirmation = ({
+function DeleteConfirmation({
   showModal,
   hideModal,
   confirmModal,
   id,
   type,
   message,
-}) => {
+}) {
   return (
     <Modal
       show={showModal}
@@ -35,6 +35,6 @@ const DeleteConfirmation = ({
       </Modal.Footer>
     </Modal>
   );
-};
+}
 
-export default { DeleteConfirmation };
+export default DeleteConfirmation;

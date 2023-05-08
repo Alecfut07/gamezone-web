@@ -1,19 +1,28 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 // import { ErrorList } from "../../components/ErrorList";
-import { AuthService } from "../../services/AuthService";
+import AuthService from "../../services/AuthService";
 
 import "./SignUpPage.css";
 
-const SignUpPage = () => {
+function SignUpPage() {
   const [validated, setValidated] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isPasswordValid, setPasswordValid] = useState(true);
 
   const navigateHomePage = useNavigate();
+
+  const signUp = async (userEmail, userPassword) => {
+    try {
+      const accessToken = await AuthService.signUp(userEmail, userPassword);
+      localStorage.setItem("access_token", accessToken);
+    } catch (error) {
+      setEmail(null);
+      setPassword(null);
+    }
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -33,16 +42,6 @@ const SignUpPage = () => {
   const onPasswordChange = (e) => {
     const pw = e.target.value;
     setPassword(pw);
-  };
-
-  const signUp = async (email, password) => {
-    try {
-      const accessToken = await AuthService.signUp(email, password);
-      localStorage.setItem("access_token", accessToken);
-    } catch (error) {
-      setEmail(null);
-      setPassword(null);
-    }
   };
 
   return (
@@ -95,6 +94,6 @@ const SignUpPage = () => {
       </Form>
     </Container>
   );
-};
+}
 
-export default { SignUpPage };
+export default SignUpPage;

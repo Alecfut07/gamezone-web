@@ -90,4 +90,4 @@ const EditionsService = {
   },
 };
 
-export default { EditionsService };
+export default EditionsService;

@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CustomNavbar from "./CustomNavbar";
-import { SignInPage } from "../pages/SignIn";
-import { SignUpPage } from "../pages/SignUp";
-import { ProfilePage } from "../pages/Users";
-import { HomePage } from "../pages/Home";
+import SignInPage from "../pages/SignIn";
+import SignUpPage from "../pages/SignUp";
+import ProfilePage from "../pages/Users";
+import HomePage from "../pages/Home";
 import {
   ProductsPage,
   CreateNewProductPage,
@@ -17,9 +17,9 @@ import {
   CreateNewConditionPage,
   UpdateConditionPage,
 } from "../pages/Conditions";
-import { NotFoundPage } from "../pages/NotFound";
+import NotFoundPage from "../pages/NotFound";
 
-const NavbarRouter = () => {
+function NavbarRouter() {
   return (
     <BrowserRouter>
       <CustomNavbar />
@@ -47,6 +47,6 @@ const NavbarRouter = () => {
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
-export default { NavbarRouter };
+export default NavbarRouter;

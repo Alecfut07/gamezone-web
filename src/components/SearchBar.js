@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
-const SearchBar = () => {
+function SearchBar() {
   const [input, setInput] = useState("");
   // const [searchParams, setSearchParams] = useSearchParams();
   // const name = searchParams.get("name");
@@ -30,7 +30,7 @@ const SearchBar = () => {
     setInput(e.target.value);
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = () => {
     navigateSearchProductsPage({
       pathname: "/products/search",
       search: `?${createSearchParams(params)}`,
@@ -52,6 +52,6 @@ const SearchBar = () => {
       </Button>
     </Form>
   );
-};
+}
 
-export default { SearchBar };
+export default SearchBar;
