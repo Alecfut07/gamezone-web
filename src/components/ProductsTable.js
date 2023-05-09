@@ -63,6 +63,7 @@ function ProductsTable() {
 
   const submitDeleteProduct = async (productToDelete, id) => {
     try {
+      debugger;
       await ProductsService.deleteProduct(id);
       setFormValid(true);
       setProductMessage(
@@ -70,6 +71,7 @@ function ProductsTable() {
       );
       setProducts(products.filter((p) => p.id !== id));
     } catch (error) {
+      debugger;
       setFormValid(false);
       setProductMessage(
         `The product: ${productToDelete.name} was not deleted.`
@@ -77,6 +79,7 @@ function ProductsTable() {
       setProduct(null);
       setProductId(null);
     } finally {
+      debugger;
       setDisplayConfirmationModal(false);
     }
   };
@@ -89,7 +92,7 @@ function ProductsTable() {
     <>
       <Row>
         <Card.Body>
-          {isFormValid === false && (
+          {isFormValid === true && (
             <Alert variant={isFormValid ? "success" : "danger"}>
               {productMessage}
             </Alert>

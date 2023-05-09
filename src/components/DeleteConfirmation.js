@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Modal, Alert } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 
 function DeleteConfirmation({
   showModal,
@@ -23,7 +23,7 @@ function DeleteConfirmation({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Alert variant="danger">{message}</Alert>
+        <p>{message}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="light" onClick={hideModal}>
