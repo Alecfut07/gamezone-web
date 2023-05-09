@@ -156,9 +156,9 @@ function UpdateProductPage() {
     })();
   }, []);
 
-  const onImageUrlChange = (e) => {
-    setImageURL(e.target.value);
-  };
+  // const onImageUrlChange = (e) => {
+  //   setImageURL(e.target.value);
+  // };
 
   const onNameChange = (e) => {
     setName(e.target.value);
@@ -190,16 +190,6 @@ function UpdateProductPage() {
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="imageURLValidation">
             <Image src={imageURL} width="300px" />
-            <Form.Label>
-              <b>Image URL</b>
-            </Form.Label>
-            <Form.Control
-              required
-              type="text"
-              value={imageURL}
-              onChange={onImageUrlChange}
-              placeholder="Image URL"
-            />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Please provide a valid image url.
