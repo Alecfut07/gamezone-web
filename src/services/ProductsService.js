@@ -34,15 +34,36 @@ const ProductsService = {
       throw error;
     }
   },
+  uploadImage: async (image) => {
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const axiosConfig = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/admin/products/upload`,
+        formData,
+        axiosConfig
+      );
+      return data.image_key;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   createNewProduct: async (
-    imageUrl,
+    imageKey,
     name,
     releaseDate,
     description,
     productVariants
   ) => {
     const body = {
-      image_url: imageUrl,
+      image_key: imageKey,
       name,
       release_date: releaseDate.toISOString(),
       description,

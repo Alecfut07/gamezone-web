@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Container,
-  Button,
-  Image,
-  Col,
-  Form,
-  InputGroup,
-  Row,
-} from "react-bootstrap";
+import { Container, Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
@@ -22,7 +14,7 @@ import "./CreateNewProduct.css";
 function CreateNewProductPage() {
   const [validated, setValidated] = useState(false);
 
-  const [imageURL, setImageURL] = useState("");
+  const [imageKey, setImageKey] = useState("");
   const [name, setName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [description, setDescription] = useState("");
@@ -48,10 +40,21 @@ function CreateNewProductPage() {
     "December",
   ];
 
+  const handleFileUpload = async (e) => {
+    try {
+      const image = e.target.files[0];
+      const result = await ProductsService.uploadImage(image);
+      setImageKey(result);
+      debugger;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const sendNewProduct = async () => {
     try {
       await ProductsService.createNewProduct(
-        imageURL,
+        imageKey,
         name,
         releaseDate,
         description,
@@ -60,7 +63,7 @@ function CreateNewProductPage() {
       navigateProducts("/admin/products");
       navigateProducts(0);
     } catch (error) {
-      setImageURL(null);
+      debugger;
       setName(null);
       setReleaseDate(null);
       setDescription(null);
@@ -69,6 +72,7 @@ function CreateNewProductPage() {
   };
 
   const handleSubmit = (event) => {
+    debugger;
     const form = event.currentTarget;
     if (form.checkValidity()) {
       sendNewProduct();
@@ -78,9 +82,9 @@ function CreateNewProductPage() {
     setValidated(true);
   };
 
-  const onImageUrlChange = (e) => {
-    setImageURL(e.target.value);
-  };
+  // const onImageUrlChange = (e) => {
+  //   setImageURL(e.target.value);
+  // };
 
   const onNameChange = (e) => {
     setName(e.target.value);
@@ -140,14 +144,12 @@ function CreateNewProductPage() {
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="imageURLValidation">
-            <Image src={imageURL} width="300px" />
             <Form.Label>
               <b>Image URL</b>
             </Form.Label>
             <Form.Control
-              type="text"
-              value={imageURL}
-              onChange={onImageUrlChange}
+              type="file"
+              onChange={handleFileUpload}
               placeholder="Image URL"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
