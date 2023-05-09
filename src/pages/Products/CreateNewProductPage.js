@@ -45,9 +45,8 @@ function CreateNewProductPage() {
       const image = e.target.files[0];
       const result = await ProductsService.uploadImage(image);
       setImageKey(result);
-      debugger;
     } catch (error) {
-      console.log(error);
+      setImageKey(null);
     }
   };
 
@@ -145,12 +144,12 @@ function CreateNewProductPage() {
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="imageURLValidation">
             <Form.Label>
-              <b>Image URL</b>
+              <b>Upload an image</b>
             </Form.Label>
             <Form.Control
               type="file"
               onChange={handleFileUpload}
-              placeholder="Image URL"
+              placeholder="Image File"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">

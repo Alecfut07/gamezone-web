@@ -83,6 +83,7 @@ const ProductsService = {
   updateProduct: async (
     id,
     imageUrl,
+    imageKey,
     name,
     releaseDate,
     description,
@@ -90,6 +91,7 @@ const ProductsService = {
   ) => {
     const body = {
       image_url: imageUrl,
+      image_key: imageKey,
       name,
       release_date: releaseDate,
       description,

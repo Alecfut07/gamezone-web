@@ -26,6 +26,7 @@ function UpdateProductPage() {
   const [validated, setValidated] = useState(false);
 
   const [imageURL, setImageURL] = useState();
+  const [imageKey, setImageKey] = useState("");
   const [name, setName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [description, setDescription] = useState("");
@@ -74,9 +75,20 @@ function UpdateProductPage() {
     }
   };
 
+  const handleFileUpload = async (e) => {
+    try {
+      const image = e.target.files[0];
+      const result = await ProductsService.uploadImage(image);
+      setImageKey(result);
+    } catch (error) {
+      setImageKey(null);
+    }
+  };
+
   const updateProduct = async (
     productId,
     productImageURL,
+    productImageKey,
     productName,
     productReleaseDate,
     productDescription,
@@ -88,6 +100,7 @@ function UpdateProductPage() {
       await ProductsService.updateProduct(
         productId,
         productImageURL,
+        productImageKey,
         productName,
         productReleaseDate,
         productDescription,
@@ -115,6 +128,7 @@ function UpdateProductPage() {
       updateProduct(
         id,
         imageURL,
+        imageKey,
         name,
         releaseDate,
         description,
@@ -156,10 +170,6 @@ function UpdateProductPage() {
     })();
   }, []);
 
-  // const onImageUrlChange = (e) => {
-  //   setImageURL(e.target.value);
-  // };
-
   const onNameChange = (e) => {
     setName(e.target.value);
   };
@@ -190,6 +200,14 @@ function UpdateProductPage() {
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="imageURLValidation">
             <Image src={imageURL} width="300px" />
+            <Form.Label>
+              <b>Upload an image</b>
+            </Form.Label>
+            <Form.Control
+              type="file"
+              onChange={handleFileUpload}
+              placeholder="Image File"
+            />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Please provide a valid image url.
