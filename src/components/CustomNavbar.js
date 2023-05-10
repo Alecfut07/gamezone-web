@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { IconContext } from "react-icons";
+import { GiConsoleController } from "react-icons/gi";
 import SearchBar from "./SearchBar";
 
 import UsersService from "../services/UsersService";
@@ -9,6 +11,7 @@ function CustomNavbar() {
   const title = "GameZone";
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState();
+  const logoStyle = useMemo(() => ({ color: "red", size: "50px" }), []);
 
   useEffect(() => {
     (async () => {
@@ -27,13 +30,9 @@ function CustomNavbar() {
     <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand as={NavLink} to="/">
-          <img
-            alt=""
-            src="/src/imgs/icons/gamezone_icon.png"
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-          />{" "}
+          <IconContext.Provider value={logoStyle}>
+            <GiConsoleController className="mx-4" />
+          </IconContext.Provider>
           {title}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
