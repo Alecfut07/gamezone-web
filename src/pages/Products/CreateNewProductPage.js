@@ -79,10 +79,6 @@ function CreateNewProductPage() {
     setValidated(true);
   };
 
-  // const onImageUrlChange = (e) => {
-  //   setImageURL(e.target.value);
-  // };
-
   const onNameChange = (e) => {
     setName(e.target.value);
   };
@@ -148,6 +144,7 @@ function CreateNewProductPage() {
               type="file"
               onChange={handleFileUpload}
               placeholder="Image File"
+              accept="image/png, image/jpeg"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">

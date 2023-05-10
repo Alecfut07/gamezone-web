@@ -207,6 +207,7 @@ function UpdateProductPage() {
               type="file"
               onChange={handleFileUpload}
               placeholder="Image File"
+              accept="image/png, image/jpeg"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
