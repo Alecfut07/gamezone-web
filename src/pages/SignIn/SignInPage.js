@@ -7,7 +7,7 @@ import "./SignInPage.css";
 
 function SignInPage() {
   const [validated, setValidated] = useState(false);
-  const [hasErrors, setHasError] = useState(true);
+  const [hasErrors, setHasError] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,19 +16,20 @@ function SignInPage() {
 
   const signIn = async (userEmail, userPassword) => {
     try {
+      debugger;
       const accessToken = await AuthService.signIn(userEmail, userPassword);
       localStorage.setItem("access_token", accessToken);
+      setHasError(false);
       navigateHomePage("/home");
       navigateHomePage(0);
-      setHasError(true);
     } catch (error) {
-      setEmail(null);
       setPassword(null);
-      setHasError(false);
+      setHasError(true);
     }
   };
 
   const handleSubmit = (event) => {
+    debugger;
     const form = event.currentTarget;
     if (form.checkValidity()) {
       signIn(email, password);
