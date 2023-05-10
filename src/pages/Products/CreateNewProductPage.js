@@ -178,6 +178,7 @@ function CreateNewProductPage() {
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
               <Form.Control
                 type="number"
+                defaultValue="0.0"
                 onChange={onPriceChange}
                 onWheel={(e) => e.target.blur()}
                 required
