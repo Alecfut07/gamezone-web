@@ -60,8 +60,9 @@ function CustomNavbar() {
           </Nav>
           <SearchBar />
           {isLoggedIn ? (
-            <div>
+            <Stack direction="horizontal" gap={3}>
               <NavDropdown
+                className="ms-5"
                 title={loggedInUser ? loggedInUser.email : ""}
                 id="user-nav-dropdown"
               >
@@ -74,7 +75,7 @@ function CustomNavbar() {
                   Sign out
                 </NavDropdown.Item>
               </NavDropdown>
-            </div>
+            </Stack>
           ) : (
             <Stack className="mt-auto" direction="horizontal" gap={3}>
               <Button
