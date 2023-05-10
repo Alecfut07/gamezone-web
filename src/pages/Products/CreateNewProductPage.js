@@ -176,7 +176,12 @@ function CreateNewProductPage() {
             </Form.Label>
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
-              <Form.Control type="number" onChange={onPriceChange} required />
+              <Form.Control
+                type="number"
+                onChange={onPriceChange}
+                onWheel={(e) => e.target.blur()}
+                required
+              />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type="invalid">
                 Please provide a valid price.

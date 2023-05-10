@@ -244,6 +244,7 @@ function UpdateProductPage() {
                 type="number"
                 value={price}
                 onChange={onPriceChange}
+                onWheel={(e) => e.target.blur()}
                 required
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
