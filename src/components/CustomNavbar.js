@@ -24,11 +24,14 @@ function CustomNavbar() {
     (async () => {
       const accessToken = localStorage.getItem("access_token");
       try {
-        const user = await UsersService.getProfile(accessToken);
-        setLoggedInUser(user);
-        setLoggedIn(accessToken != null);
+        if (accessToken !== null) {
+          const user = await UsersService.getProfile(accessToken);
+          setLoggedInUser(user);
+          setLoggedIn(true);
+        }
       } catch (error) {
         // TODO
+        setLoggedIn(false);
       }
     })();
   }, []);
