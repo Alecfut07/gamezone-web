@@ -7,7 +7,7 @@ import "./SearchProductsPage.css";
 
 function SearchProductsPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const [products, setProducts] = useState();
 
@@ -16,13 +16,11 @@ function SearchProductsPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ProductsService.searchProducts(
-          setSearchParams(productName)
-        );
+        const results = await ProductsService.searchProducts(productName);
         setProducts(results);
         setTimeout(() => {
           setIsLoading(true);
-        }, 3000);
+        }, 1500);
         setIsLoading(false);
       } catch (error) {
         setProducts(null);

@@ -21,7 +21,6 @@ function ErrorList({ validated, value }) {
 
   const isValueValid = () => {
     const isValid = valueRules.every((obj) => obj.validation(value));
-    debugger;
     return isValid;
   };
 

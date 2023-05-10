@@ -62,7 +62,6 @@ function CreateNewProductPage() {
       navigateProducts("/admin/products");
       navigateProducts(0);
     } catch (error) {
-      debugger;
       setName(null);
       setReleaseDate(null);
       setDescription(null);
@@ -71,7 +70,6 @@ function CreateNewProductPage() {
   };
 
   const handleSubmit = (event) => {
-    debugger;
     const form = event.currentTarget;
     if (form.checkValidity()) {
       sendNewProduct();

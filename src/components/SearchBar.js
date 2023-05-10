@@ -4,21 +4,18 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 
 function SearchBar() {
   const [input, setInput] = useState("");
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const name = searchParams.get("name");
 
   const navigateSearchProductsPage = useNavigate();
-
-  const params = { name: input };
 
   const formRef = useRef(null);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
+      const params = createSearchParams({ name: input });
       navigateSearchProductsPage({
         pathname: "/products/search",
-        search: `?${createSearchParams(params)}`,
+        search: `?${params}`,
       });
       formRef.current.reset();
     }
@@ -31,9 +28,10 @@ function SearchBar() {
   };
 
   const handleSearchClick = () => {
+    const params = createSearchParams({ name: input });
     navigateSearchProductsPage({
       pathname: "/products/search",
-      search: `?${createSearchParams(params)}`,
+      search: `?${params}`,
     });
     formRef.current.reset();
   };
