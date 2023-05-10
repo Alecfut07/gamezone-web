@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Row, Card, Alert } from "react-bootstrap";
 import DeleteConfirmation from "./DeleteConfirmation";
 import ConditionsService from "../services/ConditionsService";
+import ConditionsHelper from "../helpers/ConditionsHelper";
 
 function ConditionsTable() {
   const [conditionId, setConditionId] = useState();
@@ -119,7 +120,7 @@ function ConditionsTable() {
           {(conditions ?? []).map((cond) => (
             <tr key={cond.id}>
               <th scope="row">{cond.id}</th>
-              <td>{cond.state}</td>
+              <td>{ConditionsHelper.formatState(cond.state)}</td>
               <td>
                 <div className="d-grid gap-2">
                   <button

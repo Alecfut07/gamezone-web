@@ -4,6 +4,8 @@ import moment from "moment";
 import { Row, Card, Alert } from "react-bootstrap";
 import DeleteConfirmation from "./DeleteConfirmation";
 import ProductsService from "../services/ProductsService";
+import ConditionsHelper from "../helpers/ConditionsHelper";
+import EditionsHelper from "../helpers/EditionsHelper";
 
 function ProductsTable() {
   const [productId, setProductId] = useState();
@@ -127,8 +129,8 @@ function ProductsTable() {
                 <td>{moment(prod.release_date).local().format("LL")}</td>
                 <td>{prod.description}</td>
                 <td>{pv.price}</td>
-                <td>{pv.condition.state}</td>
-                <td>{pv.edition.type}</td>
+                <td>{ConditionsHelper.formatState(pv.condition.state)}</td>
+                <td>{EditionsHelper.formatType(pv.edition.type)}</td>
                 <td>
                   <div className="d-grid gap-2">
                     <button

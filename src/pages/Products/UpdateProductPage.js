@@ -19,6 +19,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import ProductsService from "../../services/ProductsService";
 import ConditionsService from "../../services/ConditionsService";
 import EditionsService from "../../services/EditionsService";
+
+import ConditionsHelper from "../../helpers/ConditionsHelper";
+import EditionsHelper from "../../helpers/EditionsHelper";
+
 import "./UpdateProduct.css";
 
 function UpdateProductPage() {
@@ -356,7 +360,7 @@ function UpdateProductPage() {
                   key={condition.id}
                   selected={condition.id === conditionId}
                 >
-                  {condition.state}
+                  {ConditionsHelper.formatState(condition.state)}
                 </option>
               ))}
             </Form.Select>
@@ -379,7 +383,7 @@ function UpdateProductPage() {
               </option>
               {(editions ?? []).map((edition) => (
                 <option key={edition.id} selected={edition.id === editionId}>
-                  {edition.type}
+                  {EditionsHelper.formatType(edition.type)}
                 </option>
               ))}
             </Form.Select>
