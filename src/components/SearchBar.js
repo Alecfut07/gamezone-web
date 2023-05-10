@@ -11,6 +11,7 @@ function SearchBar() {
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    console.log(form);
     if (form.checkValidity()) {
       const params = createSearchParams({ name: input });
       navigateSearchProductsPage({
@@ -18,6 +19,7 @@ function SearchBar() {
         search: `?${params}`,
       });
       formRef.current.reset();
+      setInput("");
     }
     event.preventDefault();
     event.stopPropagation();
@@ -27,13 +29,22 @@ function SearchBar() {
     setInput(e.target.value);
   };
 
+  // const handleEnterKeyDown = (e) => {
+  //   if (e.key === "Enter" && input === "") {
+  //     alert("Enter an empty value in search bar");
+  //   }
+  // };
+
   const handleSearchClick = () => {
-    const params = createSearchParams({ name: input });
-    navigateSearchProductsPage({
-      pathname: "/products/search",
-      search: `?${params}`,
-    });
-    formRef.current.reset();
+    if (input.length > 0) {
+      const params = createSearchParams({ name: input });
+      navigateSearchProductsPage({
+        pathname: "/products/search",
+        search: `?${params}`,
+      });
+      formRef.current.reset();
+      setInput("");
+    }
   };
 
   return (
@@ -44,6 +55,8 @@ function SearchBar() {
         className="me-2"
         aria-label="Search"
         onChange={onProductNameSearchBarChange}
+        // onKeyDown={handleEnterKeyDown}
+        required
       />
       <Button variant="outline-success" onClick={handleSearchClick}>
         Search
