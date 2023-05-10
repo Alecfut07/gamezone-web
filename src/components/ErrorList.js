@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { ListGroup } from "react-bootstrap";
 
-function ErrorList({ value, setValueValid }) {
+function ErrorList({ validated, value }) {
   const valueRules = [
     {
       rule: "Min 6 characters",
@@ -13,29 +13,28 @@ function ErrorList({ value, setValueValid }) {
     },
   ];
 
-  const [isFieldValid, setFieldValid] = useState();
-
   // const isFieldValid = () => {
   //   const isValid = valueRules.every((obj) => obj.validation(value));
   //   setValueValid(isValid);
   //   return isValid;
   // };
 
-  setFieldValid(() => {
+  const isValueValid = () => {
     const isValid = valueRules.every((obj) => obj.validation(value));
-    setValueValid(isValid);
+    debugger;
     return isValid;
-  });
+  };
 
-  return isFieldValid ? (
-    <div />
-  ) : (
-    <ListGroup>
-      {valueRules.forEach((obj) => {
-        const variant = obj.validation(value) ? "success" : "danger";
-        <ListGroup.Item variant={variant}>{obj.rule}</ListGroup.Item>;
-      })}
-    </ListGroup>
+  return (
+    validated &&
+    isValueValid() === false && (
+      <ListGroup className="mt-3">
+        {valueRules.map((obj) => {
+          const variant = obj.validation(value) ? "success" : "danger";
+          return <ListGroup.Item variant={variant}>{obj.rule}</ListGroup.Item>;
+        })}
+      </ListGroup>
+    )
   );
 }
 

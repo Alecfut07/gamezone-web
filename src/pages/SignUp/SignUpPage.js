@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
-// import { ErrorList } from "../../components/ErrorList";
+import ErrorList from "../../components/ErrorList";
 import AuthService from "../../services/AuthService";
 
 import "./SignUpPage.css";
@@ -70,12 +70,15 @@ function SignUpPage() {
           <Form.Control
             onChange={onPasswordChange}
             type="password"
+            minLength={6}
+            maxLength={20}
             placeholder="Password"
             required
           />
-          <Form.Control.Feedback type="invalid">
+          <ErrorList validated={validated} value={password} />
+          {/* <Form.Control.Feedback type="invalid">
             Password is incorrect.
-          </Form.Control.Feedback>
+          </Form.Control.Feedback> */}
         </Form.Group>
         {/* <Form.Group
       className="d-flex justify-content-between mx-3 mb-4"

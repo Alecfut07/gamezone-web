@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/AuthService";
 
@@ -7,6 +7,7 @@ import "./SignInPage.css";
 
 function SignInPage() {
   const [validated, setValidated] = useState(false);
+  const [hasErrors, setHasError] = useState(true);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,9 +20,11 @@ function SignInPage() {
       localStorage.setItem("access_token", accessToken);
       navigateHomePage("/home");
       navigateHomePage(0);
+      setHasError(true);
     } catch (error) {
       setEmail(null);
       setPassword(null);
+      setHasError(false);
     }
   };
 
@@ -91,6 +94,9 @@ function SignInPage() {
           </p>
         </div>
       </Form>
+      {validated && hasErrors && (
+        <Alert variant="danger">Something went wrong!</Alert>
+      )}
     </Container>
   );
 }
