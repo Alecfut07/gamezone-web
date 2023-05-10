@@ -14,12 +14,15 @@ import "./ProfilePage.css";
 
 function ProfilePage() {
   const [validated, setValidated] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState();
-
+  const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [birthdate, setBirthdate] = useState(new Date());
+  const [birthdate, setBirthdate] = useState();
+
+  const navigateProfilePage = useNavigate();
+
+  const accessToken = localStorage.getItem("access_token");
 
   const years = range(1800, getYear(new Date()) + 1, 1);
   const months = [
@@ -36,21 +39,6 @@ function ProfilePage() {
     "November",
     "December",
   ];
-
-  const navigateProfilePage = useNavigate();
-
-  const accessToken = localStorage.getItem("access_token");
-
-  useEffect(() => {
-    (async () => {
-      const user = await UsersService.getProfile(accessToken);
-      setLoggedInUser(user);
-      setFirstName(user.first_name);
-      setLastName(user.last_name);
-      setPhone(user.phone);
-      setBirthdate(user.birthdate);
-    })();
-  }, []);
 
   const updateProfile = async (
     userAccessToken,
@@ -76,6 +64,21 @@ function ProfilePage() {
     }
   };
 
+  const getProfile = async () => {
+    try {
+      const user = await UsersService.getProfile(accessToken);
+      setEmail(user.email);
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+      setPhone(user.phone);
+      if (user.birthdate) {
+        setBirthdate(moment(user.birthdate).toDate());
+      }
+    } catch (error) {
+      // TODO
+    }
+  };
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
@@ -97,6 +100,10 @@ function ProfilePage() {
   const onPhoneChange = (e) => {
     setPhone(e.target.value);
   };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
     <Container>
@@ -131,7 +138,7 @@ function ProfilePage() {
             <Form.Label>
               <b>Email</b>
             </Form.Label>
-            <p>{loggedInUser ? loggedInUser.email : ""}</p>
+            <p>{email}</p>
           </Form.Group>
         </Row>
         <Row className="mb-3">
@@ -204,7 +211,7 @@ function ProfilePage() {
                   </button>
                 </div>
               )}
-              selected={moment(birthdate).toDate()}
+              selected={birthdate}
               onChange={(date, e) => setBirthdate(date, e)}
             />
           </Form.Group>
