@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Nav,
+  NavDropdown,
+  Navbar,
+  Stack,
+} from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { GiConsoleController } from "react-icons/gi";
@@ -66,14 +73,18 @@ function CustomNavbar() {
               </NavDropdown>
             </div>
           ) : (
-            <div>
-              <Button variant="outline-dark" href="/users/sign_in">
-                SignIn
+            <Stack className="mt-auto" direction="horizontal" gap={3}>
+              <Button
+                className="ms-5"
+                variant="outline-dark"
+                href="/users/sign_in"
+              >
+                Sign in
               </Button>
               <Button variant="outline-dark" href="/users/sign_up">
-                SignUp
+                Sign up
               </Button>
-            </div>
+            </Stack>
           )}
         </Navbar.Collapse>
       </Container>
