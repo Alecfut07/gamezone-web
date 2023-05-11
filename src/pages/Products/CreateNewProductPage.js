@@ -21,8 +21,8 @@ function CreateNewProductPage() {
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [description, setDescription] = useState("");
   const [productVariant, setProductVariant] = useState({});
-  const [conditions, setConditions] = useState();
-  const [editions, setEditions] = useState();
+  const [conditions, setConditions] = useState([]);
+  const [editions, setEditions] = useState([]);
 
   const navigateProducts = useNavigate();
 
@@ -115,9 +115,17 @@ function CreateNewProductPage() {
     (async () => {
       try {
         const results = await ConditionsService.getConditions();
-        setConditions(results);
+        const conditionsCopy = [...results];
+        const defaultCondition = {
+          id: 0,
+          selected: true,
+          disabled: true,
+          state: "Choose condition...",
+        };
+        conditionsCopy.unshift(defaultCondition);
+        setConditions(conditionsCopy);
       } catch (error) {
-        setConditions(null);
+        setConditions([]);
       }
     })();
   }, []);
@@ -126,9 +134,17 @@ function CreateNewProductPage() {
     (async () => {
       try {
         const results = await EditionsService.getEditions();
-        setEditions(results);
+        const editionsCopy = [...results];
+        const defaultEdition = {
+          id: 0,
+          selected: true,
+          disabled: true,
+          type: "Choose edition...",
+        };
+        editionsCopy.unshift(defaultEdition);
+        setEditions(editionsCopy);
       } catch (error) {
-        setEditions(null);
+        setEditions([]);
       }
     })();
   }, []);
@@ -257,10 +273,22 @@ function CreateNewProductPage() {
               selected={releaseDate}
               onChange={(date, e) => setReleaseDate(date, e)}
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid release date.
-            </Form.Control.Feedback>
+            {validated && releaseDate === null && (
+              <p
+                className="mt-2 cursor-default"
+                style={{ color: "red", fontSize: ".875em" }}
+              >
+                Release date is required
+              </p>
+            )}
+            {validated && releaseDate !== null && (
+              <p
+                className="mt-2 text-sm cursor-default"
+                style={{ color: "green", fontSize: ".875em" }}
+              >
+                Looks good!
+              </p>
+            )}
           </Form.Group>
         </Row>
         <Row className="mb-3">
@@ -285,12 +313,15 @@ function CreateNewProductPage() {
               onChange={onConditionChange}
               required
             >
-              <option selected disabled value="">
-                Choose condition...
-              </option>
-              {(conditions ?? []).map((condition) => (
-                <option id={condition.id} key={condition.id}>
-                  {ConditionsHelper.formatState(condition.state)}
+              {conditions.map((condition) => (
+                <option
+                  id={condition.id}
+                  key={condition.id}
+                  selected={condition.selected}
+                  disabled={condition.disabled}
+                >
+                  {ConditionsHelper.formatState(condition.state) ??
+                    condition.state}
                 </option>
               ))}
             </Form.Select>
@@ -308,12 +339,14 @@ function CreateNewProductPage() {
               onChange={onEditionChange}
               required
             >
-              <option selected disabled value="">
-                Choose edition...
-              </option>
-              {(editions ?? []).map((edition) => (
-                <option id={edition.id} key={edition.id}>
-                  {EditionsHelper.formatType(edition.type)}
+              {editions.map((edition) => (
+                <option
+                  id={edition.id}
+                  key={edition.id}
+                  selected={edition.selected}
+                  disabled={edition.disabled}
+                >
+                  {EditionsHelper.formatType(edition.type) ?? edition.type}
                 </option>
               ))}
             </Form.Select>
