@@ -13,11 +13,13 @@ import UsersService from "../../services/UsersService";
 import "./ProfilePage.css";
 
 function ProfilePage() {
-  const [validated, setValidated] = useState(false);
+  const [hasFormSubmitted, setFormSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
+  const maxPhoneLength = 12;
+  const [hasPhoneError, setPhoneError] = useState(null);
   const [birthdate, setBirthdate] = useState();
 
   const navigateProfilePage = useNavigate();
@@ -40,6 +42,15 @@ function ProfilePage() {
     "December",
   ];
 
+  const isPhoneValid = (phoneNumber) => {
+    // const phonePattern = "/^[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-/s.]?[0-9]{4}$/";
+    // const phonePattern2 = "/^[(]?[0-9]{3}[)]?[0-9]{3}[-/s.]?[0-9]{4}$/";
+    const phonePattern3 = "^[0-9*]{3}-[0-9*]{3}-[0-9*]{4}$";
+    // const phonePattern4 = "^[0-9*#+]{3}-[0-9*#+]{3}-[0-9*#+]{4}$";
+    const phoneRegex = RegExp(phonePattern3);
+    return phoneRegex.test(phoneNumber);
+  };
+
   const updateProfile = async (
     userAccessToken,
     userFirstName,
@@ -48,14 +59,16 @@ function ProfilePage() {
     userBirthdate
   ) => {
     try {
-      await UsersService.updateProfile(
-        userAccessToken,
-        userFirstName,
-        userLastName,
-        userPhone,
-        userBirthdate
-      );
-      navigateProfilePage(0);
+      if (isPhoneValid(phone)) {
+        await UsersService.updateProfile(
+          userAccessToken,
+          userFirstName,
+          userLastName,
+          userPhone,
+          userBirthdate
+        );
+        navigateProfilePage(0);
+      }
     } catch (error) {
       setFirstName(null);
       setLastName(null);
@@ -86,7 +99,7 @@ function ProfilePage() {
     }
     event.preventDefault();
     event.stopPropagation();
-    setValidated(true);
+    setFormSubmitted(true);
   };
 
   const onFirstNameChange = (e) => {
@@ -98,7 +111,14 @@ function ProfilePage() {
   };
 
   const onPhoneChange = (e) => {
-    setPhone(e.target.value);
+    const phoneNumber = e.target.value.replace(/[A-Za-z]+/gi, "");
+    if (isPhoneValid(phoneNumber)) {
+      setPhone(phoneNumber);
+      setPhoneError(false);
+    } else {
+      setPhone(phoneNumber);
+      setPhoneError(true);
+    }
   };
 
   useEffect(() => {
@@ -108,7 +128,7 @@ function ProfilePage() {
   return (
     <Container>
       <h1>Profile Page</h1>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate validated={hasFormSubmitted} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="firstNameValidation">
             <Form.Label>
@@ -146,7 +166,31 @@ function ProfilePage() {
             <Form.Label>
               <b>Phone</b>
             </Form.Label>
-            <Form.Control type="text" value={phone} onChange={onPhoneChange} />
+            <Form.Control
+              type="text"
+              maxLength={maxPhoneLength}
+              value={phone}
+              onChange={onPhoneChange}
+            />
+            <Form.Text className="text-muted">
+              Phone pattern: 123-456-7890
+            </Form.Text>
+            {hasFormSubmitted && hasPhoneError && (
+              <p
+                className="mt-2 text-sm cursor-default"
+                style={{ color: "red", fontSize: ".875em" }}
+              >
+                Phone pattern is incorrect
+              </p>
+            )}
+            {hasFormSubmitted && hasPhoneError === false && phone !== null && (
+              <p
+                className="mt-2 text-sm cursor-default"
+                style={{ color: "green", fontSize: ".875em" }}
+              >
+                Phone pattern is correct
+              </p>
+            )}
           </Form.Group>
         </Row>
         <Row className="mb-3">
