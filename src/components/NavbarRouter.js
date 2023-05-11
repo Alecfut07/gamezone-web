@@ -28,7 +28,6 @@ function NavbarRouter() {
         <Route path="/users/sign_in" element={<SignInPage />} />
         <Route path="/users/sign_up" element={<SignUpPage />} />
         <Route path="/users/profile" element={<ProfilePage />} />
-        <Route path="/home" element={<HomePage />} />
         <Route path="/admin/products" element={<ProductsPage />} />
         <Route path="/admin/products/new" element={<CreateNewProductPage />} />
         <Route
