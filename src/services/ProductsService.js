@@ -93,7 +93,7 @@ const ProductsService = {
       image_url: imageUrl,
       image_key: imageKey,
       name,
-      release_date: releaseDate,
+      release_date: releaseDate.toISOString(),
       description,
       product_variants: productVariants,
     };

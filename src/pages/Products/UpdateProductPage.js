@@ -63,11 +63,13 @@ function UpdateProductPage() {
       const result = await ProductsService.getProductById(productId);
       setImageURL(result.image_url);
       setName(result.name);
-      setReleaseDate(result.release_date);
       setDescription(result.description);
       setPrice(result.product_variants[0].price);
       setConditionId(result.product_variants[0].condition.id);
       setEditionId(result.product_variants[0].edition.id);
+      if (result.release_date) {
+        setReleaseDate(moment(result.release_date).toDate());
+      }
     } catch (error) {
       setImageURL(null);
       setName(null);
@@ -320,7 +322,7 @@ function UpdateProductPage() {
                   </button>
                 </div>
               )}
-              selected={moment(releaseDate).toDate()}
+              selected={releaseDate}
               onChange={(date, e) => setReleaseDate(date, e)}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
