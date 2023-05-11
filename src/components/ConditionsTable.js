@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Card, Alert } from "react-bootstrap";
+import { Row, Card, Alert, Stack } from "react-bootstrap";
 import DeleteConfirmation from "./DeleteConfirmation";
 import ConditionsService from "../services/ConditionsService";
 import ConditionsHelper from "../helpers/ConditionsHelper";
@@ -122,7 +122,7 @@ function ConditionsTable() {
               <th scope="row">{cond.id}</th>
               <td>{ConditionsHelper.formatState(cond.state)}</td>
               <td>
-                <div className="d-grid gap-2">
+                {/* <div className="d-grid gap-2">
                   <button
                     onClick={() => handleUpdateConditionClick(cond.id)}
                     type="button"
@@ -139,7 +139,25 @@ function ConditionsTable() {
                   >
                     Delete
                   </button>
-                </div>
+                </div> */}
+                <Stack className="mt-auto" direction="horizontal" gap={3}>
+                  <button
+                    className="btn btn-info"
+                    type="button"
+                    onClick={() => handleUpdateConditionClick(cond.id)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={() =>
+                      showDeleteConditionModal(cond.state, cond.id)
+                    }
+                  >
+                    Delete
+                  </button>
+                </Stack>
               </td>
             </tr>
           ))}

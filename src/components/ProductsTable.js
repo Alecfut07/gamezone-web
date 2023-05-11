@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { Row, Card, Alert } from "react-bootstrap";
+import { Row, Card, Alert, Stack } from "react-bootstrap";
 import DeleteConfirmation from "./DeleteConfirmation";
 import ProductsService from "../services/ProductsService";
 import ConditionsHelper from "../helpers/ConditionsHelper";
@@ -132,7 +132,7 @@ function ProductsTable() {
                 <td>{ConditionsHelper.formatState(pv.condition.state)}</td>
                 <td>{EditionsHelper.formatType(pv.edition.type)}</td>
                 <td>
-                  <div className="d-grid gap-2">
+                  {/* <div className="d-grid gap-2">
                     <button
                       onClick={() => handleUpdateProductClick(prod.id)}
                       type="button"
@@ -147,7 +147,23 @@ function ProductsTable() {
                     >
                       Delete
                     </button>
-                  </div>
+                  </div> */}
+                  <Stack className="mt-auto" direction="horizontal" gap={3}>
+                    <button
+                      className="btn btn-info"
+                      type="button"
+                      onClick={() => handleUpdateProductClick(prod.id)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={() => showDeleteProductModal(prod.name, prod.id)}
+                    >
+                      Delete
+                    </button>
+                  </Stack>
                 </td>
               </tr>
             ))
