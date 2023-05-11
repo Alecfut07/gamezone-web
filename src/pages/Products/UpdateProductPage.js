@@ -10,11 +10,8 @@ import {
   Row,
 } from "react-bootstrap";
 
-import DatePicker from "react-datepicker";
-import { getMonth, getYear } from "date-fns";
 import moment from "moment";
-import range from "lodash/range";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "../../components/DatePicker";
 
 import ProductsService from "../../services/ProductsService";
 import ConditionsService from "../../services/ConditionsService";
@@ -40,22 +37,6 @@ function UpdateProductPage() {
   const [editionId, setEditionId] = useState();
   const [editions, setEditions] = useState([]);
 
-  const years = range(1800, getYear(new Date()) + 1, 1);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   const navigateProducts = useNavigate();
 
   const getProductById = async (productId) => {
@@ -71,13 +52,7 @@ function UpdateProductPage() {
         setReleaseDate(moment(result.release_date).toDate());
       }
     } catch (error) {
-      setImageURL(null);
-      setName(null);
-      setReleaseDate(null);
-      setDescription(null);
-      setPrice(null);
-      setConditionId(null);
-      setEditionId(null);
+      // TODO
     }
   };
 
@@ -121,16 +96,14 @@ function UpdateProductPage() {
       navigateProducts("/admin/products");
       navigateProducts(0);
     } catch (error) {
-      setImageURL(null);
-      setName(null);
-      setReleaseDate(null);
-      setDescription(null);
+      // TODO
     }
   };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
+      debugger;
       updateProduct(
         id,
         imageURL,
@@ -282,64 +255,8 @@ function UpdateProductPage() {
               <b>Release Date</b>
             </Form.Label>
             <DatePicker
-              dateFormat="MMMM d, yyyy"
-              placeholderText="Click to select a date"
-              renderCustomHeader={({
-                date,
-                changeYear,
-                changeMonth,
-                decreaseMonth,
-                increaseMonth,
-                prevMonthButtonDisabled,
-                nextMonthButtonDisabled,
-              }) => (
-                <div
-                  style={{
-                    margin: 10,
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={decreaseMonth}
-                    disabled={prevMonthButtonDisabled}
-                  >
-                    {"<"}
-                  </button>
-                  <select
-                    value={getYear(date)}
-                    onChange={({ target: { value } }) => changeYear(value)}
-                  >
-                    {years.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    value={months[getMonth(date)]}
-                    onChange={({ target: { value } }) =>
-                      changeMonth(months.indexOf(value))
-                    }
-                  >
-                    {months.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    type="button"
-                    onClick={increaseMonth}
-                    disabled={nextMonthButtonDisabled}
-                  >
-                    {">"}
-                  </button>
-                </div>
-              )}
-              selected={releaseDate}
-              onChange={(date, e) => setReleaseDate(date, e)}
+              selectedDate={releaseDate}
+              setSelectedDate={setReleaseDate}
             />
             {validated && releaseDate === null && (
               <p

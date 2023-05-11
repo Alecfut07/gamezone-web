@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-
-import DatePicker from "react-datepicker";
-import { getMonth, getYear } from "date-fns";
-import range from "lodash/range";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "../../components/DatePicker";
 import ProductsService from "../../services/ProductsService";
 import ConditionsService from "../../services/ConditionsService";
 import EditionsService from "../../services/EditionsService";
@@ -25,22 +21,6 @@ function CreateNewProductPage() {
   const [editions, setEditions] = useState([]);
 
   const navigateProducts = useNavigate();
-
-  const years = range(1800, getYear(new Date()) + 1, 1);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   const handleFileUpload = async (e) => {
     try {
@@ -216,64 +196,8 @@ function CreateNewProductPage() {
               <b>Release Date</b>
             </Form.Label>
             <DatePicker
-              dateFormat="MMMM d, yyyy"
-              placeholderText="Click to select a date"
-              renderCustomHeader={({
-                date,
-                changeYear,
-                changeMonth,
-                decreaseMonth,
-                increaseMonth,
-                prevMonthButtonDisabled,
-                nextMonthButtonDisabled,
-              }) => (
-                <div
-                  style={{
-                    margin: 10,
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={decreaseMonth}
-                    disabled={prevMonthButtonDisabled}
-                  >
-                    {"<"}
-                  </button>
-                  <select
-                    value={getYear(date)}
-                    onChange={({ target: { value } }) => changeYear(value)}
-                  >
-                    {years.map((option) => (
-                      <option key={option.id} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    value={months[getMonth(date)]}
-                    onChange={({ target: { value } }) =>
-                      changeMonth(months.indexOf(value))
-                    }
-                  >
-                    {months.map((option) => (
-                      <option key={option.id} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    type="button"
-                    onClick={increaseMonth}
-                    disabled={nextMonthButtonDisabled}
-                  >
-                    {">"}
-                  </button>
-                </div>
-              )}
-              selected={releaseDate}
-              onChange={(date, e) => setReleaseDate(date, e)}
+              selectedDate={releaseDate}
+              setSelectedDate={setReleaseDate}
             />
             {validated && releaseDate === null && (
               <p
