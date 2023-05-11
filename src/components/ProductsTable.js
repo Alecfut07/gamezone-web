@@ -132,22 +132,6 @@ function ProductsTable() {
                 <td>{ConditionsHelper.formatState(pv.condition.state)}</td>
                 <td>{EditionsHelper.formatType(pv.edition.type)}</td>
                 <td>
-                  {/* <div className="d-grid gap-2">
-                    <button
-                      onClick={() => handleUpdateProductClick(prod.id)}
-                      type="button"
-                      className="btn btn-info"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => showDeleteProductModal(prod.name, prod.id)}
-                      type="button"
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div> */}
                   <Stack className="mt-auto" direction="horizontal" gap={3}>
                     <button
                       className="btn btn-info"

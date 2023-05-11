@@ -6,8 +6,7 @@ import ConditionsService from "../services/ConditionsService";
 import ConditionsHelper from "../helpers/ConditionsHelper";
 
 function ConditionsTable() {
-  const [conditionId, setConditionId] = useState();
-  const [conditions, setConditions] = useState();
+  const [conditions, setConditions] = useState([]);
   const [condition, setCondition] = useState();
 
   const [displayConfirmationModal, setDisplayConfirmationModal] =
@@ -25,7 +24,7 @@ function ConditionsTable() {
         const results = await ConditionsService.getConditions();
         setConditions(results);
       } catch (error) {
-        setConditions(null);
+        setConditions([]);
       }
     })();
   }, []);
@@ -35,14 +34,8 @@ function ConditionsTable() {
   };
 
   const searchCondition = async (id) => {
-    try {
-      const result = await ConditionsService.getConditionById(id);
-      setCondition(result);
-      setConditionId(result.id);
-    } catch (error) {
-      setCondition(null);
-      setConditionId(null);
-    }
+    const selectedCondition = conditions.find((c) => c.id === id);
+    setCondition(selectedCondition);
   };
 
   const showDeleteConditionModal = (conditionState, id) => {
@@ -76,7 +69,6 @@ function ConditionsTable() {
         `The condition: ${conditionToDelete.state} was not deleted.`
       );
       setCondition(null);
-      setConditionId(null);
     } finally {
       setDisplayConfirmationModal(false);
     }
@@ -117,29 +109,11 @@ function ConditionsTable() {
           </tr>
         </thead>
         <tbody>
-          {(conditions ?? []).map((cond) => (
+          {conditions.map((cond) => (
             <tr key={cond.id}>
               <th scope="row">{cond.id}</th>
               <td>{ConditionsHelper.formatState(cond.state)}</td>
               <td>
-                {/* <div className="d-grid gap-2">
-                  <button
-                    onClick={() => handleUpdateConditionClick(cond.id)}
-                    type="button"
-                    className="btn btn-info"
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() =>
-                      showDeleteConditionModal(cond.state, cond.id)
-                    }
-                    type="button"
-                    className="btn btn-danger"
-                  >
-                    Delete
-                  </button>
-                </div> */}
                 <Stack className="mt-auto" direction="horizontal" gap={3}>
                   <button
                     className="btn btn-info"
@@ -168,7 +142,7 @@ function ConditionsTable() {
             confirmModal={submitDeleteCondition}
             hideModal={hideConfirmationModal}
             type={condition}
-            id={conditionId}
+            id={condition && condition.id}
             message={deleteMessage}
           />
         </tfoot>
