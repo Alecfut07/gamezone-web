@@ -8,8 +8,7 @@ import ConditionsHelper from "../helpers/ConditionsHelper";
 import EditionsHelper from "../helpers/EditionsHelper";
 
 function ProductsTable() {
-  const [productId, setProductId] = useState();
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState([]);
   const [product, setProduct] = useState();
 
   const [displayConfirmationModal, setDisplayConfirmationModal] =
@@ -29,7 +28,7 @@ function ProductsTable() {
         const results = await ProductsService.getProducts();
         setProducts(results);
       } catch (error) {
-        setProducts(null);
+        setProducts([]);
       }
     })();
   }, []);
@@ -39,14 +38,8 @@ function ProductsTable() {
   };
 
   const searchProduct = async (id) => {
-    try {
-      const result = await ProductsService.getProductById(id);
-      setProduct(result);
-      setProductId(result.id);
-    } catch (error) {
-      setProduct(null);
-      setProductId(null);
-    }
+    const selectedProduct = products.find((p) => p.id === id);
+    setProduct(selectedProduct);
   };
 
   const showDeleteProductModal = (productName, id) => {
@@ -76,8 +69,7 @@ function ProductsTable() {
       setProductMessage(
         `The product: ${productToDelete.name} was not deleted.`
       );
-      setProduct(null);
-      setProductId(null);
+      setProduct([]);
     } finally {
       setDisplayConfirmationModal(false);
     }
@@ -159,7 +151,7 @@ function ProductsTable() {
             confirmModal={submitDeleteProduct}
             hideModal={hideConfirmationModal}
             type={product}
-            id={productId}
+            id={product && product.id}
             message={deleteMessage}
           />
         </tfoot>

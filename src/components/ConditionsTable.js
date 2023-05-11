@@ -68,7 +68,7 @@ function ConditionsTable() {
       setConditionMessage(
         `The condition: ${conditionToDelete.state} was not deleted.`
       );
-      setCondition(null);
+      setCondition([]);
     } finally {
       setDisplayConfirmationModal(false);
     }

@@ -70,10 +70,7 @@ function ProfilePage() {
         navigateProfilePage(0);
       }
     } catch (error) {
-      setFirstName(null);
-      setLastName(null);
-      setPhone(null);
-      setBirthdate(null);
+      console.log(error);
     }
   };
 
@@ -89,6 +86,7 @@ function ProfilePage() {
       }
     } catch (error) {
       // TODO
+      console.log(error);
     }
   };
 

@@ -18,7 +18,7 @@ function CreateNewConditionPage() {
       navigateConditions("/admin/conditions");
       navigateConditions(0);
     } catch (error) {
-      setState(null);
+      console.log(error);
     }
   };
   const handleSubmit = (event) => {

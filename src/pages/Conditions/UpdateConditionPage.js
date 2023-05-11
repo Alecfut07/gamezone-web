@@ -18,7 +18,7 @@ function UpdateConditionPage() {
     try {
       await ConditionsService.updateCondition(conditionId, conditionState);
     } catch (error) {
-      setState(null);
+      console.log(error);
     }
   };
 

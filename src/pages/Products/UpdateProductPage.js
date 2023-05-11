@@ -53,6 +53,7 @@ function UpdateProductPage() {
       }
     } catch (error) {
       // TODO
+      console.log(error);
     }
   };
 
@@ -97,6 +98,7 @@ function UpdateProductPage() {
       navigateProducts(0);
     } catch (error) {
       // TODO
+      console.log(error);
     }
   };
 

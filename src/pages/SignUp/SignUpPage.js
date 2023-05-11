@@ -21,7 +21,6 @@ function SignUpPage() {
       navigateHomePage("/");
       navigateHomePage(0);
     } catch (error) {
-      setEmail(null);
       setPassword(null);
     }
   };

@@ -44,10 +44,7 @@ function CreateNewProductPage() {
       navigateProducts("/admin/products");
       navigateProducts(0);
     } catch (error) {
-      setName(null);
-      setReleaseDate(null);
-      setDescription(null);
-      // setProductVariant({});
+      console.log(error);
     }
   };
 
