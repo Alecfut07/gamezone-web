@@ -18,7 +18,7 @@ function SignUpPage() {
     try {
       const accessToken = await AuthService.signUp(userEmail, userPassword);
       localStorage.setItem("access_token", accessToken);
-      navigateHomePage("/home");
+      navigateHomePage("/");
       navigateHomePage(0);
     } catch (error) {
       setEmail(null);

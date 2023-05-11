@@ -20,7 +20,7 @@ function SignInPage() {
       const accessToken = await AuthService.signIn(userEmail, userPassword);
       localStorage.setItem("access_token", accessToken);
       setHasError(false);
-      navigateHomePage("/home");
+      navigateHomePage("/");
       navigateHomePage(0);
     } catch (error) {
       setPassword(null);

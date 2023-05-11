@@ -7,7 +7,7 @@ import {
   Navbar,
   Stack,
 } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { GiConsoleController } from "react-icons/gi";
 import SearchBar from "./SearchBar";
@@ -19,6 +19,14 @@ function CustomNavbar() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState();
   const logoStyle = useMemo(() => ({ color: "red", size: "50px" }), []);
+
+  const navigateSignInPage = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.removeItem("access_token");
+    navigateSignInPage("/users/sign_in");
+    navigateSignInPage(0);
+  };
 
   useEffect(() => {
     (async () => {
@@ -66,9 +74,7 @@ function CustomNavbar() {
                 <NavDropdown.Item href="/users/profile">
                   Your profile
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => localStorage.removeItem("access_token")}
-                >
+                <NavDropdown.Item onClick={() => handleSignOut()}>
                   Sign out
                 </NavDropdown.Item>
               </NavDropdown>
