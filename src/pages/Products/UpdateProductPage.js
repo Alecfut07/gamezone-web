@@ -282,8 +282,8 @@ function UpdateProductPage() {
               <b>Release Date</b>
             </Form.Label>
             <DatePicker
-              utcOffset={0}
               dateFormat="MMMM d, yyyy"
+              placeholderText="Click to select a date"
               renderCustomHeader={({
                 date,
                 changeYear,

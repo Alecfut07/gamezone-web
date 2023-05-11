@@ -179,6 +179,7 @@ function CreateNewProductPage() {
               required
               type="text"
               placeholder="Name"
+              value={name}
               onChange={onNameChange}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -197,6 +198,7 @@ function CreateNewProductPage() {
               <Form.Control
                 type="number"
                 defaultValue="0.0"
+                value={productVariant.price}
                 onChange={onPriceChange}
                 onWheel={(e) => e.target.blur()}
                 required
@@ -299,6 +301,7 @@ function CreateNewProductPage() {
             <Form.Control
               type="text"
               placeholder="Description"
+              value={description}
               onChange={onDescriptionChange}
             />
           </Form.Group>

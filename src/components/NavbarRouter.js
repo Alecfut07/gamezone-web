@@ -10,7 +10,7 @@ import {
   CreateNewProductPage,
   UpdateProductPage,
   SearchProductsPage,
-  // ProductDetailsPage,
+  ProductDetailsPage,
 } from "../pages/Products";
 import {
   ConditionsPage,
@@ -35,7 +35,7 @@ function NavbarRouter() {
           element={<UpdateProductPage />}
         />
         <Route path="/products/search" element={<SearchProductsPage />} />
-        {/* <Route path="/products/:id" element={<ProductDetailsPage />} /> */}
+        <Route path="/products/:id" element={<ProductDetailsPage />} />
         <Route path="/admin/conditions" element={<ConditionsPage />} />
         <Route
           path="/admin/conditions/new"
