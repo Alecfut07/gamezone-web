@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Col, Row, Image } from "react-bootstrap";
+import {
+  Container,
+  Col,
+  Row,
+  Image,
+  Button,
+  Stack,
+  Badge,
+} from "react-bootstrap";
 import moment from "moment";
 import ProductsService from "../../services/ProductsService";
 
@@ -13,6 +21,20 @@ function ProductDetailsPage() {
   const [price, setPrice] = useState("");
   const [condition, setCondition] = useState("");
   const [edition, setEdition] = useState("");
+
+  const [productQuantity, setProductQuantity] = useState(1);
+
+  const decreaseProductQuantity = () => {
+    if (productQuantity > 1) {
+      setProductQuantity(productQuantity - 1);
+    } else {
+      setProductQuantity(1);
+    }
+  };
+
+  const increaseProductQuantity = () => {
+    setProductQuantity(productQuantity + 1);
+  };
 
   useEffect(() => {
     (async () => {
@@ -46,21 +68,37 @@ function ProductDetailsPage() {
             </p>
           </Row>
           <Row>
-            <p>
+            <h3>
               <b>${price}</b>
-            </p>
+            </h3>
           </Row>
-          <Row>
+          <Row className="mt-4">
             <p className="text-muted">Condition:</p>
-            <p>
-              <b>{condition}</b>
-            </p>
+            <div>
+              <h5>
+                <Badge bg="secondary">{condition}</Badge>
+              </h5>
+            </div>
+          </Row>
+          <Row className="mt-4">
+            <p className="text-muted">Edition:</p>
+            <div>
+              <h5>
+                <Badge bg="secondary">{edition}</Badge>
+              </h5>
+            </div>
           </Row>
           <Row>
-            <p className="text-muted">Edition:</p>
-            <p>
-              <b>{edition}</b>
-            </p>
+            <div className="mt-5">
+              <Stack direction="horizontal" gap={3}>
+                <Button onClick={() => decreaseProductQuantity()}>-</Button>
+                <div>
+                  <p>{productQuantity}</p>
+                </div>
+                <Button onClick={() => increaseProductQuantity()}>+</Button>
+                <Button className="ms-auto">Add to cart</Button>
+              </Stack>
+            </div>
           </Row>
         </Col>
       </Row>
