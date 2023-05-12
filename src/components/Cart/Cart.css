@@ -1,0 +1,12 @@
+.minicart .minicart-quantity {
+  background-color: #da362c;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  font-size: 0.6875rem;
+  height: 16px;
+  line-height: 16px;
+  position: absolute;
+  text-align: center;
+  width: 16px;
+}
