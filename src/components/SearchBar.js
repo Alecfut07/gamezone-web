@@ -11,7 +11,6 @@ function SearchBar() {
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    console.log(form);
     if (form.checkValidity()) {
       const params = createSearchParams({ name: input });
       navigateSearchProductsPage({
@@ -28,12 +27,6 @@ function SearchBar() {
   const onProductNameSearchBarChange = (e) => {
     setInput(e.target.value);
   };
-
-  // const handleEnterKeyDown = (e) => {
-  //   if (e.key === "Enter" && input === "") {
-  //     alert("Enter an empty value in search bar");
-  //   }
-  // };
 
   const handleSearchClick = () => {
     if (input.length > 0) {
@@ -55,7 +48,6 @@ function SearchBar() {
         className="me-2"
         aria-label="Search"
         onChange={onProductNameSearchBarChange}
-        // onKeyDown={handleEnterKeyDown}
         required
       />
       <Button variant="outline-success" onClick={handleSearchClick}>

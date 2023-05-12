@@ -16,7 +16,6 @@ function SignInPage() {
 
   const signIn = async (userEmail, userPassword) => {
     try {
-      debugger;
       const accessToken = await AuthService.signIn(userEmail, userPassword);
       localStorage.setItem("access_token", accessToken);
       setHasError(false);
@@ -29,7 +28,6 @@ function SignInPage() {
   };
 
   const handleSubmit = (event) => {
-    debugger;
     const form = event.currentTarget;
     if (form.checkValidity()) {
       signIn(email, password);

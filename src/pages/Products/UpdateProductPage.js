@@ -105,7 +105,6 @@ function UpdateProductPage() {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
-      debugger;
       updateProduct(
         id,
         imageURL,
