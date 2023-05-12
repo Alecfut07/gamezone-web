@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Container,
-  Col,
-  Row,
-  Image,
-  Button,
-  Stack,
-  Badge,
-} from "react-bootstrap";
+import { Container, Col, Row, Image, Badge, Button } from "react-bootstrap";
 import moment from "moment";
+
+import StepperButton from "../../components/StepperButton";
+import ConditionsHelper from "../../helpers/ConditionsHelper";
+import EditionsHelper from "../../helpers/EditionsHelper";
 import ProductsService from "../../services/ProductsService";
 
 function ProductDetailsPage() {
@@ -56,7 +52,7 @@ function ProductDetailsPage() {
     <Container className="mt-4">
       <Row>
         <Col>
-          <Image src={imageUrl} />
+          <Image src={imageUrl} width="300px" />
         </Col>
         <Col>
           <Row>
@@ -64,7 +60,7 @@ function ProductDetailsPage() {
               <b>{name}</b>
             </h3>
             <p className="text-muted">
-              {moment(releaseDate).local().format("LL")}
+              Release date: {moment(releaseDate).local().format("LL")}
             </p>
           </Row>
           <Row>
@@ -76,7 +72,9 @@ function ProductDetailsPage() {
             <p className="text-muted">Condition:</p>
             <div>
               <h5>
-                <Badge bg="secondary">{condition}</Badge>
+                <Badge bg="secondary">
+                  {ConditionsHelper.formatState(condition)}
+                </Badge>
               </h5>
             </div>
           </Row>
@@ -84,21 +82,27 @@ function ProductDetailsPage() {
             <p className="text-muted">Edition:</p>
             <div>
               <h5>
-                <Badge bg="secondary">{edition}</Badge>
+                <Badge bg="secondary">
+                  {EditionsHelper.formatType(edition)}
+                </Badge>
               </h5>
             </div>
           </Row>
-          <Row>
-            <div className="mt-5">
-              <Stack direction="horizontal" gap={3}>
-                <Button onClick={() => decreaseProductQuantity()}>-</Button>
-                <div>
-                  <p>{productQuantity}</p>
-                </div>
-                <Button onClick={() => increaseProductQuantity()}>+</Button>
+          <Row className="mt-5">
+            <Col>
+              <div>
+                <StepperButton
+                  amount={productQuantity}
+                  setDecrease={decreaseProductQuantity}
+                  setIncrease={increaseProductQuantity}
+                />
+              </div>
+            </Col>
+            <Col>
+              <div>
                 <Button className="ms-auto">Add to cart</Button>
-              </Stack>
-            </div>
+              </div>
+            </Col>
           </Row>
         </Col>
       </Row>
