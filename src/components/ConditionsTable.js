@@ -100,53 +100,61 @@ function ConditionsTable() {
           Create new condition
         </button>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">State</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {conditions.map((cond) => (
-            <tr key={cond.id}>
-              <th scope="row">{cond.id}</th>
-              <td>{ConditionsHelper.formatState(cond.state)}</td>
-              <td>
-                <Stack className="mt-auto" direction="horizontal" gap={3}>
-                  <button
-                    className="btn btn-info"
-                    type="button"
-                    onClick={() => handleUpdateConditionClick(cond.id)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    type="button"
-                    onClick={() =>
-                      showDeleteConditionModal(cond.state, cond.id)
-                    }
-                  >
-                    Delete
-                  </button>
-                </Stack>
-              </td>
+      <div className="">
+        <table className="table table-hover table-responsive table-sm">
+          <thead>
+            <tr>
+              <th className="col-1" scope="col">
+                ID
+              </th>
+              <th className="col-1" scope="col">
+                State
+              </th>
+              <th className="col-1" style={{ width: "10px" }} scope="col">
+                Actions
+              </th>
             </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <DeleteConfirmation
-            showModal={displayConfirmationModal}
-            confirmModal={submitDeleteCondition}
-            hideModal={hideConfirmationModal}
-            type={condition}
-            id={condition && condition.id}
-            message={deleteMessage}
-          />
-        </tfoot>
-      </table>
+          </thead>
+          <tbody>
+            {conditions.map((cond) => (
+              <tr key={cond.id}>
+                <th scope="row">{cond.id}</th>
+                <td>{ConditionsHelper.formatState(cond.state)}</td>
+                <td>
+                  <Stack className="mt-auto" direction="horizontal" gap={3}>
+                    <button
+                      className="btn btn-info"
+                      type="button"
+                      onClick={() => handleUpdateConditionClick(cond.id)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={() =>
+                        showDeleteConditionModal(cond.state, cond.id)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </Stack>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <DeleteConfirmation
+              showModal={displayConfirmationModal}
+              confirmModal={submitDeleteCondition}
+              hideModal={hideConfirmationModal}
+              type={condition}
+              id={condition && condition.id}
+              message={deleteMessage}
+            />
+          </tfoot>
+        </table>
+      </div>
     </>
   );
 }
