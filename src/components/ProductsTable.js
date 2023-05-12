@@ -99,7 +99,7 @@ function ProductsTable() {
           Create new product
         </button>
       </div>
-      <table className="table">
+      <table className="table table-hover">
         <thead>
           <tr>
             <th scope="col">ID</th>
