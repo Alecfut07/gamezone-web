@@ -95,9 +95,11 @@ function CustomNavbar() {
           )}
         </Navbar.Collapse>
         <Nav className="ms-5">
-          <div>
-            <Cart />
-          </div>
+          <Nav.Link as={NavLink} to="/cart">
+            <div>
+              <Cart />
+            </div>
+          </Nav.Link>
         </Nav>
       </Container>
     </Navbar>

@@ -17,6 +17,7 @@ import {
   CreateNewConditionPage,
   UpdateConditionPage,
 } from "../pages/Conditions";
+import CartPage from "../pages/Cart/CartPage";
 import NotFoundPage from "../pages/NotFound";
 
 function NavbarRouter() {
@@ -42,6 +43,7 @@ function NavbarRouter() {
           element={<CreateNewConditionPage />}
         />
         <Route path="/admin/conditions/:id" element={<UpdateConditionPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
