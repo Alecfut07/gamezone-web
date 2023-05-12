@@ -11,7 +11,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { GiConsoleController } from "react-icons/gi";
 import SearchBar from "./SearchBar";
-
+import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
 
 function CustomNavbar() {
@@ -94,6 +94,11 @@ function CustomNavbar() {
             </Stack>
           )}
         </Navbar.Collapse>
+        <Nav className="ms-5">
+          <div>
+            <Cart />
+          </div>
+        </Nav>
       </Container>
     </Navbar>
   );
