@@ -32,6 +32,10 @@ function ProductDetailsPage() {
     setProductQuantity(productQuantity + 1);
   };
 
+  const handleAddProductsToCart = () => {
+    localStorage.setItem("ProductQuantity", productQuantity);
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -100,7 +104,9 @@ function ProductDetailsPage() {
             </Col>
             <Col>
               <div>
-                <Button className="ms-auto">Add to cart</Button>
+                <Button className="ms-auto" onClick={handleAddProductsToCart}>
+                  Add to cart
+                </Button>
               </div>
             </Col>
           </Row>

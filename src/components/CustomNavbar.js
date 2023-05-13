@@ -19,6 +19,7 @@ function CustomNavbar() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState();
   const logoStyle = useMemo(() => ({ color: "red", size: "50px" }), []);
+  const [cartTotal, setCartTotal] = useState("");
 
   const navigateSignInPage = useNavigate();
 
@@ -27,6 +28,22 @@ function CustomNavbar() {
     navigateSignInPage("/users/sign_in");
     navigateSignInPage(0);
   };
+
+  useEffect(() => {
+    (() => {
+      const productQuantity = localStorage.getItem("ProductQuantity");
+      setCartTotal(productQuantity);
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const producctQuantity = localStorage.getItem("ProductQuantity")
+  //       ? JSON.parse(localStorage.getItem("ProductQuantity"))
+  //       : null;
+  //     setCartTotal(producctQuantity);
+  //   }
+  // });
 
   useEffect(() => {
     (async () => {
@@ -97,7 +114,7 @@ function CustomNavbar() {
         <Nav className="ms-5">
           <Nav.Link as={NavLink} to="/cart">
             <div>
-              <Cart />
+              <Cart amount={cartTotal} />
             </div>
           </Nav.Link>
         </Nav>
