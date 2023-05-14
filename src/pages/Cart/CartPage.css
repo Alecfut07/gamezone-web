@@ -1,0 +1,27 @@
+.delivery-summary {
+  -webkit-box-orient: horizontal;
+  background: #292b33f2;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.7rem;
+  padding: 1rem 20px;
+}
+
+.delivery-options {
+  width: 100%;
+}
+
+.delivery-summary-home {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  width: 100%;
+}
+
+.delivery-summary-total {
+  background: #ededed;
+  padding: 1.4rem;
+}
