@@ -3,10 +3,8 @@ import axios from "axios";
 const ProductsService = {
   getProducts: async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/admin/products`
-      );
-      return data;
+      const response = await axios.get("/admin/products");
+      return response.data;
     } catch (error) {
       console.log(error);
       throw error;
@@ -14,9 +12,7 @@ const ProductsService = {
   },
   getProductById: async (id) => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/products/${id}`
-      );
+      const { data } = await axios.get(`/products/${id}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -25,9 +21,7 @@ const ProductsService = {
   },
   searchProducts: async (name) => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/products/search?q=${name}`
-      );
+      const { data } = await axios.get(`/products/search?q=${name}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -45,7 +39,7 @@ const ProductsService = {
     };
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/admin/products/upload`,
+        "/admin/products/upload",
         formData,
         axiosConfig
       );
@@ -70,10 +64,7 @@ const ProductsService = {
       product_variants: productVariants,
     };
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/admin/products`,
-        body
-      );
+      const { data } = await axios.post("/admin/products", body);
       return data;
     } catch (error) {
       console.log(error);
@@ -98,10 +89,7 @@ const ProductsService = {
       product_variants: productVariants,
     };
     try {
-      const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/admin/products/${id}`,
-        body
-      );
+      const { data } = await axios.put(`/admin/products/${id}`, body);
       return data;
     } catch (error) {
       console.log(error);
@@ -110,9 +98,7 @@ const ProductsService = {
   },
   deleteProduct: async (id) => {
     try {
-      await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/admin/products/${id}`
-      );
+      await axios.delete(`/admin/products/${id}`);
     } catch (error) {
       console.log(error);
       throw error;
