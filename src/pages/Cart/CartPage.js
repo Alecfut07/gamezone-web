@@ -1,12 +1,27 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Button, Container, Row, Stack, Table } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { BsHouseDoorFill, BsFillTrash3Fill } from "react-icons/bs";
 import StepperButton from "../../components/StepperButton";
+import CartsService from "../../services/CartsService";
 
 import "./CartPage.css";
 
 function CartPage() {
+  const [cartItems, setCartItems] = useState([]);
+  // const [subTotal, setSubtotal] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const results = await CartsService.getCart();
+        setCartItems(results.products);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   const homeIconStyle = useMemo(() => ({
     color: "#da362c",
     margin: "50px",
@@ -18,6 +33,15 @@ function CartPage() {
     color: "#da362c",
     size: "23px",
   }));
+
+  const handleRemoveItemInCart = async () => {
+    try {
+      await CartsService.removeItemInCart();
+      setCartItems([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container>
@@ -47,7 +71,23 @@ function CartPage() {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {cartItems.map((item, index) => (
+              <tr key={item.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>
+                  <StepperButton amount={item.quantity} />
+                </td>
+                <td>{item.price * item.quantity}</td>
+                <td>
+                  <IconContext.Provider value={trashIconStyle}>
+                    <BsFillTrash3Fill />
+                  </IconContext.Provider>
+                </td>
+              </tr>
+            ))}
+            {/* <tr>
               <td>1</td>
               <td>The Legend of Zelda: Tears of the Kingdom</td>
               <td>$70.00</td>
@@ -60,14 +100,18 @@ function CartPage() {
                   <BsFillTrash3Fill />
                 </IconContext.Provider>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </Table>
       </Row>
       <Row>
         <Stack direction="horizontal" gap={3}>
           <Button>Continue shopping</Button>
-          <Button className="ms-auto" variant="danger">
+          <Button
+            className="ms-auto"
+            variant="danger"
+            onClick={() => handleRemoveItemInCart()}
+          >
             Clear cart
           </Button>
         </Stack>

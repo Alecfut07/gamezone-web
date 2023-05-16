@@ -7,6 +7,7 @@ import StepperButton from "../../components/StepperButton";
 import ConditionsHelper from "../../helpers/ConditionsHelper";
 import EditionsHelper from "../../helpers/EditionsHelper";
 import ProductsService from "../../services/ProductsService";
+import CartsService from "../../services/CartsService";
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -34,6 +35,7 @@ function ProductDetailsPage() {
 
   const handleAddProductsToCart = () => {
     localStorage.setItem("ProductQuantity", productQuantity);
+    CartsService.addItemToCart(id, productQuantity);
   };
 
   useEffect(() => {
