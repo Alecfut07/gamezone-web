@@ -75,11 +75,11 @@ function CartPage() {
               <tr key={item.id}>
                 <th scope="row">{index + 1}</th>
                 <td>{item.name}</td>
-                <td>{item.price}</td>
+                <td>${item.price.toFixed(2)}</td>
                 <td>
                   <StepperButton amount={item.quantity} />
                 </td>
-                <td>{item.price * item.quantity}</td>
+                <td>${(item.price * item.quantity).toFixed(2)}</td>
                 <td>
                   <IconContext.Provider value={trashIconStyle}>
                     <BsFillTrash3Fill />

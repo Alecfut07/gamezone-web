@@ -120,7 +120,7 @@ function ProductsTable() {
                 <td>{prod.name}</td>
                 <td>{moment(prod.release_date).local().format("LL")}</td>
                 <td>{prod.description}</td>
-                <td>{pv.price}</td>
+                <td>${pv.price.toFixed(2)}</td>
                 <td>{ConditionsHelper.formatState(pv.condition.state)}</td>
                 <td>{EditionsHelper.formatType(pv.edition.type)}</td>
                 <td>
