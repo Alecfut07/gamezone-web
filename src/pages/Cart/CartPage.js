@@ -9,18 +9,13 @@ import "./CartPage.css";
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
-  // const [subTotal, setSubtotal] = useState(0);
+  const [subtotal, setSubtotal] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const results = await CartsService.getCart();
-        setCartItems(results.products);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+  const calculateSubtotal = (items) =>
+    items.reduce(
+      (accumalator, item) => accumalator + item.price * item.quantity,
+      0
+    );
 
   const homeIconStyle = useMemo(() => ({
     color: "#da362c",
@@ -33,6 +28,30 @@ function CartPage() {
     color: "#da362c",
     size: "23px",
   }));
+
+  const decreaseProductQuantity = async (productId, quantity) => {
+    try {
+      if (quantity > 1) {
+        await CartsService.updateQuantity(productId, quantity - 1);
+        const results = await CartsService.getCart();
+        setCartItems(results.products);
+      } else {
+        await CartsService.updateQuantity(productId, quantity);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const increaseProductQuantity = async (productId, quantity) => {
+    try {
+      await CartsService.updateQuantity(productId, quantity + 1);
+      const results = await CartsService.getCart();
+      setCartItems(results.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleRemoveAllItemsInCart = async () => {
     try {
@@ -52,6 +71,19 @@ function CartPage() {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const results = await CartsService.getCart();
+        setCartItems(results.products);
+        const st = calculateSubtotal(results.products);
+        setSubtotal(st);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   return (
     <Container>
       <Row className="delivery-summary">
@@ -62,7 +94,7 @@ function CartPage() {
                 <BsHouseDoorFill />
               </IconContext.Provider>
               <strong>Ship To Home: </strong>
-              <span>1 Item</span>
+              <span>{cartItems.length} Item</span>
             </Stack>
           </div>
         </div>
@@ -86,7 +118,15 @@ function CartPage() {
                 <td>{item.name}</td>
                 <td>${item.price.toFixed(2)}</td>
                 <td>
-                  <StepperButton amount={item.quantity} />
+                  <StepperButton
+                    amount={item.quantity}
+                    setDecrease={() =>
+                      decreaseProductQuantity(item.productId, item.quantity)
+                    }
+                    setIncrease={() =>
+                      increaseProductQuantity(item.productId, item.quantity)
+                    }
+                  />
                 </td>
                 <td>${(item.price * item.quantity).toFixed(2)}</td>
                 <td>
@@ -130,7 +170,7 @@ function CartPage() {
       <Row>
         <Stack className="mt-4" direction="horizontal" gap={3}>
           <div className="delivery-summary-total ms-auto">
-            <p>Subotal: $70.00</p>
+            <p>Subotal: ${subtotal}</p>
             <p>Tax: ??</p>
             <div className="border border-primary border-bottom" />
             <p className="mt-2">Order total: $70.00</p>

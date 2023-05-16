@@ -23,13 +23,13 @@ const CartsService = {
       throw error;
     }
   },
-  updateQuantity: async (quantity) => {
+  updateQuantity: async (productId, quantity) => {
     const body = {
+      product_id: productId,
       quantity,
     };
     try {
-      const { data } = await axios.put("/carts/update", body);
-      return data;
+      await axios.put("/carts/update", body);
     } catch (error) {
       console.log(error);
       throw error;
