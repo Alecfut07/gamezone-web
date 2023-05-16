@@ -34,10 +34,19 @@ function CartPage() {
     size: "23px",
   }));
 
-  const handleRemoveItemInCart = async () => {
+  const handleRemoveAllItemsInCart = async () => {
     try {
       await CartsService.removeAllItemsInCart();
       setCartItems([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveItemInCart = async (productId) => {
+    try {
+      await CartsService.removeItemInCart(productId);
+      setCartItems(cartItems.filter((i) => i.productId !== productId));
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +81,7 @@ function CartPage() {
           </thead>
           <tbody>
             {cartItems.map((item, index) => (
-              <tr key={item.id}>
+              <tr key={item.productId}>
                 <th scope="row">{index + 1}</th>
                 <td>{item.name}</td>
                 <td>${item.price.toFixed(2)}</td>
@@ -82,7 +91,9 @@ function CartPage() {
                 <td>${(item.price * item.quantity).toFixed(2)}</td>
                 <td>
                   <IconContext.Provider value={trashIconStyle}>
-                    <BsFillTrash3Fill />
+                    <BsFillTrash3Fill
+                      onClick={() => handleRemoveItemInCart(item.productId)}
+                    />
                   </IconContext.Provider>
                 </td>
               </tr>
@@ -110,7 +121,7 @@ function CartPage() {
           <Button
             className="ms-auto"
             variant="danger"
-            onClick={() => handleRemoveItemInCart()}
+            onClick={() => handleRemoveAllItemsInCart()}
           >
             Clear cart
           </Button>

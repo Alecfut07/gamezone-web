@@ -37,7 +37,17 @@ const CartsService = {
   },
   removeAllItemsInCart: async () => {
     try {
-      await axios.delete("/carts/remove");
+      await axios.delete("/carts/remove_all");
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+  removeItemInCart: async (productId) => {
+    try {
+      await axios.delete("/carts/remove", {
+        data: { product_id: productId },
+      });
     } catch (error) {
       console.log(error);
       throw error;
