@@ -36,7 +36,7 @@ function CartPage() {
 
   const handleRemoveItemInCart = async () => {
     try {
-      await CartsService.removeItemInCart();
+      await CartsService.removeAllItemsInCart();
       setCartItems([]);
     } catch (error) {
       console.log(error);

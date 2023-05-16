@@ -35,7 +35,7 @@ const CartsService = {
       throw error;
     }
   },
-  removeItemInCart: async () => {
+  removeAllItemsInCart: async () => {
     try {
       await axios.delete("/carts/remove");
     } catch (error) {
