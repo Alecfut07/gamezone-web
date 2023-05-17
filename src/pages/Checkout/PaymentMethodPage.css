@@ -1,0 +1,18 @@
+.payment-method-form {
+  background: #ededed;
+  padding: 1.4rem;
+}
+
+.about-payment-methods {
+  background: #ededed;
+  padding: 1.4rem;
+}
+
+#img-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#img-wrapper > div {
+  flex: 0 1 33%;
+}
