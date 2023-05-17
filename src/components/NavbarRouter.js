@@ -18,6 +18,7 @@ import {
   UpdateConditionPage,
 } from "../pages/Conditions";
 import CartPage from "../pages/Cart/CartPage";
+import PaymentMethodPage from "../pages/Checkout/PaymentMethodPage";
 import NotFoundPage from "../pages/NotFound";
 
 function NavbarRouter() {
@@ -44,6 +45,7 @@ function NavbarRouter() {
         />
         <Route path="/admin/conditions/:id" element={<UpdateConditionPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<PaymentMethodPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

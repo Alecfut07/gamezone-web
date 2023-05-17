@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Stack, Table } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { BsHouseDoorFill, BsFillTrash3Fill } from "react-icons/bs";
@@ -10,6 +11,8 @@ import "./CartPage.css";
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState([]);
+
+  const navigateToCheckout = useNavigate();
 
   const calculateSubtotal = (items) =>
     items.reduce(
@@ -69,6 +72,10 @@ function CartPage() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleNavigateToCheckout = () => {
+    navigateToCheckout("/checkout");
   };
 
   useEffect(() => {
@@ -157,7 +164,9 @@ function CartPage() {
       </Row>
       <Row>
         <Stack direction="horizontal" gap={3}>
-          <Button>Continue shopping</Button>
+          <Button onClick={() => handleNavigateToCheckout()}>
+            Proceed to checkout
+          </Button>
           <Button
             className="ms-auto"
             variant="danger"
