@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 
 import DatePicker from "react-datepicker";
@@ -21,8 +20,6 @@ function ProfilePage() {
   const maxPhoneLength = 12;
   const [hasPhoneError, setPhoneError] = useState(null);
   const [birthdate, setBirthdate] = useState();
-
-  const navigateProfilePage = useNavigate();
 
   const accessToken = localStorage.getItem("access_token");
 
@@ -67,7 +64,6 @@ function ProfilePage() {
           userPhone,
           userBirthdate
         );
-        navigateProfilePage(0);
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +81,6 @@ function ProfilePage() {
         setBirthdate(moment(user.birthdate).toDate());
       }
     } catch (error) {
-      // TODO
       console.log(error);
     }
   };

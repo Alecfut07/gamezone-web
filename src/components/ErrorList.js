@@ -13,12 +13,6 @@ function ErrorList({ validated, value }) {
     },
   ];
 
-  // const isFieldValid = () => {
-  //   const isValid = valueRules.every((obj) => obj.validation(value));
-  //   setValueValid(isValid);
-  //   return isValid;
-  // };
-
   const isValueValid = () => {
     const isValid = valueRules.every((obj) => obj.validation(value));
     return isValid;

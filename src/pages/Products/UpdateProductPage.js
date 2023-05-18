@@ -52,7 +52,6 @@ function UpdateProductPage() {
         setReleaseDate(moment(result.release_date).toDate());
       }
     } catch (error) {
-      // TODO
       console.log(error);
     }
   };
@@ -95,9 +94,7 @@ function UpdateProductPage() {
         ]
       );
       navigateProducts("/admin/products");
-      navigateProducts(0);
     } catch (error) {
-      // TODO
       console.log(error);
     }
   };

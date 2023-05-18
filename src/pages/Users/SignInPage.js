@@ -1,34 +1,40 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
-import ErrorList from "../../components/ErrorList";
 import AuthService from "../../services/AuthService";
 
-import "./SignUpPage.css";
+import "./SignInPage.css";
+import { AuthContext } from "../../components/Auth";
 
-function SignUpPage() {
+function SignInPage() {
   const [validated, setValidated] = useState(false);
+  const [hasErrors, setHasError] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigateHomePage = useNavigate();
 
-  const signUp = async (userEmail, userPassword) => {
+  const { setLoggedIn } = useContext(AuthContext);
+
+  const signIn = async (userEmail, userPassword) => {
     try {
-      const accessToken = await AuthService.signUp(userEmail, userPassword);
+      const accessToken = await AuthService.signIn(userEmail, userPassword);
       localStorage.setItem("access_token", accessToken);
+      setHasError(false);
+      setLoggedIn(true);
       navigateHomePage("/");
-      navigateHomePage(0);
     } catch (error) {
       setPassword(null);
+      setHasError(true);
+      setLoggedIn(false);
     }
   };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
-      signUp(email, password);
+      signIn(email, password);
     }
     event.preventDefault();
     event.stopPropagation();
@@ -40,8 +46,7 @@ function SignUpPage() {
   };
 
   const onPasswordChange = (e) => {
-    const pw = e.target.value;
-    setPassword(pw);
+    setPassword(e.target.value);
   };
 
   return (
@@ -69,34 +74,34 @@ function SignUpPage() {
           <Form.Control
             onChange={onPasswordChange}
             type="password"
-            minLength={6}
-            maxLength={20}
             placeholder="Password"
             required
           />
-          <ErrorList validated={validated} value={password} />
-          {/* <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type="invalid">
             Password is incorrect.
-          </Form.Control.Feedback> */}
+          </Form.Control.Feedback>
         </Form.Group>
         {/* <Form.Group
-      className="d-flex justify-content-between mx-3 mb-4"
-      controlId="formBasicCheckbox"
-      >
-      <Form.Check type="checkbox" label="Remember me" />
-      <a href="!#">Forgot password?</a>
-    </Form.Group> */}
+          className="d-flex justify-content-between mx-3 mb-4"
+          controlId="formBasicCheckbox"
+        >
+          <Form.Check type="checkbox" label="Remember me" />
+          <a href="!#">Forgot password?</a>
+        </Form.Group> */}
         <Button className="mb-4" variant="primary" type="submit">
-          SIGN UP
+          SIGN IN
         </Button>
         <div className="text-center">
           <p>
-            Already a member? <a href="/users/sign_in">Sign In</a>
+            Not a member? <a href="/users/sign_up">Register</a>
           </p>
         </div>
       </Form>
+      {validated && hasErrors && (
+        <Alert variant="danger">Something went wrong!</Alert>
+      )}
     </Container>
   );
 }
 
-export default SignUpPage;
+export default SignInPage;

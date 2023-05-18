@@ -15,8 +15,8 @@ function CreateNewConditionPage() {
   const sendNewCondition = async () => {
     try {
       await ConditionsService.createNewCondition(state);
+
       navigateConditions("/admin/conditions");
-      navigateConditions(0);
     } catch (error) {
       console.log(error);
     }

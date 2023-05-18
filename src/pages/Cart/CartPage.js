@@ -145,20 +145,6 @@ function CartPage() {
                 </td>
               </tr>
             ))}
-            {/* <tr>
-              <td>1</td>
-              <td>The Legend of Zelda: Tears of the Kingdom</td>
-              <td>$70.00</td>
-              <td>
-                <StepperButton />
-              </td>
-              <td>$70.00</td>
-              <td>
-                <IconContext.Provider value={trashIconStyle}>
-                  <BsFillTrash3Fill />
-                </IconContext.Provider>
-              </td>
-            </tr> */}
           </tbody>
         </Table>
       </Row>

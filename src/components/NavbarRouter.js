@@ -1,11 +1,14 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CustomNavbar from "./CustomNavbar";
-import SignInPage from "../pages/SignIn";
-import SignUpPage from "../pages/SignUp";
-import ProfilePage from "../pages/Users";
 import HomePage from "../pages/Home";
 import {
+  UsersWrapper,
+  SignInPage,
+  SignUpPage,
+  ProfilePage,
+} from "../pages/Users";
+import {
+  ProductsWrapper,
   ProductsPage,
   CreateNewProductPage,
   UpdateProductPage,
@@ -13,6 +16,7 @@ import {
   ProductDetailsPage,
 } from "../pages/Products";
 import {
+  ConditionsWrapper,
   ConditionsPage,
   CreateNewConditionPage,
   UpdateConditionPage,
@@ -20,30 +24,31 @@ import {
 import CartPage from "../pages/Cart/CartPage";
 import PaymentMethodPage from "../pages/Checkout/PaymentMethodPage";
 import NotFoundPage from "../pages/NotFound";
+import Layout from "../pages/Layout";
 
-function NavbarRouter() {
+function NavbarRouter({ children }) {
   return (
     <BrowserRouter>
-      <CustomNavbar />
+      {children}
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/users/sign_in" element={<SignInPage />} />
-        <Route path="/users/sign_up" element={<SignUpPage />} />
-        <Route path="/users/profile" element={<ProfilePage />} />
-        <Route path="/admin/products" element={<ProductsPage />} />
-        <Route path="/admin/products/new" element={<CreateNewProductPage />} />
-        <Route
-          path="/admin/products/update/:id"
-          element={<UpdateProductPage />}
-        />
+        <Route path="/" element={<HomePage />} layout={Layout} />
+        <Route path="/users" element={<UsersWrapper />}>
+          <Route path="/users/sign_in" element={<SignInPage />} />
+          <Route path="/users/sign_up" element={<SignUpPage />} />
+          <Route path="/users/profile" element={<ProfilePage />} />
+        </Route>
+        <Route path="/admin/products" element={<ProductsWrapper />}>
+          <Route path="" element={<ProductsPage />} />
+          <Route path="new" element={<CreateNewProductPage />} />
+          <Route path="update/:id" element={<UpdateProductPage />} />
+        </Route>
         <Route path="/products/search" element={<SearchProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
-        <Route path="/admin/conditions" element={<ConditionsPage />} />
-        <Route
-          path="/admin/conditions/new"
-          element={<CreateNewConditionPage />}
-        />
-        <Route path="/admin/conditions/:id" element={<UpdateConditionPage />} />
+        <Route path="/admin/conditions" element={<ConditionsWrapper />}>
+          <Route path="" element={<ConditionsPage />} />
+          <Route path="new" element={<CreateNewConditionPage />} />
+          <Route path=":id" element={<UpdateConditionPage />} />
+        </Route>
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<PaymentMethodPage />} />
         <Route path="*" element={<NotFoundPage />} />

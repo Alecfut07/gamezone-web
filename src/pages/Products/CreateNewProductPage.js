@@ -42,7 +42,6 @@ function CreateNewProductPage() {
         [productVariant]
       );
       navigateProducts("/admin/products");
-      navigateProducts(0);
     } catch (error) {
       console.log(error);
     }

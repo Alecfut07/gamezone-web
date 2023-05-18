@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import {
   Button,
   Container,
@@ -13,20 +13,35 @@ import { GiConsoleController } from "react-icons/gi";
 import SearchBar from "./SearchBar";
 import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
+import { AuthContext } from "./Auth";
 
 function CustomNavbar() {
   const title = "GameZone";
-  const [isLoggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState();
   const logoStyle = useMemo(() => ({ color: "red", size: "50px" }), []);
   const [cartTotal, setCartTotal] = useState("");
 
   const navigateSignInPage = useNavigate();
 
+  const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+
   const handleSignOut = () => {
     localStorage.removeItem("access_token");
+    setLoggedIn(false);
     navigateSignInPage("/users/sign_in");
-    navigateSignInPage(0);
+  };
+
+  const getProfile = async () => {
+    const accessToken = localStorage.getItem("access_token");
+    try {
+      if (accessToken !== null) {
+        const user = await UsersService.getProfile(accessToken);
+        setLoggedInUser(user);
+        setLoggedIn(true);
+      }
+    } catch (error) {
+      setLoggedIn(false);
+    }
   };
 
   useEffect(() => {
@@ -36,30 +51,9 @@ function CustomNavbar() {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const producctQuantity = localStorage.getItem("ProductQuantity")
-  //       ? JSON.parse(localStorage.getItem("ProductQuantity"))
-  //       : null;
-  //     setCartTotal(producctQuantity);
-  //   }
-  // });
-
   useEffect(() => {
-    (async () => {
-      const accessToken = localStorage.getItem("access_token");
-      try {
-        if (accessToken !== null) {
-          const user = await UsersService.getProfile(accessToken);
-          setLoggedInUser(user);
-          setLoggedIn(true);
-        }
-      } catch (error) {
-        // TODO
-        setLoggedIn(false);
-      }
-    })();
-  }, []);
+    getProfile();
+  }, [isLoggedIn]);
 
   return (
     <Navbar bg="light" expand="lg">

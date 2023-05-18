@@ -7,8 +7,6 @@ import mastercardLogo from "../../imgs/PaymentMethods/mastercard_logo.png";
 import americanexpressLogo from "../../imgs/PaymentMethods/americanexpress_logo.png";
 
 import "./PaymentMethodPage.css";
-// import { getMonth, getYear } from "date-fns";
-// import range from "lodash/range";
 
 function PaymentMethodPage() {
   const [paymentMethods, setPaymentMethods] = useState([]);
