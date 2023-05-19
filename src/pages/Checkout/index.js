@@ -1,3 +1,4 @@
 import PaymentMethodPage from "./PaymentMethodPage";
+import SuccessfulPurchasePage from "./SuccessfulPurchasePage";
 
-export default PaymentMethodPage;
+export { PaymentMethodPage, SuccessfulPurchasePage };

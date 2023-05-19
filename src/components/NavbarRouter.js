@@ -23,6 +23,7 @@ import {
 } from "../pages/Conditions";
 import CartPage from "../pages/Cart/CartPage";
 import PaymentMethodPage from "../pages/Checkout/PaymentMethodPage";
+import SuccessfulPurchasePage from "../pages/Checkout/SuccessfulPurchasePage";
 import NotFoundPage from "../pages/NotFound";
 import Layout from "../pages/Layout";
 
@@ -51,6 +52,7 @@ function NavbarRouter({ children }) {
         </Route>
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<PaymentMethodPage />} />
+        <Route path="/success" element={<SuccessfulPurchasePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
