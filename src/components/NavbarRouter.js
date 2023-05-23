@@ -8,6 +8,11 @@ import {
   ProfilePage,
 } from "../pages/Users";
 import {
+  CategoriesWrapper,
+  CategoriesPage,
+  CreateNewCategoryPage,
+} from "../pages/Categories";
+import {
   ProductsWrapper,
   ProductsPage,
   CreateNewProductPage,
@@ -37,6 +42,10 @@ function NavbarRouter({ children }) {
           <Route path="/users/sign_in" element={<SignInPage />} />
           <Route path="/users/sign_up" element={<SignUpPage />} />
           <Route path="/users/profile" element={<ProfilePage />} />
+        </Route>
+        <Route path="/admin/categories" element={<CategoriesWrapper />}>
+          <Route path="" element={<CategoriesPage />} />
+          <Route path="new" element={<CreateNewCategoryPage />} />
         </Route>
         <Route path="/admin/products" element={<ProductsWrapper />}>
           <Route path="" element={<ProductsPage />} />
