@@ -21,7 +21,6 @@ function CreateNewProductPage() {
     edition_id: 0,
     condition_id: 0,
     categories: [],
-    price: 0,
   });
   const [conditions, setConditions] = useState([]);
   const [editions, setEditions] = useState([]);
@@ -101,17 +100,12 @@ function CreateNewProductPage() {
     const index = e.target.selectedIndex;
     const subCategoryOptionElement = e.target.childNodes[index];
     const subCategoryOptionId = subCategoryOptionElement.getAttribute("id");
-    // productVariant.categories.category_id = parseInt(subCategoryOptionId, 10);
     setProductVariant(productVariant);
     productVariant.categories = [
       {
         category_id: parseInt(subCategoryOptionId, 10),
       },
     ];
-    // categories.category_id = parseInt(subCategoryOptionId, 10);
-    // setCategories(categories);
-    // setSubCategoryOptionSelected(subCategoryOptionId);
-    // console.log(subCategoryOptionSelected);
   };
 
   useEffect(() => {
