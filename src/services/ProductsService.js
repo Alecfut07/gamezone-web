@@ -56,6 +56,7 @@ const ProductsService = {
     description,
     productVariants
   ) => {
+    debugger;
     const body = {
       image_key: imageKey,
       name,

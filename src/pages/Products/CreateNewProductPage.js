@@ -8,6 +8,7 @@ import EditionsService from "../../services/EditionsService";
 import ConditionsHelper from "../../helpers/ConditionsHelper";
 import EditionsHelper from "../../helpers/EditionsHelper";
 import "./CreateNewProduct.css";
+import CategoriesService from "../../services/CategoriesService";
 
 function CreateNewProductPage() {
   const [validated, setValidated] = useState(false);
@@ -16,9 +17,18 @@ function CreateNewProductPage() {
   const [name, setName] = useState("");
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [description, setDescription] = useState("");
-  const [productVariant, setProductVariant] = useState({});
+  const [productVariant, setProductVariant] = useState({
+    edition_id: 0,
+    condition_id: 0,
+    categories: [],
+    price: 0,
+  });
   const [conditions, setConditions] = useState([]);
   const [editions, setEditions] = useState([]);
+
+  // const [categories, setCategories] = useState({});
+  const [subCategories, setSubCategories] = useState([]);
+  // const [subCategoryOptionSelected, setSubCategoryOptionSelected] = useState();
 
   const navigateProducts = useNavigate();
 
@@ -86,6 +96,40 @@ function CreateNewProductPage() {
     productVariant.edition_id = parseInt(option, 10);
     setProductVariant(productVariant);
   };
+
+  const onSubCategoriesChange = (e) => {
+    const index = e.target.selectedIndex;
+    const subCategoryOptionElement = e.target.childNodes[index];
+    const subCategoryOptionId = subCategoryOptionElement.getAttribute("id");
+    // productVariant.categories.category_id = parseInt(subCategoryOptionId, 10);
+    setProductVariant(productVariant);
+    productVariant.categories = [
+      {
+        category_id: parseInt(subCategoryOptionId, 10),
+      },
+    ];
+    // categories.category_id = parseInt(subCategoryOptionId, 10);
+    // setCategories(categories);
+    // setSubCategoryOptionSelected(subCategoryOptionId);
+    // console.log(subCategoryOptionSelected);
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const results = await CategoriesService.getFilterCategories(false);
+        const subCategoriesCopy = [...results];
+        const newSubCategory = {
+          id: 0,
+          name: "Choose a subcategory",
+        };
+        subCategoriesCopy.unshift(newSubCategory);
+        setSubCategories(subCategoriesCopy);
+      } catch (error) {
+        setSubCategories([]);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -224,6 +268,18 @@ function CreateNewProductPage() {
               value={description}
               onChange={onDescriptionChange}
             />
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="subCategoryValidation">
+            <Form.Label>
+              <b>Subcategory</b>
+            </Form.Label>
+            <Form.Select onChange={onSubCategoriesChange}>
+              {subCategories.map((subcategory) => (
+                <option id={subcategory.id} key={subcategory.id}>
+                  {subcategory.name}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
         </Row>
         <Row className="mb-3">
