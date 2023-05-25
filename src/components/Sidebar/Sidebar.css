@@ -1,0 +1,34 @@
+.menu-button {
+  margin-left: 2rem;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  font-size: 25px;
+  line-height: 1;
+  padding: 0;
+}
+
+.menu-text {
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.04rem;
+  display: flex;
+}
+
+/* .sidebar-nav {
+  background: #15171c;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
+  transition: 350ms;
+  z-index: 10;
+} */
+
+.sidebar-wrap {
+  width: 100%;
+}

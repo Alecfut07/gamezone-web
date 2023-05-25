@@ -14,6 +14,7 @@ import SearchBar from "./SearchBar";
 import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
 import { AuthContext } from "./Auth";
+import Sidebar from "./Sidebar/Sidebar";
 
 function CustomNavbar() {
   const title = "GameZone";
@@ -58,6 +59,7 @@ function CustomNavbar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
+        <Sidebar />
         <Navbar.Brand as={NavLink} to="/">
           <IconContext.Provider value={logoStyle}>
             <GiConsoleController className="mx-4" />
