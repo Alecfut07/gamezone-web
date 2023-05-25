@@ -1,22 +1,33 @@
-/* eslint-disable */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SubMenu.css";
 import { Dropdown } from "react-bootstrap";
 
 function SubMenu({ item }) {
-  const [subnav, setSubNav] = useState(false);
+  const [isSubnavOpened, setIsSubnavOpened] = useState(false);
 
   const path = "#";
 
   const showSubNav = () => {
-    setSubNav(!subnav);
+    setIsSubnavOpened(!isSubnavOpened);
+  };
+
+  const showIcon = () => {
+    let icon;
+    if (isSubnavOpened) {
+      icon = item.iconOpened;
+    } else if (item.subNav) {
+      icon = item.iconClosed;
+    } else {
+      icon = null;
+    }
+    return icon;
   };
 
   const showSubCategories = (subNavItems) => {
-    const showSubCategoriesItems = subNavItems.map((sn) => (
-      <Dropdown.Item className="dropdown-category" key={sn.id}>
-        {sn.title}
+    const showSubCategoriesItems = subNavItems.map((subItem) => (
+      <Dropdown.Item className="dropdown-category" key={subItem.id}>
+        {subItem.title}
       </Dropdown.Item>
     ));
     return showSubCategoriesItems;
@@ -32,15 +43,9 @@ function SubMenu({ item }) {
         <div>
           <span className="sidebar-label">{item.title}</span>
         </div>
-        <div>
-          {item.subNav && subnav
-            ? item.iconOpened
-            : item.subNav
-            ? item.iconClosed
-            : null}
-        </div>
+        <div>{item.subNav && showIcon()}</div>
       </Link>
-      {subnav && showSubCategories(item.subNav)}
+      {isSubnavOpened && showSubCategories(item.subNav)}
     </>
   );
 }
