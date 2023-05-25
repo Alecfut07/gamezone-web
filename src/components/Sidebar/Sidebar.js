@@ -43,7 +43,6 @@ function Sidebar() {
     getCategories();
   }, []);
 
-  // debugger;
   return (
     <>
       <Link className="menu-button" href={path} onClick={showSidebar}>
