@@ -4,8 +4,8 @@ import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
-import SubMenu from "./SubMenu";
 import SidebarData from "./SidebarData";
+import SubMenu from "./SubMenu";
 
 import CategoriesService from "../../services/CategoriesService";
 
@@ -43,10 +43,11 @@ function Sidebar() {
     getCategories();
   }, []);
 
+  // debugger;
   return (
     <>
-      <Link className="menu-button" href={path}>
-        <FaBars onClick={showSidebar} />
+      <Link className="menu-button" href={path} onClick={showSidebar}>
+        <FaBars />
         <span className="menu-text">Menu</span>
       </Link>
       <Nav style={sidebarNav(sidebar)}>
@@ -55,7 +56,7 @@ function Sidebar() {
             <AiOutlineClose onClick={showSidebar} />
           </Link>
           {categories.map((c) =>
-            SidebarData(c).map((item) => <SubMenu key={item} item={item} />)
+            SidebarData(c).map((item) => <SubMenu key={item.id} item={item} />)
           )}
         </div>
       </Nav>
