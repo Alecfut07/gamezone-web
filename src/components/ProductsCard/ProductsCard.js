@@ -6,7 +6,10 @@ import "./ProductsCard.css";
 
 function ProductsCard({ product }) {
   return (
-    <Link to={`/products/${product.id}`}>
+    <Link
+      to={`/products/${product.id}`}
+      style={{ textDecoration: "none", color: "black" }}
+    >
       <Card className="product-card">
         <Card.Header>
           <Card.Img src={product.image_url} />

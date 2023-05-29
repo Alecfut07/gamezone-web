@@ -5,13 +5,17 @@ import ProductsGrid from "../../../components/ProductsGrid";
 import ProductsService from "../../../services/ProductsService";
 // BrowserRouter, Routes, Route,
 
-function VideoGamesPage() {
+function SubCategoryPage() {
   const { pathname } = useLocation();
+  // console.log(pathname);
   //   console.log(pathname.replace(/%20|%7C/g, " "));
-  const formatedPathname = pathname.replace(/%20|%7C/g, " ");
+  // const formatedPathname = pathname.replace(/%20|%7C/g, " ");
+  const formatedPathname = pathname.replace(/-/g, " ");
+  // console.log(formatedPathname);
   const splitUrl = [formatedPathname.split("/")];
   //   console.log(splitUrl);
-  const category = splitUrl[0][2];
+  const category = splitUrl[0][1];
+  const subCategory = splitUrl[0][2];
   //   console.log(category);
   //   console.log(window.location.pathname);
   const [products, setProducts] = useState([]);
@@ -19,25 +23,29 @@ function VideoGamesPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ProductsService.searchProducts("", category);
+        const results = await ProductsService.searchProducts("", subCategory);
         setProducts(results);
-        console.log(products);
+        // console.log(products);
       } catch (error) {
         console.log(error);
         setProducts([]);
       }
     })();
-  }, [category]);
+  }, [subCategory]);
 
   const productResults =
     products.length > 0 ? (
       <>
-        <h1>Category: {category}</h1>
+        <h1>
+          {category}: {subCategory.replace(/%7C/g, " | ")}
+        </h1>
         <ProductsGrid products={products} />
       </>
     ) : (
       <>
-        <h1>Category: {category}</h1>
+        <h1>
+          {category}: {subCategory.replace(/%7C/g, " | ")}
+        </h1>
         <p>No results</p>
       </>
     );
@@ -45,4 +53,4 @@ function VideoGamesPage() {
   return <Container>{productResults}</Container>;
 }
 
-export default VideoGamesPage;
+export default SubCategoryPage;

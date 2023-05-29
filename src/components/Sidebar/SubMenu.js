@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SubMenu.css";
 import { Dropdown } from "react-bootstrap";
 
@@ -7,6 +7,8 @@ function SubMenu({ item }) {
   const [isSubnavOpened, setIsSubnavOpened] = useState(false);
 
   const path = "#";
+
+  const navigateToSubCategoryPage = useNavigate();
 
   const showSubNav = () => {
     setIsSubnavOpened(!isSubnavOpened);
@@ -24,17 +26,27 @@ function SubMenu({ item }) {
     return icon;
   };
 
-  // const navigateToSubCategory = (subItem) => {
-  //   console.log(subItem.path);
-  // };
+  const handleNavigationSubCategory = (subItem) => {
+    const url = [subItem.path.split("/")];
+    const category = url[0][1];
+    const subCategory = url[0][2];
+
+    const formatedCategory = category.replace(/\s/g, "-").toLowerCase();
+    const formatedSubCategory = subCategory.replace(/\s/g, "-").toLowerCase();
+
+    navigateToSubCategoryPage({
+      pathname: `/${formatedCategory}/${formatedSubCategory}`,
+    });
+  };
 
   const showSubCategories = (subNavItems) => {
     const showSubCategoriesItems = subNavItems.map((subItem) => (
       <Dropdown.Item
         className="dropdown-category"
         key={subItem.id}
-        as={Link}
-        to={subItem.path}
+        // as={Link}
+        // to={subItem.path}
+        onClick={() => handleNavigationSubCategory(subItem)}
       >
         {subItem.title}
       </Dropdown.Item>
