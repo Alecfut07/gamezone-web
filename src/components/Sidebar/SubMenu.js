@@ -24,9 +24,18 @@ function SubMenu({ item }) {
     return icon;
   };
 
+  // const navigateToSubCategory = (subItem) => {
+  //   console.log(subItem.path);
+  // };
+
   const showSubCategories = (subNavItems) => {
     const showSubCategoriesItems = subNavItems.map((subItem) => (
-      <Dropdown.Item className="dropdown-category" key={subItem.id}>
+      <Dropdown.Item
+        className="dropdown-category"
+        key={subItem.id}
+        as={Link}
+        to={subItem.path}
+      >
         {subItem.title}
       </Dropdown.Item>
     ));

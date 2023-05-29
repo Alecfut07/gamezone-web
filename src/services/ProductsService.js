@@ -19,9 +19,11 @@ const ProductsService = {
       throw error;
     }
   },
-  searchProducts: async (name) => {
+  searchProducts: async (name, category) => {
     try {
-      const { data } = await axios.get(`/products/search?q=${name}`);
+      const { data } = await axios.get(
+        `/products/search?q=${name}&category=${category}`
+      );
       return data;
     } catch (error) {
       console.log(error);

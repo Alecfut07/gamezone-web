@@ -13,6 +13,10 @@ import {
   CreateNewCategoryPage,
 } from "../pages/Categories";
 import {
+  VideoGamesWrapper,
+  VideoGamesPage,
+} from "../pages/Categories/VideoGames";
+import {
   ProductsWrapper,
   ProductsPage,
   CreateNewProductPage,
@@ -46,6 +50,15 @@ function NavbarRouter({ children }) {
         <Route path="/admin/categories" element={<CategoriesWrapper />}>
           <Route path="" element={<CategoriesPage />} />
           <Route path="new" element={<CreateNewCategoryPage />} />
+        </Route>
+        <Route path="/Video Games" element={<VideoGamesWrapper />}>
+          <Route path="PC" element={<VideoGamesPage />} />
+          <Route path="Xbox Series X | S" element={<VideoGamesPage />} />
+          <Route path="Xbox One" element={<VideoGamesPage />} />
+          <Route path="PlayStation 5" element={<VideoGamesPage />} />
+          <Route path="PlayStation 4" element={<VideoGamesPage />} />
+          <Route path="Nintendo Switch" element={<VideoGamesPage />} />
+          <Route path="Retro Gaming" element={<VideoGamesPage />} />
         </Route>
         <Route path="/admin/products" element={<ProductsWrapper />}>
           <Route path="" element={<ProductsPage />} />
