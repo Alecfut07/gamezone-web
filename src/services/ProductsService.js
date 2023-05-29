@@ -19,6 +19,17 @@ const ProductsService = {
       throw error;
     }
   },
+  getProductsByPaging: async (pageNumber, pageSize) => {
+    try {
+      const { data } = await axios.get(
+        `/products?pageNumber=${pageNumber}&pageSize=${pageSize}`
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   searchProducts: async (name, category) => {
     try {
       const { data } = await axios.get(
