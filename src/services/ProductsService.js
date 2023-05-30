@@ -21,21 +21,23 @@ const ProductsService = {
   },
   getProductsByPaging: async (pageNumber, pageSize) => {
     try {
-      const { data } = await axios.get(
+      const { data, headers } = await axios.get(
         `/products?pageNumber=${pageNumber}&pageSize=${pageSize}`
       );
-      return data;
+      return { data, pagination: JSON.parse(headers["x-pagination"]) };
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
-  searchProducts: async (name, category) => {
+  searchProducts: async (name, category, pageNumber, pageSize) => {
     try {
-      const { data } = await axios.get(
-        `/products/search?q=${name}&category=${category}`
-      );
-      return data;
+      const params = { q: name, pageNumber, pageSize };
+      if (!category) {
+        params[category] = category;
+      }
+      const { data, headers } = await axios.get("/products/search", { params });
+      return { data, pagination: JSON.parse(headers["x-pagination"]) };
     } catch (error) {
       console.log(error);
       throw error;

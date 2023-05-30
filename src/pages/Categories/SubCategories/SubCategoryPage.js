@@ -20,8 +20,13 @@ function SubCategoryPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ProductsService.searchProducts("", subCategory);
-        setProducts(results);
+        const results = await ProductsService.searchProducts(
+          "",
+          subCategory,
+          1,
+          2
+        );
+        setProducts(results.data);
       } catch (error) {
         console.log(error);
         setProducts([]);

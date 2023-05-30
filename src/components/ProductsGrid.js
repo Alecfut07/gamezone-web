@@ -9,7 +9,7 @@ function ProductsGrid({ products }) {
     <div>
       <Row xs={1} md={columnsPerRow} lg={5}>
         {(products ?? []).map((product) => (
-          <Col className="my-3">
+          <Col className="my-3" key={product.id}>
             <ProductsCard product={product} />
           </Col>
         ))}
