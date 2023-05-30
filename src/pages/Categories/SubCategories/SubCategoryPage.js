@@ -8,9 +8,8 @@ import ProductsService from "../../../services/ProductsService";
 function SubCategoryPage() {
   const { pathname } = useLocation();
   // const formatedPathname = pathname.replace(/%20|%7C/g, " ");
-  const formatedPathname = pathname.replace(/-/g, " ");
 
-  const splitUrl = [formatedPathname.split("/")];
+  const splitUrl = [pathname.split("/")];
 
   const category = splitUrl[0][1];
   const subCategory = splitUrl[0][2];
@@ -38,14 +37,14 @@ function SubCategoryPage() {
     products.length > 0 ? (
       <>
         <h1>
-          {category}: {subCategory.replace(/%7C/g, " | ")}
+          {category}: {subCategory}
         </h1>
         <ProductsGrid products={products} />
       </>
     ) : (
       <>
         <h1>
-          {category}: {subCategory.replace(/%7C/g, " | ")}
+          {category}: {subCategory}
         </h1>
         <p>No results</p>
       </>

@@ -33,8 +33,9 @@ const ProductsService = {
   searchProducts: async (name, category, pageNumber, pageSize) => {
     try {
       const params = { q: name, pageNumber, pageSize };
-      if (!category) {
-        params[category] = category;
+
+      if (category) {
+        params.category = category;
       }
       const { data, headers } = await axios.get("/products/search", { params });
       return { data, pagination: JSON.parse(headers["x-pagination"]) };

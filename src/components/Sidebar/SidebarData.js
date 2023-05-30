@@ -5,7 +5,7 @@ function subName(category, subcategory) {
   return {
     id: subcategory.id,
     title: subcategory.name,
-    path: `/${category.name}/${subcategory.name}`,
+    path: `/${category.handle}/${subcategory.handle}`,
   };
 }
 
@@ -17,7 +17,7 @@ function SidebarData(category) {
     {
       id: category.id,
       title: category.name,
-      path: `/${category.name}`,
+      path: `/${category.handle}`,
       iconClosed: <RiArrowDownSFill />,
       iconOpened: <RiArrowUpSFill />,
       subNav: subNavs,

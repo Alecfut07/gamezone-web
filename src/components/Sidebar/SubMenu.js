@@ -31,11 +31,8 @@ function SubMenu({ item }) {
     const category = url[0][1];
     const subCategory = url[0][2];
 
-    const formatedCategory = category.replace(/\s/g, "-").toLowerCase();
-    const formatedSubCategory = subCategory.replace(/\s/g, "-").toLowerCase();
-
     navigateToSubCategoryPage({
-      pathname: `/${formatedCategory}/${formatedSubCategory}`,
+      pathname: `/${category}/${subCategory}`,
     });
   };
 
