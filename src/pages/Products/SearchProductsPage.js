@@ -20,8 +20,6 @@ function SearchProductsPage() {
   const [hasPreviousFlag, setHasPreviousFlag] = useState(false);
   const [hasNextFlag, setHasNextFlag] = useState(false);
 
-  // const pageNumber = 1;
-
   const searchProducts = async (itemPageNumber = 1) => {
     try {
       if (productName !== "" && productName.length > 0) {
@@ -51,7 +49,6 @@ function SearchProductsPage() {
   };
 
   const onItemClicked = (item) => {
-    console.log("item: ", item);
     searchProducts(item);
   };
 

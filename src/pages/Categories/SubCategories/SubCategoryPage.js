@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import ProductsGrid from "../../../components/ProductsGrid";
+import Paging from "../../../components/Pagination/Paging";
 import ProductsService from "../../../services/ProductsService";
 // BrowserRouter, Routes, Route,
 
@@ -16,21 +17,37 @@ function SubCategoryPage() {
 
   const [products, setProducts] = useState([]);
 
+  const pageSize = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [hasPreviousFlag, setHasPreviousFlag] = useState(false);
+  const [hasNextFlag, setHasNextFlag] = useState(false);
+
+  const searchProducts = async (itemPageNumber = 1) => {
+    try {
+      const results = await ProductsService.searchProducts(
+        "",
+        subCategory,
+        itemPageNumber,
+        pageSize
+      );
+      setProducts(results.data);
+      setCurrentPage(results.pagination.CurrentPage);
+      setTotalPages(results.pagination.TotalPages);
+      setHasPreviousFlag(results.pagination.HasPrevious);
+      setHasNextFlag(results.pagination.HasNext);
+    } catch (error) {
+      console.log(error);
+      setProducts([]);
+    }
+  };
+
+  const onItemClicked = (item) => {
+    searchProducts(item);
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const results = await ProductsService.searchProducts(
-          "",
-          subCategory,
-          1,
-          2
-        );
-        setProducts(results.data);
-      } catch (error) {
-        console.log(error);
-        setProducts([]);
-      }
-    })();
+    searchProducts();
   }, [subCategory]);
 
   const productResults =
@@ -40,6 +57,13 @@ function SubCategoryPage() {
           {category}: {subCategory}
         </h1>
         <ProductsGrid products={products} />
+        <Paging
+          current={currentPage}
+          maxPages={totalPages}
+          hasPrevious={hasPreviousFlag}
+          hasNext={hasNextFlag}
+          onItemClicked={onItemClicked}
+        />
       </>
     ) : (
       <>
