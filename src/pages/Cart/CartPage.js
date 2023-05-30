@@ -38,6 +38,8 @@ function CartPage() {
         await CartsService.updateQuantity(productId, quantity - 1);
         const results = await CartsService.getCart();
         setCartItems(results.products);
+        const st = calculateSubtotal(results.products);
+        setSubtotal(st);
       } else {
         await CartsService.updateQuantity(productId, quantity);
       }
@@ -51,6 +53,8 @@ function CartPage() {
       await CartsService.updateQuantity(productId, quantity + 1);
       const results = await CartsService.getCart();
       setCartItems(results.products);
+      const st = calculateSubtotal(results.products);
+      setSubtotal(st);
     } catch (error) {
       console.log(error);
     }
@@ -60,6 +64,7 @@ function CartPage() {
     try {
       await CartsService.removeAllItemsInCart();
       setCartItems([]);
+      setSubtotal(0);
     } catch (error) {
       console.log(error);
     }
@@ -69,6 +74,10 @@ function CartPage() {
     try {
       await CartsService.removeItemInCart(productId);
       setCartItems(cartItems.filter((i) => i.productId !== productId));
+      const st = calculateSubtotal(
+        cartItems.filter((i) => i.productId !== productId)
+      );
+      setSubtotal(st);
     } catch (error) {
       console.log(error);
     }
@@ -78,17 +87,19 @@ function CartPage() {
     navigateToCheckout("/checkout");
   };
 
+  const getCart = async () => {
+    try {
+      const results = await CartsService.getCart();
+      setCartItems(results.products);
+      const st = calculateSubtotal(results.products);
+      setSubtotal(st);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const results = await CartsService.getCart();
-        setCartItems(results.products);
-        const st = calculateSubtotal(results.products);
-        setSubtotal(st);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getCart();
   }, []);
 
   return (
