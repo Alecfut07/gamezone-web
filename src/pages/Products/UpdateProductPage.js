@@ -14,6 +14,7 @@ import moment from "moment";
 import DatePicker from "../../components/DatePicker";
 
 import ProductsService from "../../services/ProductsService";
+import CategoriesService from "../../services/CategoriesService";
 import ConditionsService from "../../services/ConditionsService";
 import EditionsService from "../../services/EditionsService";
 
@@ -38,6 +39,8 @@ function UpdateProductPage() {
   const [conditions, setConditions] = useState([]);
   const [editionId, setEditionId] = useState();
   const [editions, setEditions] = useState([]);
+  const [subCategoryId, setSubCategoryId] = useState();
+  const [subCategories, setSubCategories] = useState([]);
 
   const navigateProducts = useNavigate();
 
@@ -50,6 +53,7 @@ function UpdateProductPage() {
       setPrice(result.product_variants[0].price);
       setConditionId(result.product_variants[0].condition.id);
       setEditionId(result.product_variants[0].edition.id);
+      setSubCategoryId(result.product_variants[0].categories[0].id);
       if (result.release_date) {
         setReleaseDate(moment(result.release_date).toDate());
       }
@@ -77,7 +81,8 @@ function UpdateProductPage() {
     productDescription,
     productVariantPrice,
     productVariantConditionId,
-    productVariantEditionId
+    productVariantEditionId,
+    categoryId
   ) => {
     try {
       await ProductsService.updateProduct(
@@ -92,6 +97,11 @@ function UpdateProductPage() {
             price: productVariantPrice,
             condition_id: productVariantConditionId,
             edition_id: productVariantEditionId,
+            categories: [
+              {
+                category_id: categoryId,
+              },
+            ],
           },
         ],
         accessToken
@@ -114,7 +124,8 @@ function UpdateProductPage() {
         description,
         price,
         conditionId,
-        editionId
+        editionId,
+        subCategoryId
       );
     }
     event.preventDefault();
@@ -122,9 +133,58 @@ function UpdateProductPage() {
     setValidated(true);
   };
 
+  const onNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const onDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const onPriceChange = (e) => {
+    const productPrice = parseFloat(e.target.value);
+    setPrice(productPrice);
+  };
+
+  const onSubCategoriesChange = (e) => {
+    const subCategoryIndex = e.target.selectedIndex;
+    const subCategoryOptionElement = e.target.childNodes[subCategoryIndex];
+    const subCategoryOptionId = subCategoryOptionElement.getAttribute("id");
+    setSubCategoryId(parseInt(subCategoryOptionId, 10));
+  };
+
+  const onConditionChange = (e) => {
+    const conditionIndex = e.target.selectedIndex;
+    setConditionId(parseInt(conditionIndex, 10));
+  };
+
+  const onEditionChange = (e) => {
+    const editionIndex = e.target.selectedIndex;
+    setEditionId(parseInt(editionIndex, 10));
+  };
+
   useEffect(() => {
     (async () => {
       getProductById(id);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const results = await CategoriesService.getFilterCategories(false);
+        const subCategoriesCopy = [...results];
+        const defaultSubCategory = {
+          id: 0,
+          selected: true,
+          disabled: true,
+          name: "Choose a subcategory",
+        };
+        subCategoriesCopy.unshift(defaultSubCategory);
+        setSubCategories(subCategoriesCopy);
+      } catch (error) {
+        setSubCategories([]);
+      }
     })();
   }, []);
 
@@ -165,29 +225,6 @@ function UpdateProductPage() {
       }
     })();
   }, []);
-
-  const onNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const onDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const onPriceChange = (e) => {
-    const productPrice = parseFloat(e.target.value);
-    setPrice(productPrice);
-  };
-
-  const onConditionChange = (e) => {
-    const conditionIndex = e.target.selectedIndex;
-    setConditionId(parseInt(conditionIndex, 10));
-  };
-
-  const onEditionChange = (e) => {
-    const editionIndex = e.target.selectedIndex;
-    setEditionId(parseInt(editionIndex, 10));
-  };
 
   return (
     <Container>
@@ -288,6 +325,23 @@ function UpdateProductPage() {
               placeholder="Description"
               onChange={onDescriptionChange}
             />
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="subCategoryValidation">
+            <Form.Label>
+              <b>Subcategory</b>
+            </Form.Label>
+            <Form.Select onChange={onSubCategoriesChange}>
+              {subCategories.map((subcategory) => (
+                <option
+                  id={subcategory.id}
+                  key={subcategory.id}
+                  selected={subcategory.id === subCategoryId}
+                  disabled={subcategory.disabled}
+                >
+                  {subcategory.name}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
         </Row>
         <Row className="mb-3">
