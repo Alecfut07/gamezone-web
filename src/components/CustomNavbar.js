@@ -14,6 +14,7 @@ import SearchBar from "./SearchBar";
 import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
 import AuthService from "../services/AuthService";
+import CartsService from "../services/CartsService";
 import { AuthContext } from "./Auth";
 import Sidebar from "./Sidebar/Sidebar";
 
@@ -36,8 +37,8 @@ function CustomNavbar() {
   };
 
   const handleSignOut = () => {
-    // localStorage.removeItem("access_token");
     signOut();
+    localStorage.removeItem("access_token");
     setLoggedIn(false);
     navigateSignInPage("/users/sign_in");
   };
@@ -56,9 +57,15 @@ function CustomNavbar() {
   };
 
   useEffect(() => {
-    (() => {
-      const productQuantity = localStorage.getItem("ProductQuantity");
-      setCartTotal(productQuantity);
+    (async () => {
+      // const productQuantity = localStorage.getItem("ProductQuantity");
+      try {
+        const { products } = await CartsService.getCart();
+        const itemsInCart = products.length;
+        setCartTotal(itemsInCart);
+      } catch (error) {
+        console.log(error);
+      }
     })();
   }, []);
 

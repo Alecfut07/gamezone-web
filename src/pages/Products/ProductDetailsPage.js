@@ -34,7 +34,7 @@ function ProductDetailsPage() {
   };
 
   const handleAddProductsToCart = () => {
-    localStorage.setItem("ProductQuantity", productQuantity);
+    // localStorage.setItem("ProductQuantity", productQuantity);
     CartsService.addItemToCart(id, productQuantity);
   };
 
