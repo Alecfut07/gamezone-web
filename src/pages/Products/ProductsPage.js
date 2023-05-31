@@ -8,6 +8,8 @@ import ConditionsHelper from "../../helpers/ConditionsHelper";
 import EditionsHelper from "../../helpers/EditionsHelper";
 
 function ProductsPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState();
 
@@ -25,7 +27,7 @@ function ProductsPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ProductsService.getProducts();
+        const results = await ProductsService.getProducts(accessToken);
         setProducts(results);
       } catch (error) {
         setProducts([]);
@@ -58,7 +60,7 @@ function ProductsPage() {
 
   const submitDeleteProduct = async (productToDelete, id) => {
     try {
-      await ProductsService.deleteProduct(id);
+      await ProductsService.deleteProduct(id, accessToken);
       setFormValid(true);
       setProductMessage(
         `The product: ${productToDelete.name} was deleted successfully.`

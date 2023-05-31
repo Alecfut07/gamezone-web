@@ -27,6 +27,11 @@ const AuthService = {
       throw error;
     }
   },
+  signOut: async () => {
+    await axios.post("/users/sign_out", null, {
+      headers: { Authorization: localStorage.getItem("access_token") },
+    });
+  },
 };
 
 export default AuthService;

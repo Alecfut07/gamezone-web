@@ -7,6 +7,8 @@ import ConditionsService from "../../services/ConditionsService";
 import "./CreateNewCondition.css";
 
 function CreateNewConditionPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const [validated, setValidated] = useState(false);
   const [state, setState] = useState("");
 
@@ -14,7 +16,7 @@ function CreateNewConditionPage() {
 
   const sendNewCondition = async () => {
     try {
-      await ConditionsService.createNewCondition(state);
+      await ConditionsService.createNewCondition(state, accessToken);
 
       navigateConditions("/admin/conditions");
     } catch (error) {

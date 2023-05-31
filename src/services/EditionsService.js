@@ -1,8 +1,14 @@
 const EditionsService = {
-  getEditions: async () => {
+  getEditions: async (accessToken) => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/admin/editions`
+        `${process.env.REACT_APP_BASE_URL}/admin/editions`,
+        options
       );
       return response.json();
     } catch (error) {
@@ -28,7 +34,7 @@ const EditionsService = {
       throw error;
     }
   },
-  createNewEdition: async (state) => {
+  createNewEdition: async (state, accessToken) => {
     const body = {
       state,
     };
@@ -36,6 +42,7 @@ const EditionsService = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
     };
@@ -50,7 +57,7 @@ const EditionsService = {
       throw error;
     }
   },
-  updateEdition: async (id, state) => {
+  updateEdition: async (id, state, accessToken) => {
     const body = {
       state,
     };
@@ -58,6 +65,7 @@ const EditionsService = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
     };
@@ -72,11 +80,12 @@ const EditionsService = {
       throw error;
     }
   },
-  deleteEdition: async (id) => {
+  deleteEdition: async (id, accessToken) => {
     const options = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await fetch(

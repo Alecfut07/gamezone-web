@@ -1,8 +1,14 @@
 const ConditionsService = {
-  getConditions: async () => {
+  getConditions: async (accessToken) => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/admin/conditions`
+        `${process.env.REACT_APP_BASE_URL}/admin/conditions`,
+        options
       );
       return response.json();
     } catch (error) {
@@ -28,7 +34,7 @@ const ConditionsService = {
       throw error;
     }
   },
-  createNewCondition: async (state) => {
+  createNewCondition: async (state, accessToken) => {
     const body = {
       state,
     };
@@ -36,6 +42,7 @@ const ConditionsService = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
     };
@@ -50,7 +57,7 @@ const ConditionsService = {
       throw error;
     }
   },
-  updateCondition: async (id, state) => {
+  updateCondition: async (id, state, accessToken) => {
     const body = {
       state,
     };
@@ -58,6 +65,7 @@ const ConditionsService = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
     };
@@ -72,11 +80,12 @@ const ConditionsService = {
       throw error;
     }
   },
-  deleteCondition: async (id) => {
+  deleteCondition: async (id, accessToken) => {
     const options = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await fetch(

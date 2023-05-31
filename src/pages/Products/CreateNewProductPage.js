@@ -11,6 +11,8 @@ import "./CreateNewProduct.css";
 import CategoriesService from "../../services/CategoriesService";
 
 function CreateNewProductPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const [validated, setValidated] = useState(false);
 
   const [imageKey, setImageKey] = useState("");
@@ -34,7 +36,7 @@ function CreateNewProductPage() {
   const handleFileUpload = async (e) => {
     try {
       const image = e.target.files[0];
-      const result = await ProductsService.uploadImage(image);
+      const result = await ProductsService.uploadImage(image, accessToken);
       setImageKey(result);
     } catch (error) {
       setImageKey(null);
@@ -48,7 +50,8 @@ function CreateNewProductPage() {
         name,
         releaseDate,
         description,
-        [productVariant]
+        [productVariant],
+        accessToken
       );
       navigateProducts("/admin/products");
     } catch (error) {
@@ -128,7 +131,7 @@ function CreateNewProductPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ConditionsService.getConditions();
+        const results = await ConditionsService.getConditions(accessToken);
         const conditionsCopy = [...results];
         const defaultCondition = {
           id: 0,
@@ -147,7 +150,7 @@ function CreateNewProductPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await EditionsService.getEditions();
+        const results = await EditionsService.getEditions(accessToken);
         const editionsCopy = [...results];
         const defaultEdition = {
           id: 0,

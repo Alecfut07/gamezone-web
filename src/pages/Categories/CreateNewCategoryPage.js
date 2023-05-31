@@ -3,6 +3,8 @@ import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import CategoriesService from "../../services/CategoriesService";
 
 function CreateNewCategoryPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const [validated, setValidated] = useState(false);
 
   const [parentCategories, setParentCategories] = useState([]);
@@ -11,7 +13,11 @@ function CreateNewCategoryPage() {
 
   const sendNewCategory = async () => {
     try {
-      await CategoriesService.createNewCategory(name, categoryOptionSelected);
+      await CategoriesService.createNewCategory(
+        name,
+        categoryOptionSelected,
+        accessToken
+      );
     } catch (error) {
       console.log(error);
     }

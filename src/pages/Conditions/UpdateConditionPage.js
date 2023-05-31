@@ -7,6 +7,8 @@ import ConditionsService from "../../services/ConditionsService";
 import "./UpdateCondition.css";
 
 function UpdateConditionPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
 
@@ -16,7 +18,11 @@ function UpdateConditionPage() {
 
   const updateCondition = async (conditionId, conditionState) => {
     try {
-      await ConditionsService.updateCondition(conditionId, conditionState);
+      await ConditionsService.updateCondition(
+        conditionId,
+        conditionState,
+        accessToken
+      );
     } catch (error) {
       console.log(error);
     }

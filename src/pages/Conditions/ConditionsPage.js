@@ -6,6 +6,8 @@ import ConditionsService from "../../services/ConditionsService";
 import ConditionsHelper from "../../helpers/ConditionsHelper";
 
 function ConditionsPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const [conditions, setConditions] = useState([]);
   const [condition, setCondition] = useState();
 
@@ -44,7 +46,7 @@ function ConditionsPage() {
 
   const submitDeleteCondition = async (conditionToDelete, id) => {
     try {
-      await ConditionsService.deleteCondition(id);
+      await ConditionsService.deleteCondition(id, accessToken);
       setFormValid(true);
       setConditionMessage(
         `The condition: ${conditionToDelete.state} was deleted successfully.`
@@ -72,7 +74,7 @@ function ConditionsPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ConditionsService.getConditions();
+        const results = await ConditionsService.getConditions(accessToken);
         setConditions(results);
       } catch (error) {
         setConditions([]);

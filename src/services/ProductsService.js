@@ -1,9 +1,14 @@
 import axios from "axios";
 
 const ProductsService = {
-  getProducts: async () => {
+  getProducts: async (accessToken) => {
+    const axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     try {
-      const response = await axios.get("/admin/products");
+      const response = await axios.get("/admin/products", axiosConfig);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -44,13 +49,14 @@ const ProductsService = {
       throw error;
     }
   },
-  uploadImage: async (image) => {
+  uploadImage: async (image, accessToken) => {
     const formData = new FormData();
     formData.append("image", image);
 
     const axiosConfig = {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     try {
@@ -70,7 +76,8 @@ const ProductsService = {
     name,
     releaseDate,
     description,
-    productVariants
+    productVariants,
+    accessToken
   ) => {
     const body = {
       image_key: imageKey,
@@ -79,8 +86,13 @@ const ProductsService = {
       description,
       product_variants: productVariants,
     };
+    const axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     try {
-      const { data } = await axios.post("/admin/products", body);
+      const { data } = await axios.post("/admin/products", body, axiosConfig);
       return data;
     } catch (error) {
       console.log(error);
@@ -94,7 +106,8 @@ const ProductsService = {
     name,
     releaseDate,
     description,
-    productVariants
+    productVariants,
+    accessToken
   ) => {
     const body = {
       image_url: imageUrl,
@@ -104,17 +117,31 @@ const ProductsService = {
       description,
       product_variants: productVariants,
     };
+    const axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     try {
-      const { data } = await axios.put(`/admin/products/${id}`, body);
+      const { data } = await axios.put(
+        `/admin/products/${id}`,
+        body,
+        axiosConfig
+      );
       return data;
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
-  deleteProduct: async (id) => {
+  deleteProduct: async (id, accessToken) => {
+    const axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     try {
-      await axios.delete(`/admin/products/${id}`);
+      await axios.delete(`/admin/products/${id}`, axiosConfig);
     } catch (error) {
       console.log(error);
       throw error;

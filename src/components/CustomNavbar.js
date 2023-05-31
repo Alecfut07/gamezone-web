@@ -13,6 +13,7 @@ import { GiConsoleController } from "react-icons/gi";
 import SearchBar from "./SearchBar";
 import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
+import AuthService from "../services/AuthService";
 import { AuthContext } from "./Auth";
 import Sidebar from "./Sidebar/Sidebar";
 
@@ -26,8 +27,17 @@ function CustomNavbar() {
 
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
 
+  const signOut = async () => {
+    try {
+      await AuthService.signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSignOut = () => {
-    localStorage.removeItem("access_token");
+    // localStorage.removeItem("access_token");
+    signOut();
     setLoggedIn(false);
     navigateSignInPage("/users/sign_in");
   };

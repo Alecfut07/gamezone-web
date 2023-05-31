@@ -23,6 +23,8 @@ import EditionsHelper from "../../helpers/EditionsHelper";
 import "./UpdateProduct.css";
 
 function UpdateProductPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const { id } = useParams();
   const [validated, setValidated] = useState(false);
 
@@ -59,7 +61,7 @@ function UpdateProductPage() {
   const handleFileUpload = async (e) => {
     try {
       const image = e.target.files[0];
-      const result = await ProductsService.uploadImage(image);
+      const result = await ProductsService.uploadImage(image, accessToken);
       setImageKey(result);
     } catch (error) {
       setImageKey(null);
@@ -91,7 +93,8 @@ function UpdateProductPage() {
             condition_id: productVariantConditionId,
             edition_id: productVariantEditionId,
           },
-        ]
+        ],
+        accessToken
       );
       navigateProducts("/admin/products");
     } catch (error) {
@@ -128,7 +131,7 @@ function UpdateProductPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await ConditionsService.getConditions();
+        const results = await ConditionsService.getConditions(accessToken);
         const conditionsCopy = [...results];
         const defaultCondition = {
           id: 0,
@@ -147,7 +150,7 @@ function UpdateProductPage() {
   useEffect(() => {
     (async () => {
       try {
-        const results = await EditionsService.getEditions();
+        const results = await EditionsService.getEditions(accessToken);
         const editionsCopy = [...results];
         const defaultEdition = {
           id: 0,
