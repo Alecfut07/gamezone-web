@@ -61,8 +61,11 @@ function CustomNavbar() {
       // const productQuantity = localStorage.getItem("ProductQuantity");
       try {
         const { products } = await CartsService.getCart();
-        const itemsInCart = products.length;
-        setCartTotal(itemsInCart);
+        const totalQuantity = products.reduce(
+          (accumulator, product) => accumulator + product.quantity,
+          0
+        );
+        setCartTotal(totalQuantity);
       } catch (error) {
         console.log(error);
       }

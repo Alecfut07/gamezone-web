@@ -16,7 +16,7 @@ function CartPage() {
 
   const calculateSubtotal = (items) =>
     items.reduce(
-      (accumalator, item) => accumalator + item.price * item.quantity,
+      (accumulator, item) => accumulator + item.price * item.quantity,
       0
     );
 
