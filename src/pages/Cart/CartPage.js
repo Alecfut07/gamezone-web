@@ -12,7 +12,7 @@ import "./CartPage.css";
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState([]);
-  const { setCartTotal } = useContext(CartContext);
+  const { cartTotal, setCartTotal } = useContext(CartContext);
 
   const navigateToCheckout = useNavigate();
 
@@ -128,85 +128,98 @@ function CartPage() {
 
   return (
     <Container>
-      <Row className="delivery-summary">
-        <div className="delivery-options">
-          <div className="delivery-summary-home">
-            <Stack direction="horizontal" gap={3}>
-              <IconContext.Provider value={homeIconStyle}>
-                <BsHouseDoorFill />
-              </IconContext.Provider>
-              <strong>Ship To Home: </strong>
-              <span>{cartItems.length} Item</span>
-            </Stack>
-          </div>
-        </div>
-      </Row>
-      <Row>
-        <Table className="mt-3">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Item</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Subtotal</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map((item, index) => (
-              <tr key={item.productId}>
-                <th scope="row">{index + 1}</th>
-                <td>{item.name}</td>
-                <td>${item.price.toFixed(2)}</td>
-                <td>
-                  <StepperButton
-                    amount={item.quantity}
-                    setDecrease={() =>
-                      decreaseProductQuantity(item.productId, item.quantity)
-                    }
-                    setIncrease={() =>
-                      increaseProductQuantity(item.productId, item.quantity)
-                    }
-                  />
-                </td>
-                <td>${(item.price * item.quantity).toFixed(2)}</td>
-                <td>
-                  <IconContext.Provider value={trashIconStyle}>
-                    <BsFillTrash3Fill
-                      onClick={() => handleRemoveItemInCart(item.productId)}
-                    />
+      {cartTotal !== 0 ? (
+        <>
+          <Row className="delivery-summary">
+            <div className="delivery-options">
+              <div className="delivery-summary-home">
+                <Stack direction="horizontal" gap={3}>
+                  <IconContext.Provider value={homeIconStyle}>
+                    <BsHouseDoorFill />
                   </IconContext.Provider>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Row>
-      <Row>
-        <Stack direction="horizontal" gap={3}>
-          <Button onClick={() => handleNavigateToCheckout()}>
-            Proceed to checkout
-          </Button>
-          <Button
-            className="ms-auto"
-            variant="danger"
-            onClick={() => handleRemoveAllItemsInCart()}
-          >
-            Clear cart
-          </Button>
-        </Stack>
-      </Row>
-      <Row>
-        <Stack className="mt-4" direction="horizontal" gap={3}>
-          <div className="delivery-summary-total ms-auto">
-            <p>Subotal: ${subtotal}</p>
-            <p>Tax: ??</p>
-            <div className="border border-primary border-bottom" />
-            <p className="mt-2">Order total: $70.00</p>
+                  <strong>Ship To Home: </strong>
+                  <span>{cartItems.length} Item</span>
+                </Stack>
+              </div>
+            </div>
+          </Row>
+          <Row>
+            <Table className="mt-3">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Subtotal</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((item, index) => (
+                  <tr key={item.productId}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{item.name}</td>
+                    <td>${item.price.toFixed(2)}</td>
+                    <td>
+                      <StepperButton
+                        amount={item.quantity}
+                        setDecrease={() =>
+                          decreaseProductQuantity(item.productId, item.quantity)
+                        }
+                        setIncrease={() =>
+                          increaseProductQuantity(item.productId, item.quantity)
+                        }
+                      />
+                    </td>
+                    <td>${(item.price * item.quantity).toFixed(2)}</td>
+                    <td>
+                      <IconContext.Provider value={trashIconStyle}>
+                        <BsFillTrash3Fill
+                          onClick={() => handleRemoveItemInCart(item.productId)}
+                        />
+                      </IconContext.Provider>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Row>
+          <Row>
+            <Stack direction="horizontal" gap={3}>
+              <Button onClick={() => handleNavigateToCheckout()}>
+                Proceed to checkout
+              </Button>
+              <Button
+                className="ms-auto"
+                variant="danger"
+                onClick={() => handleRemoveAllItemsInCart()}
+              >
+                Clear cart
+              </Button>
+            </Stack>
+          </Row>
+          <Row>
+            <Stack className="mt-4" direction="horizontal" gap={3}>
+              <div className="delivery-summary-total ms-auto">
+                <p>Subotal: ${subtotal}</p>
+                <p>Tax: ??</p>
+                <div className="border border-primary border-bottom" />
+                <p className="mt-2">Order total: $70.00</p>
+              </div>
+            </Stack>
+          </Row>
+        </>
+      ) : (
+        <>
+          <div>
+            <h3>
+              <b>Your Shopping Cart is Empty</b>
+            </h3>
           </div>
-        </Stack>
-      </Row>
+          <div />
+        </>
+      )}
     </Container>
   );
 }

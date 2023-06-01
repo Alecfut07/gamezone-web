@@ -17,7 +17,7 @@ import visaLogo from "../../imgs/PaymentMethods/visa_logo.png";
 import mastercardLogo from "../../imgs/PaymentMethods/mastercard_logo.png";
 import americanexpressLogo from "../../imgs/PaymentMethods/americanexpress_logo.png";
 
-import { AuthContext } from "../../context/AuthProvider";
+import { AuthContext, PurchaseContext } from "../../context";
 import PaymentService from "../../services/PaymentService";
 import UsersService from "../../services/UsersService";
 
@@ -36,6 +36,7 @@ function PaymentMethodPage() {
 
   const [loggedInUser, setLoggedInUser] = useState();
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+  const { setPurchaseCompleted } = useContext(PurchaseContext);
 
   const navigateToSuccessfulPurchase = useNavigate();
 
@@ -92,6 +93,7 @@ function PaymentMethodPage() {
         })
         .then((responsePayment) => responsePayment);
       setHasError(false);
+      setPurchaseCompleted(true);
       navigateToSuccessfulPurchase("/success");
     } catch (error) {
       setHasError(true);
