@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/AuthService";
 
 import "./SignInPage.css";
-import { AuthContext } from "../../components/Auth";
+import { AuthContext } from "../../context/AuthProvider";
 
 function SignInPage() {
   const [validated, setValidated] = useState(false);

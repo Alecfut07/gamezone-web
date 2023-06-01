@@ -15,18 +15,18 @@ import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
 import AuthService from "../services/AuthService";
 import CartsService from "../services/CartsService";
-import { AuthContext } from "./Auth";
+import { AuthContext, CartContext } from "../context";
 import Sidebar from "./Sidebar/Sidebar";
 
 function CustomNavbar() {
   const title = "GameZone";
   const [loggedInUser, setLoggedInUser] = useState();
   const logoStyle = useMemo(() => ({ color: "red", size: "50px" }), []);
-  const [cartTotal, setCartTotal] = useState("");
 
   const navigateSignInPage = useNavigate();
 
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+  const { setCartTotal } = useContext(CartContext);
 
   const signOut = async () => {
     try {
@@ -133,7 +133,7 @@ function CustomNavbar() {
         <Nav className="ms-5">
           <Nav.Link as={NavLink} to="/cart">
             <div>
-              <Cart amount={cartTotal} />
+              <Cart />
             </div>
           </Nav.Link>
         </Nav>

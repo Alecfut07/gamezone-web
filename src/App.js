@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import CustomNavbar from "./components/CustomNavbar";
 import NavbarRouter from "./components/NavbarRouter";
 import InitializeAxios from "./foundation";
-import { AuthProvider } from "./components/Auth";
+import { AuthProvider, CartProvider } from "./context";
 
 InitializeAxios();
 
@@ -14,9 +14,11 @@ function App() {
   }
   return (
     <AuthProvider>
-      <NavbarRouter>
-        <CustomNavbar />
-      </NavbarRouter>
+      <CartProvider>
+        <NavbarRouter>
+          <CustomNavbar />
+        </NavbarRouter>
+      </CartProvider>
     </AuthProvider>
   );
 }

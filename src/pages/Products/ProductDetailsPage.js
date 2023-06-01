@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Col, Row, Image, Badge, Button } from "react-bootstrap";
 import moment from "moment";
@@ -8,6 +8,7 @@ import ConditionsHelper from "../../helpers/ConditionsHelper";
 import EditionsHelper from "../../helpers/EditionsHelper";
 import ProductsService from "../../services/ProductsService";
 import CartsService from "../../services/CartsService";
+import { CartContext } from "../../context";
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -20,6 +21,7 @@ function ProductDetailsPage() {
   const [edition, setEdition] = useState("");
 
   const [productQuantity, setProductQuantity] = useState(1);
+  const { setCartTotal } = useContext(CartContext);
 
   const decreaseProductQuantity = () => {
     if (productQuantity > 1) {
@@ -33,9 +35,15 @@ function ProductDetailsPage() {
     setProductQuantity(productQuantity + 1);
   };
 
-  const handleAddProductsToCart = () => {
+  const handleAddProductsToCart = async () => {
     // localStorage.setItem("ProductQuantity", productQuantity);
-    CartsService.addItemToCart(id, productQuantity);
+    await CartsService.addItemToCart(id, productQuantity);
+    const { products } = await CartsService.getCart();
+    const totalQuantity = products.reduce(
+      (accumulator, product) => accumulator + product.quantity,
+      0
+    );
+    setCartTotal(totalQuantity);
   };
 
   useEffect(() => {

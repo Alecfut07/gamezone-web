@@ -4,7 +4,7 @@ import { Container, Form, Button } from "react-bootstrap";
 import ErrorList from "../../components/ErrorList";
 import AuthService from "../../services/AuthService";
 
-import { AuthContext } from "../../components/Auth";
+import { AuthContext } from "../../context/AuthProvider";
 
 import "./SignUpPage.css";
 

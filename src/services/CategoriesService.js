@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const CategoriesService = {
-  getCategories: async (accessToken) => {
-    const axiosConfig = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+  getCategories: async () => {
+    // const axiosConfig = {
+    //   headers: {
+    //     Authorization: `Bearer ${accessToken}`,
+    //   },
+    // };
     try {
-      const { data } = await axios.get("/admin/categories", axiosConfig);
+      const { data } = await axios.get("/admin/categories");
       return data;
     } catch (error) {
       console.log(error);

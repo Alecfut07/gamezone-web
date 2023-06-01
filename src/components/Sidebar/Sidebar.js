@@ -10,7 +10,7 @@ import SubMenu from "./SubMenu";
 import CategoriesService from "../../services/CategoriesService";
 
 function Sidebar() {
-  const accessToken = localStorage.getItem("access_token");
+  // const accessToken = localStorage.getItem("access_token");
 
   const [sidebar, setSidebar] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -34,7 +34,7 @@ function Sidebar() {
 
   const getCategories = async () => {
     try {
-      const results = await CategoriesService.getCategories(accessToken);
+      const results = await CategoriesService.getCategories();
       setCategories(results);
     } catch (error) {
       console.log(error);

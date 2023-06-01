@@ -17,7 +17,7 @@ import visaLogo from "../../imgs/PaymentMethods/visa_logo.png";
 import mastercardLogo from "../../imgs/PaymentMethods/mastercard_logo.png";
 import americanexpressLogo from "../../imgs/PaymentMethods/americanexpress_logo.png";
 
-import { AuthContext } from "../../components/Auth";
+import { AuthContext } from "../../context/AuthProvider";
 import PaymentService from "../../services/PaymentService";
 import UsersService from "../../services/UsersService";
 

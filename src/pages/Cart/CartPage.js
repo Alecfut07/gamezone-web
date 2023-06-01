@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Stack, Table } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { BsHouseDoorFill, BsFillTrash3Fill } from "react-icons/bs";
 import StepperButton from "../../components/StepperButton";
 import CartsService from "../../services/CartsService";
+import { CartContext } from "../../context";
 
 import "./CartPage.css";
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState([]);
+  const { setCartTotal } = useContext(CartContext);
 
   const navigateToCheckout = useNavigate();
 
@@ -37,6 +39,11 @@ function CartPage() {
       if (quantity > 1) {
         await CartsService.updateQuantity(productId, quantity - 1);
         const results = await CartsService.getCart();
+        const totalQuantity = results.products.reduce(
+          (accumulator, product) => accumulator + product.quantity,
+          0
+        );
+        setCartTotal(totalQuantity);
         setCartItems(results.products);
         const st = calculateSubtotal(results.products);
         setSubtotal(st);
@@ -52,6 +59,11 @@ function CartPage() {
     try {
       await CartsService.updateQuantity(productId, quantity + 1);
       const results = await CartsService.getCart();
+      const totalQuantity = results.products.reduce(
+        (accumulator, product) => accumulator + product.quantity,
+        0
+      );
+      setCartTotal(totalQuantity);
       setCartItems(results.products);
       const st = calculateSubtotal(results.products);
       setSubtotal(st);
@@ -63,6 +75,12 @@ function CartPage() {
   const handleRemoveAllItemsInCart = async () => {
     try {
       await CartsService.removeAllItemsInCart();
+      const results = await CartsService.getCart();
+      const totalQuantity = results.products.reduce(
+        (accumulator, product) => accumulator + product.quantity,
+        0
+      );
+      setCartTotal(totalQuantity);
       setCartItems([]);
       setSubtotal(0);
     } catch (error) {
@@ -77,6 +95,12 @@ function CartPage() {
       const st = calculateSubtotal(
         cartItems.filter((i) => i.productId !== productId)
       );
+      const results = await CartsService.getCart();
+      const totalQuantity = results.products.reduce(
+        (accumulator, product) => accumulator + product.quantity,
+        0
+      );
+      setCartTotal(totalQuantity);
       setSubtotal(st);
     } catch (error) {
       console.log(error);
