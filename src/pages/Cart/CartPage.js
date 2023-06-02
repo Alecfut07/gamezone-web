@@ -11,8 +11,9 @@ import "./CartPage.css";
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
-  const [subtotal, setSubtotal] = useState([]);
-  const { cartTotal, setCartTotal } = useContext(CartContext);
+  // const [subtotal, setSubtotal] = useState([]);
+  const { cartTotal, setCartTotal, subtotal, setSubtotal } =
+    useContext(CartContext);
 
   const navigateToCheckout = useNavigate();
 

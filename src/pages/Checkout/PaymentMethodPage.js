@@ -40,7 +40,9 @@ function PaymentMethodPage() {
   const [loggedInUser, setLoggedInUser] = useState();
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
   const { setPurchaseCompleted } = useContext(PurchaseContext);
-  const { setCartTotal } = useContext(CartContext);
+  const { setCartTotal, subtotal } = useContext(CartContext);
+
+  // const [grandTotal, setGrandTotal] = useState();
 
   const navigateToSuccessfulPurchase = useNavigate();
 
@@ -89,7 +91,8 @@ function PaymentMethodPage() {
   };
 
   const onStateChange = (e) => {
-    setState(e.target.value);
+    const stateInput = e.target.value;
+    setState(stateInput);
   };
 
   const onCityChange = (e) => {
@@ -116,6 +119,12 @@ function PaymentMethodPage() {
     }
   };
 
+  // const calculateGrandTotal = (_subtotal, _tax) => {
+  //   const value = parseInt(_subtotal + _tax, 10);
+  //   setGrandTotal(value);
+  //   return grandTotal;
+  // };
+
   const addCustomerAndPayment = async () => {
     try {
       await PaymentService.addCustomer(loggedInUser.email, fullName, {
@@ -132,7 +141,7 @@ function PaymentMethodPage() {
             loggedInUser.email,
             "VideoGames",
             "USD",
-            1000
+            parseInt(subtotal + tax, 10)
           );
         })
         .then((responsePayment) => responsePayment);
@@ -371,7 +380,7 @@ function PaymentMethodPage() {
           <Row>
             <Stack direction="horizontal" gap={3}>
               <p>Subtotal</p>
-              <p className="ms-auto">$200.00</p>
+              <p className="ms-auto">${subtotal}</p>
             </Stack>
           </Row>
           <Row>
@@ -387,7 +396,7 @@ function PaymentMethodPage() {
             <Stack direction="horizontal" gap={3}>
               <h5>Total</h5>
               <p className="mt-2 ms-auto">
-                <b>$12.40</b>
+                <b>${subtotal + tax}</b>
               </p>
             </Stack>
           </Row>
