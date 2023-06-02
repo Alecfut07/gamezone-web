@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Elements } from "@stripe/react-stripe-js";
-// import { loadStripe } from "@stripe/stripe-js";
 import {
   Container,
   Stack,
@@ -12,10 +10,6 @@ import {
   Alert,
 } from "react-bootstrap";
 import ReactDatePicker from "react-datepicker";
-
-import visaLogo from "../../imgs/PaymentMethods/visa_logo.png";
-import mastercardLogo from "../../imgs/PaymentMethods/mastercard_logo.png";
-import americanexpressLogo from "../../imgs/PaymentMethods/americanexpress_logo.png";
 
 import { AuthContext, PurchaseContext, CartContext } from "../../context";
 import CartsService from "../../services/CartsService";
@@ -34,6 +28,14 @@ function PaymentMethodPage() {
   const [expirationDate, setExpirationDate] = useState(new Date());
   const [securityCode, setSecurityCode] = useState("");
   const [fullName, setFullName] = useState("");
+  const [line1, setLine1] = useState("");
+  const [line2, setLine2] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+
+  const [tax, setTax] = useState(0);
 
   const [loggedInUser, setLoggedInUser] = useState();
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
@@ -41,10 +43,6 @@ function PaymentMethodPage() {
   const { setCartTotal } = useContext(CartContext);
 
   const navigateToSuccessfulPurchase = useNavigate();
-
-  // const options = {
-  //   clientSecret: process.env.REACT_APP_STRIPE_SECRET_KEY,
-  // };
 
   const onCardNumberChange = (e) => {
     const inputCardNumber = e.target.value
@@ -72,6 +70,50 @@ function PaymentMethodPage() {
 
   const onFullNameChange = (e) => {
     setFullName(e.target.value);
+  };
+
+  const onLine1Change = (e) => {
+    setLine1(e.target.value);
+  };
+
+  const onLine2Change = (e) => {
+    setLine2(e.target.value);
+  };
+
+  const onZipCodeChange = (e) => {
+    const inputZipCode = e.target.value.replace(
+      /[A-Za-z*|":<>[\]{}`\\()';!#%^~_+?,./=\-\s@&$]/gi,
+      ""
+    );
+    setZipCode(inputZipCode);
+  };
+
+  const onStateChange = (e) => {
+    setState(e.target.value);
+  };
+
+  const onCityChange = (e) => {
+    setCity(e.target.value);
+  };
+
+  const onCountryChange = (e) => {
+    setCountry(e.target.value);
+  };
+
+  const onBlurForm = async () => {
+    try {
+      const result = await PaymentService.calculateTax(
+        line1,
+        line2,
+        zipCode,
+        state,
+        city,
+        country
+      );
+      setTax(result.tax_amount);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addCustomerAndPayment = async () => {
@@ -174,6 +216,7 @@ function PaymentMethodPage() {
       </div>
       <Stack direction="horizontal" gap={3}>
         <div className="payment-method-form">
+          <h3>Card Information</h3>
           <Form
             noValidate
             validated={validatedFormFlag}
@@ -245,6 +288,75 @@ function PaymentMethodPage() {
                 />
               </Form.Group>
             </Row>
+            <div onBlur={() => onBlurForm()}>
+              <Row className="mt-4">
+                <h3>Address Information</h3>
+              </Row>
+              <Row>
+                <Form.Group as={Col} md="4" controlId="line1Validation">
+                  <Form.Label>Line 1</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={line1}
+                    onChange={onLine1Change}
+                    placeholder="Line 1"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="line2Validation">
+                  <Form.Label>Line 2 (optional)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={line2}
+                    onChange={onLine2Change}
+                    placeholder="Line 2"
+                  />
+                </Form.Group>
+              </Row>
+              <Row className="mt-3">
+                <Form.Group as={Col} md="2" controlId="zipCodeValidation">
+                  <Form.Label>Zip Code</Form.Label>
+                  <Form.Control
+                    type="text"
+                    data-mask="00000"
+                    maxLength="5"
+                    pattern="[0-9][0-9][0-9][0-9][0-9]"
+                    value={zipCode}
+                    onChange={onZipCodeChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="stateValidation">
+                  <Form.Label>State</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={state}
+                    onChange={onStateChange}
+                    placeholder="State"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="cityValidation">
+                  <Form.Label>City</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={city}
+                    onChange={onCityChange}
+                    placeholder="City"
+                  />
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="countryValidation">
+                  <Form.Label>Country</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={country}
+                    onChange={onCountryChange}
+                    placeholder="Country"
+                  />
+                </Form.Group>
+              </Row>
+            </div>
+
             <Button className="mt-2" variant="success" type="submit">
               Pay
             </Button>
@@ -256,8 +368,30 @@ function PaymentMethodPage() {
           )}
         </div>
         <div className="about-payment-methods">
-          <h5>About of payment methods</h5>
-          <p>We accept the following secure payment methods:</p>
+          <Row>
+            <Stack direction="horizontal" gap={3}>
+              <p>Subtotal</p>
+              <p className="ms-auto">$200.00</p>
+            </Stack>
+          </Row>
+          <Row>
+            <Stack direction="horizontal" gap={3}>
+              <p>Tax</p>
+              <p className="ms-auto">${tax}</p>
+            </Stack>
+          </Row>
+          <Row>
+            <div className="border border-primary border-bottom" />
+          </Row>
+          <Row className="mt-2">
+            <Stack direction="horizontal" gap={3}>
+              <h5>Total</h5>
+              <p className="mt-2 ms-auto">
+                <b>$12.40</b>
+              </p>
+            </Stack>
+          </Row>
+          {/* <p>We accept the following secure payment methods:</p>
           <div id="img-wrapper" className="row">
             <div className="col-sm-4">
               <img alt="visa_logo.png" src={visaLogo} width="70px" />
@@ -276,7 +410,7 @@ function PaymentMethodPage() {
                 width="70px"
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </Stack>
     </Container>

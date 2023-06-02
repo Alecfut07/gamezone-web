@@ -37,6 +37,23 @@ const PaymentService = {
       throw error;
     }
   },
+  calculateTax: async (line1, line2, zipCode, state, city, country) => {
+    const body = {
+      line1,
+      line2,
+      zip_code: zipCode,
+      state,
+      city,
+      country,
+    };
+    try {
+      const { data } = await axios.post("/stripe/calculate_tax", body);
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };
 
 export default PaymentService;

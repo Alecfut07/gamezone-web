@@ -107,7 +107,7 @@ function CartPage() {
     }
   };
 
-  const handleNavigateToCheckout = () => {
+  const handleNavigateToCheckout = async () => {
     navigateToCheckout("/checkout");
   };
 
@@ -205,7 +205,9 @@ function CartPage() {
                 <p>Subotal: ${subtotal}</p>
                 <p>Tax: ??</p>
                 <div className="border border-primary border-bottom" />
-                <p className="mt-2">Order total: $70.00</p>
+                <p className="mt-2">
+                  <b>Order total: $70.00</b>
+                </p>
               </div>
             </Stack>
           </Row>
