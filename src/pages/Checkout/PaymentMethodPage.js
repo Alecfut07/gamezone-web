@@ -42,7 +42,7 @@ function PaymentMethodPage() {
   const { setPurchaseCompleted } = useContext(PurchaseContext);
   const { setCartTotal, subtotal } = useContext(CartContext);
 
-  // const [grandTotal, setGrandTotal] = useState();
+  const [grandTotal, setGrandTotal] = useState();
 
   const navigateToSuccessfulPurchase = useNavigate();
 
@@ -119,11 +119,12 @@ function PaymentMethodPage() {
     }
   };
 
-  // const calculateGrandTotal = (_subtotal, _tax) => {
-  //   const value = parseInt(_subtotal + _tax, 10);
-  //   setGrandTotal(value);
-  //   return grandTotal;
-  // };
+  const calculateGrandTotal = (_subtotal, _tax) => {
+    const value = `${_subtotal + _tax}`;
+    const formatLongValue = value.split(".").join("");
+    setGrandTotal(parseInt(formatLongValue, 10));
+    return grandTotal;
+  };
 
   const addCustomerAndPayment = async () => {
     try {
@@ -141,7 +142,8 @@ function PaymentMethodPage() {
             loggedInUser.email,
             "VideoGames",
             "USD",
-            parseInt(subtotal + tax, 10)
+            // parseInt(subtotal + tax, 10)
+            calculateGrandTotal(subtotal, tax)
           );
         })
         .then((responsePayment) => responsePayment);
