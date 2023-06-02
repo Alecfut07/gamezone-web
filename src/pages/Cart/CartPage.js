@@ -5,6 +5,7 @@ import { IconContext } from "react-icons";
 import { BsHouseDoorFill, BsFillTrash3Fill } from "react-icons/bs";
 import StepperButton from "../../components/StepperButton";
 import CartsService from "../../services/CartsService";
+import PaymentService from "../../services/PaymentService";
 import { CartContext } from "../../context";
 
 import "./CartPage.css";
@@ -14,14 +15,9 @@ function CartPage() {
   // const [subtotal, setSubtotal] = useState([]);
   const { cartTotal, setCartTotal, subtotal, setSubtotal } =
     useContext(CartContext);
+  const [estimatedTax, setEstimatedTax] = useState(0);
 
   const navigateToCheckout = useNavigate();
-
-  const calculateSubtotal = (items) =>
-    items.reduce(
-      (accumulator, item) => accumulator + item.price * item.quantity,
-      0
-    );
 
   const homeIconStyle = useMemo(() => ({
     color: "#da362c",
@@ -35,6 +31,24 @@ function CartPage() {
     size: "23px",
   }));
 
+  const calculateSubtotal = (items) =>
+    items.reduce(
+      (accumulator, item) => accumulator + item.price * item.quantity,
+      0
+    );
+
+  const calculateEstimatedTaxValue = async (amount) => {
+    try {
+      const value = `${amount}`;
+      const formatLongValue = value.split(".").join("");
+      const result = await PaymentService.calculateEstimatedTax(
+        parseInt(formatLongValue, 10)
+      );
+      setEstimatedTax(result.estimated_tax_amount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const decreaseProductQuantity = async (productId, quantity) => {
     try {
       if (quantity > 1) {
@@ -48,6 +62,7 @@ function CartPage() {
         setCartItems(results.products);
         const st = calculateSubtotal(results.products);
         setSubtotal(st);
+        calculateEstimatedTaxValue(st);
       } else {
         await CartsService.updateQuantity(productId, quantity);
       }
@@ -68,6 +83,7 @@ function CartPage() {
       setCartItems(results.products);
       const st = calculateSubtotal(results.products);
       setSubtotal(st);
+      calculateEstimatedTaxValue(st);
     } catch (error) {
       console.log(error);
     }
@@ -84,6 +100,7 @@ function CartPage() {
       setCartTotal(totalQuantity);
       setCartItems([]);
       setSubtotal(0);
+      setEstimatedTax(0);
     } catch (error) {
       console.log(error);
     }
@@ -103,6 +120,7 @@ function CartPage() {
       );
       setCartTotal(totalQuantity);
       setSubtotal(st);
+      calculateEstimatedTaxValue(st);
     } catch (error) {
       console.log(error);
     }
@@ -118,6 +136,7 @@ function CartPage() {
       setCartItems(results.products);
       const st = calculateSubtotal(results.products);
       setSubtotal(st);
+      calculateEstimatedTaxValue(st);
     } catch (error) {
       console.log(error);
     }
@@ -203,12 +222,29 @@ function CartPage() {
           <Row>
             <Stack className="mt-4" direction="horizontal" gap={3}>
               <div className="delivery-summary-total ms-auto">
-                <p>Subotal: ${subtotal}</p>
-                <p>Tax: ??</p>
-                <div className="border border-primary border-bottom" />
-                <p className="mt-2">
-                  <b>Order total: $70.00</b>
-                </p>
+                <Row>
+                  <Stack direction="horizontal" gap={3}>
+                    <p>Subotal:</p>
+                    <p className="ms-auto">${subtotal.toFixed(2)}</p>
+                  </Stack>
+                </Row>
+                <Row>
+                  <Stack direction="horizontal" gap={3}>
+                    <p>Estimated Tax:</p>
+                    <p className="ms-auto">${estimatedTax.toFixed(2)}</p>
+                  </Stack>
+                </Row>
+                <Row>
+                  <div className="border border-primary border-bottom" />
+                </Row>
+                <Row>
+                  <Stack direction="horizontal" gap={3}>
+                    <h5>Estimated Total:</h5>
+                    <p className="mt-2 ms-auto">
+                      <b>${(subtotal + estimatedTax).toFixed(2)}</b>
+                    </p>
+                  </Stack>
+                </Row>
               </div>
             </Stack>
           </Row>

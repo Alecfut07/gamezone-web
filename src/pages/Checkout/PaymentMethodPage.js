@@ -142,7 +142,6 @@ function PaymentMethodPage() {
             loggedInUser.email,
             "VideoGames",
             "USD",
-            // parseInt(subtotal + tax, 10)
             calculateGrandTotal(subtotal, tax)
           );
         })
@@ -382,13 +381,13 @@ function PaymentMethodPage() {
           <Row>
             <Stack direction="horizontal" gap={3}>
               <p>Subtotal</p>
-              <p className="ms-auto">${subtotal}</p>
+              <p className="ms-auto">${subtotal.toFixed(2)}</p>
             </Stack>
           </Row>
           <Row>
             <Stack direction="horizontal" gap={3}>
               <p>Tax</p>
-              <p className="ms-auto">${tax}</p>
+              <p className="ms-auto">${tax.toFixed(2)}</p>
             </Stack>
           </Row>
           <Row>
@@ -398,30 +397,10 @@ function PaymentMethodPage() {
             <Stack direction="horizontal" gap={3}>
               <h5>Total</h5>
               <p className="mt-2 ms-auto">
-                <b>${subtotal + tax}</b>
+                <b>${(subtotal + tax).toFixed(2)}</b>
               </p>
             </Stack>
           </Row>
-          {/* <p>We accept the following secure payment methods:</p>
-          <div id="img-wrapper" className="row">
-            <div className="col-sm-4">
-              <img alt="visa_logo.png" src={visaLogo} width="70px" />
-            </div>
-            <div className="col-sm-4">
-              <img
-                alt="mastercard_logo.png"
-                src={mastercardLogo}
-                width="70px"
-              />
-            </div>
-            <div className="col-sm-4">
-              <img
-                alt="americanexpress_logo.png"
-                src={americanexpressLogo}
-                width="70px"
-              />
-            </div>
-          </div> */}
         </div>
       </Stack>
     </Container>

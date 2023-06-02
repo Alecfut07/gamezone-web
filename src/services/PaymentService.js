@@ -37,6 +37,21 @@ const PaymentService = {
       throw error;
     }
   },
+  calculateEstimatedTax: async (amount) => {
+    const body = {
+      amount,
+    };
+    try {
+      const { data } = await axios.post(
+        "/stripe/calculate_estimated_tax",
+        body
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   calculateTax: async (line1, line2, zipCode, state, city, country) => {
     const body = {
       line1,
