@@ -104,7 +104,10 @@ function ProfilePage() {
   };
 
   const onPhoneChange = (e) => {
-    const phoneNumber = e.target.value.replace(/[A-Za-z]+/gi, "");
+    const phoneNumber = e.target.value.replace(
+      /[A-Za-z*|":<>[\]{}`\\()';!#%^ˆ~˜_+?,./=\-\s@&$]+/gi,
+      ""
+    );
     if (isPhoneValid(phoneNumber)) {
       setPhone(phoneNumber);
       setPhoneError(false);

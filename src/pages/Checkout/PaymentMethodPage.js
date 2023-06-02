@@ -64,7 +64,7 @@ function PaymentMethodPage() {
 
   const onSecurityCodeChange = (e) => {
     const inputSecurityCode = e.target.value.replace(
-      /[A-Za-z*|":<>[\]{}`\\()';!#%^~_+?,./=\-\s@&$]/gi,
+      /[A-Za-z*|":<>[\]{}`\\()';!#%^ˆ~˜_+?,./=\-\s@&$]/gi,
       ""
     );
     setSecurityCode(inputSecurityCode);
