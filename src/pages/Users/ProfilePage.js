@@ -17,7 +17,7 @@ function ProfilePage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const maxPhoneLength = 12;
+  const maxPhoneLength = 14;
   const [hasPhoneError, setPhoneError] = useState(null);
   const [birthdate, setBirthdate] = useState();
 
@@ -42,9 +42,15 @@ function ProfilePage() {
   const isPhoneValid = (phoneNumber) => {
     // const phonePattern = "/^[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-/s.]?[0-9]{4}$/";
     // const phonePattern2 = "/^[(]?[0-9]{3}[)]?[0-9]{3}[-/s.]?[0-9]{4}$/";
-    const phonePattern3 = "^[0-9*]{3}-[0-9*]{3}-[0-9*]{4}$";
     // const phonePattern4 = "^[0-9*#+]{3}-[0-9*#+]{3}-[0-9*#+]{4}$";
-    const phoneRegex = RegExp(phonePattern3);
+
+    // OLD
+    // const phonePattern3 = "^[0-9*]{3}-[0-9*]{3}-[0-9*]{4}$";
+    // NEW
+    // const phonePattern = "^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$";
+    const phonePattern =
+      "^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$";
+    const phoneRegex = RegExp(phonePattern);
     return phoneRegex.test(phoneNumber);
   };
 
@@ -108,14 +114,37 @@ function ProfilePage() {
       /[A-Za-z*|":<>[\]{}`\\()';!#%^ˆ~˜_+?,./=\-\s@&$]+/gi,
       ""
     );
-    if (isPhoneValid(phoneNumber)) {
-      setPhone(phoneNumber);
+    // setPhone(phoneNumber);
+
+    const phoneNumberLength = phoneNumber.length;
+
+    if (phoneNumberLength < 4) setPhone(phoneNumber);
+    if (phoneNumberLength < 7) {
+      setPhone(`(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`);
+    }
+    setPhone(
+      `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+        3,
+        6
+      )}-${phoneNumber.slice(6, 10)}`
+    );
+
+    // if (isPhoneValid(phone)) {
+    //   // setPhone(phoneNumber);
+    //   setPhoneError(false);
+    // } else {
+    //   // setPhone(phoneNumber);
+    //   setPhoneError(true);
+    // }
+  };
+
+  useEffect(() => {
+    if (isPhoneValid(phone)) {
       setPhoneError(false);
     } else {
-      setPhone(phoneNumber);
       setPhoneError(true);
     }
-  };
+  }, [phone]);
 
   useEffect(() => {
     getProfile();
@@ -169,7 +198,7 @@ function ProfilePage() {
               onChange={onPhoneChange}
             />
             <Form.Text className="text-muted">
-              Phone pattern: 123-456-7890
+              Phone pattern: (123) 456-7890
             </Form.Text>
             {hasFormSubmitted && hasPhoneError && (
               <p
