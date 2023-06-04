@@ -110,32 +110,29 @@ function ProfilePage() {
   };
 
   const onPhoneChange = (e) => {
-    const phoneNumber = e.target.value.replace(
-      /[A-Za-z*|":<>[\]{}`\\()';!#%^ˆ~˜_+?,./=\-\s@&$]+/gi,
-      ""
-    );
+    // const phoneNumber = e.target.value.replace(
+    //   /[A-Za-z*|":<>[\]{}`\\()';!#%^ˆ~˜_+?,./=\-\s@&$]+/gi,
+    //   ""
+    // );
+    const phoneNumber = e.target.value.replace(/[^\d]/g, "");
     // setPhone(phoneNumber);
 
     const phoneNumberLength = phoneNumber.length;
 
-    if (phoneNumberLength < 4) setPhone(phoneNumber);
-    if (phoneNumberLength < 7) {
+    if (phoneNumberLength < 1) {
+      setPhone("");
+    } else if (phoneNumberLength < 4) {
+      setPhone(`(${phoneNumber.slice(0, 3)}`);
+    } else if (phoneNumberLength < 7) {
       setPhone(`(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`);
+    } else {
+      setPhone(
+        `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+          3,
+          6
+        )}-${phoneNumber.slice(6, 10)}`
+      );
     }
-    setPhone(
-      `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-        3,
-        6
-      )}-${phoneNumber.slice(6, 10)}`
-    );
-
-    // if (isPhoneValid(phone)) {
-    //   // setPhone(phoneNumber);
-    //   setPhoneError(false);
-    // } else {
-    //   // setPhone(phoneNumber);
-    //   setPhoneError(true);
-    // }
   };
 
   useEffect(() => {
