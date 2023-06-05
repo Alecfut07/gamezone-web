@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Stack } from "react-bootstrap";
+import CategoriesService from "../../services/CategoriesService";
 
 function CategoriesPage() {
+  const [categories, setCategories] = useState([]);
+  const [parentCategories, setParentCategories] = useState([]);
+
   const navigateToNewCategory = useNavigate();
 
   const handleNewCategoryClick = () => {
     navigateToNewCategory("/admin/categories/new");
   };
+
+  const getParentCategories = async () => {
+    try {
+      const results = await CategoriesService.getFilterCategories(true);
+      setParentCategories(results);
+      console.log("results", parentCategories);
+      console.log(
+        "results",
+        results.filter((r) => r.id === 1)
+      );
+    } catch (error) {
+      setParentCategories([]);
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const results = await CategoriesService.getCategories();
+      setCategories(results);
+      // console.log("results", results);
+    } catch (error) {
+      setCategories([]);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+    getParentCategories();
+  }, []);
 
   return (
     <>
@@ -19,13 +53,46 @@ function CategoriesPage() {
           Create new category
         </button>
       </div>
-      <table>
+      <table className="table table-hover">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Name</th>
+            <th scope="col">#</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Subcategory Name</th>
+            <th scope="col">Parent Category</th>
+            <th scope="col">Category Handle</th>
+            <th scope="col">Subcategory Handle</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
+        <tbody>
+          {categories.map((category, index) =>
+            category.subcategories.map((subcategory) => (
+              <tr key={subcategory.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{category.name}</td>
+                <td>{subcategory.name}</td>
+                <td>
+                  {subcategory.parent_category_id === category.id
+                    ? category.name
+                    : null}
+                </td>
+                <td>{category.handle}</td>
+                <td>{subcategory.handle}</td>
+                <td>
+                  <Stack direction="horizontal" gap={3}>
+                    <button className="btn btn-info" type="button">
+                      Update
+                    </button>
+                    <button className="btn btn-danger" type="button">
+                      Delete
+                    </button>
+                  </Stack>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
       </table>
     </>
   );
