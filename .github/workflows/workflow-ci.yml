@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  IMAGE_NAME: alecfut07/gamezone-web:latest
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -27,3 +30,23 @@ jobs:
           cache: "npm"
       - run: npm install
       - run: npx eslint .
+
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ env.IMAGE_NAME }}
+          file: Dockerfile
