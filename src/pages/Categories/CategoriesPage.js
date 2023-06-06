@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stack } from "react-bootstrap";
+import { Stack, DropdownButton, Dropdown } from "react-bootstrap";
 import CategoriesService from "../../services/CategoriesService";
 
 function CategoriesPage() {
@@ -8,9 +8,19 @@ function CategoriesPage() {
   const [parentCategories, setParentCategories] = useState([]);
 
   const navigateToNewCategory = useNavigate();
+  const navigateToUpdateCategory = useNavigate();
+  const navigateToUpdateSubCategory = useNavigate();
 
   const handleNewCategoryClick = () => {
     navigateToNewCategory("/admin/categories/new");
+  };
+
+  const handleUpdateCategoryClick = (id) => {
+    navigateToUpdateCategory(`/admin/categories/update/category/${id}`);
+  };
+
+  const handleUpdateSubCategoryClick = (id) => {
+    navigateToUpdateSubCategory(`/admin/categories/update/subcategory/${id}`);
   };
 
   const getParentCategories = async () => {
@@ -81,9 +91,31 @@ function CategoriesPage() {
                 <td>{subcategory.handle}</td>
                 <td>
                   <Stack direction="horizontal" gap={3}>
-                    <button className="btn btn-info" type="button">
-                      Update
-                    </button>
+                    <DropdownButton
+                      // as={ButtonGroup}
+                      title="Update"
+                      id="bg-nested-dropdown"
+                      variant="info"
+                    >
+                      <Dropdown.Item
+                        eventKey="1"
+                        onClick={() =>
+                          handleUpdateCategoryClick(
+                            subcategory.parent_category_id
+                          )
+                        }
+                      >
+                        Update category
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        eventKey="2"
+                        onClick={() =>
+                          handleUpdateSubCategoryClick(subcategory.id)
+                        }
+                      >
+                        Update subcategory
+                      </Dropdown.Item>
+                    </DropdownButton>
                     <button className="btn btn-danger" type="button">
                       Delete
                     </button>

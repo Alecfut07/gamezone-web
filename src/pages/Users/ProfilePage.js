@@ -193,6 +193,7 @@ function ProfilePage() {
               maxLength={maxPhoneLength}
               value={phone}
               onChange={onPhoneChange}
+              isInvalid={hasFormSubmitted}
             />
             <Form.Text className="text-muted">
               Phone pattern: (123) 456-7890

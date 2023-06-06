@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Sidebar.css";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -6,14 +6,16 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
 import SidebarData from "./SidebarData";
 import SubMenu from "./SubMenu";
-
+import { SidebarContext } from "../../context";
 import CategoriesService from "../../services/CategoriesService";
 
 function Sidebar() {
   // const accessToken = localStorage.getItem("access_token");
 
   const [sidebar, setSidebar] = useState(false);
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
+
+  const { categories, setCategories } = useContext(SidebarContext);
 
   const showSidebar = () => setSidebar(!sidebar);
 

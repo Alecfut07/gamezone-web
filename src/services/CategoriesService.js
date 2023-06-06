@@ -35,10 +35,11 @@ const CategoriesService = {
       throw error;
     }
   },
-  createNewCategory: async (name, parentCategoryId, accessToken) => {
+  createNewCategory: async (name, parentCategoryId, handle, accessToken) => {
     const body = {
       name,
       parent_category_id: parentCategoryId,
+      handle,
     };
     const axiosConfig = {
       headers: {
@@ -53,10 +54,11 @@ const CategoriesService = {
       throw error;
     }
   },
-  updateCategory: async (id, name, parentCategoryId, accessToken) => {
+  updateCategory: async (id, name, parentCategoryId, handle, accessToken) => {
     const body = {
       name,
       parent_category_id: parentCategoryId,
+      handle,
     };
     const axiosConfig = {
       headers: {

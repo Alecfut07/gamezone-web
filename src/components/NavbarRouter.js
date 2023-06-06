@@ -11,6 +11,8 @@ import {
   CategoriesWrapper,
   CategoriesPage,
   CreateNewCategoryPage,
+  UpdateCategoryPage,
+  UpdateSubCategoryPage,
 } from "../pages/Categories";
 import {
   SubCategoryWrapper,
@@ -57,6 +59,11 @@ function NavbarRouter({ children }) {
         <Route path="/admin/categories" element={<CategoriesWrapper />}>
           <Route path="" element={<CategoriesPage />} />
           <Route path="new" element={<CreateNewCategoryPage />} />
+          <Route path="update/category/:id" element={<UpdateCategoryPage />} />
+          <Route
+            path="update/subcategory/:id"
+            element={<UpdateSubCategoryPage />}
+          />
         </Route>
         <Route path="/:category" element={<SubCategoryWrapper />}>
           <Route path=":subcategory" element={<SubCategoryPage />} />

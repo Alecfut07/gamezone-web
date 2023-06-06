@@ -4,7 +4,12 @@ import Cookies from "js-cookie";
 import CustomNavbar from "./components/CustomNavbar";
 import NavbarRouter from "./components/NavbarRouter";
 import InitializeAxios from "./foundation";
-import { AuthProvider, CartProvider, PurchaseProvider } from "./context";
+import {
+  AuthProvider,
+  CartProvider,
+  PurchaseProvider,
+  SidebarProvider,
+} from "./context";
 
 InitializeAxios();
 
@@ -17,7 +22,9 @@ function App() {
       <CartProvider>
         <PurchaseProvider>
           <NavbarRouter>
-            <CustomNavbar />
+            <SidebarProvider>
+              <CustomNavbar />
+            </SidebarProvider>
           </NavbarRouter>
         </PurchaseProvider>
       </CartProvider>
