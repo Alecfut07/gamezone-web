@@ -22,7 +22,7 @@ services:
       - db
       - redis
     env_file:
-      - api.env
+      - .env.production.local
     ports:
       - 5248:5248
     networks:
