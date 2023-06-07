@@ -7,7 +7,7 @@ import {
   Navbar,
   Stack,
 } from "react-bootstrap";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { GiConsoleController } from "react-icons/gi";
 import SearchBar from "./SearchBar";
@@ -88,17 +88,6 @@ function CustomNavbar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={NavLink} to="/admin/categories">
-              Categories
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/admin/products">
-              Products
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/admin/conditions">
-              Conditions
-            </Nav.Link>
-          </Nav>
           <SearchBar />
           {isLoggedIn ? (
             <Stack direction="horizontal" gap={3}>
@@ -107,8 +96,20 @@ function CustomNavbar() {
                 title={loggedInUser ? loggedInUser.email : ""}
                 id="user-nav-dropdown"
               >
-                <NavDropdown.Item href="/users/profile">
+                <NavDropdown.Item
+                  as={Link}
+                  to="/users/profile" /* href="/users/profile" */
+                >
                   Your profile
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/admin/categories">
+                  Categories
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/admin/products">
+                  Products
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/admin/conditions">
+                  Conditions
                 </NavDropdown.Item>
                 <NavDropdown.Item onClick={() => handleSignOut()}>
                   Sign out
