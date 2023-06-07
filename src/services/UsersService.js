@@ -28,8 +28,8 @@ const UsersService = {
       birthdate: birthdate.toISOString(),
     };
     try {
-      const { data } = await axios.put("/users/me", body, axiosConfig);
-      return data;
+      const response = await axios.put("/users/me", body, axiosConfig);
+      return response;
     } catch (error) {
       console.log(error);
       throw error;

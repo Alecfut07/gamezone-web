@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { Alert, Container, Form, Row, Col, Button } from "react-bootstrap";
 
 import DatePicker from "react-datepicker";
 import { getMonth, getYear } from "date-fns";
@@ -39,6 +39,9 @@ function ProfilePage() {
     "December",
   ];
 
+  const [hasSaveInformationErrors, setSaveInformationErrors] = useState(null);
+  const [saveInformationMsg, setSaveInformationMsg] = useState("");
+
   const isPhoneValid = (phoneNumber) => {
     // const phonePattern = "/^[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-/s.]?[0-9]{4}$/";
     // const phonePattern2 = "/^[(]?[0-9]{3}[)]?[0-9]{3}[-/s.]?[0-9]{4}$/";
@@ -63,12 +66,27 @@ function ProfilePage() {
   ) => {
     try {
       if (isPhoneValid(phone)) {
-        await UsersService.updateProfile(
+        const response = await UsersService.updateProfile(
           userAccessToken,
           userFirstName,
           userLastName,
           userPhone,
           userBirthdate
+        );
+        if (response.status === 200) {
+          setSaveInformationErrors(false);
+          setSaveInformationMsg("Success: your information has been updated.");
+        } else {
+          setSaveInformationErrors(true);
+          setSaveInformationMsg(
+            "Error: your information could not been updated."
+          );
+        }
+      } else {
+        debugger;
+        setSaveInformationErrors(true);
+        setSaveInformationMsg(
+          "Error: your phone number could not been updated."
         );
       }
     } catch (error) {
@@ -150,6 +168,16 @@ function ProfilePage() {
   return (
     <Container>
       <h1>Profile Page</h1>
+      {hasFormSubmitted && hasSaveInformationErrors === false && (
+        <Alert className="mt-3" variant="success">
+          {saveInformationMsg}
+        </Alert>
+      )}
+      {hasFormSubmitted && hasSaveInformationErrors && (
+        <Alert className="mt-3" variant="danger">
+          {saveInformationMsg}
+        </Alert>
+      )}
       <Form noValidate validated={hasFormSubmitted} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="firstNameValidation">
@@ -193,7 +221,8 @@ function ProfilePage() {
               maxLength={maxPhoneLength}
               value={phone}
               onChange={onPhoneChange}
-              isInvalid={hasFormSubmitted}
+              isInvalid={!isPhoneValid(phone) || phone.length < maxPhoneLength}
+              required
             />
             <Form.Text className="text-muted">
               Phone pattern: (123) 456-7890

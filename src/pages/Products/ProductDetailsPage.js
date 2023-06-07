@@ -83,9 +83,10 @@ function ProductDetailsPage() {
   return (
     <Container className="mt-4">
       {hasAddItemToCartErrors === false && (
-        <Alert variant={hasAddItemToCartErrors ? "danger" : "success"}>
-          {addItemToCartAlertMsg}
-        </Alert>
+        <Alert variant="success">{addItemToCartAlertMsg}</Alert>
+      )}
+      {hasAddItemToCartErrors && (
+        <Alert variant="danger">{addItemToCartAlertMsg}</Alert>
       )}
       <Row>
         <Col>
