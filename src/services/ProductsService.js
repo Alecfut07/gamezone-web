@@ -35,6 +35,15 @@ const ProductsService = {
       throw error;
     }
   },
+  getProductsByCollection: async () => {
+    try {
+      const { data } = await axios.get("/collections");
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   searchProducts: async (name, category, pageNumber, pageSize) => {
     try {
       const params = { q: name, pageNumber, pageSize };
