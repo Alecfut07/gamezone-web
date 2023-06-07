@@ -90,7 +90,13 @@ function SignUpPage() {
       <Form.Check type="checkbox" label="Remember me" />
       <a href="!#">Forgot password?</a>
     </Form.Group> */}
-        <Button className="mb-4" variant="primary" type="submit">
+        <Button
+          id="sign-up-button"
+          className="mb-4"
+          // data-testid="sign-up-button"
+          variant="primary"
+          type="submit"
+        >
           SIGN UP
         </Button>
         <div className="text-center">

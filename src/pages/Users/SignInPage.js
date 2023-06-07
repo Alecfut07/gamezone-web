@@ -27,7 +27,7 @@ function SignInPage() {
     } catch (error) {
       setPassword(null);
       setHasError(true);
-      setLoggedIn(false);
+      // setLoggedIn(false);
     }
   };
 
@@ -88,7 +88,12 @@ function SignInPage() {
           <Form.Check type="checkbox" label="Remember me" />
           <a href="!#">Forgot password?</a>
         </Form.Group> */}
-        <Button className="mb-4" variant="primary" type="submit">
+        <Button
+          id="sign-in-button"
+          className="mb-4"
+          variant="primary"
+          type="submit"
+        >
           SIGN IN
         </Button>
         <div className="text-center">
@@ -98,7 +103,9 @@ function SignInPage() {
         </div>
       </Form>
       {validated && hasErrors && (
-        <Alert variant="danger">Something went wrong!</Alert>
+        <Alert id="alert-login" variant="danger">
+          Something went wrong!
+        </Alert>
       )}
     </Container>
   );

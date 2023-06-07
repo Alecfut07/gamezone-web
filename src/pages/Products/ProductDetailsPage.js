@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Col, Row, Image, Badge, Button } from "react-bootstrap";
+import {
+  Container,
+  Col,
+  Row,
+  Image,
+  Badge,
+  Button,
+  Alert,
+} from "react-bootstrap";
 import moment from "moment";
 
 import StepperButton from "../../components/StepperButton";
@@ -23,6 +31,9 @@ function ProductDetailsPage() {
   const [productQuantity, setProductQuantity] = useState(1);
   const { setCartTotal } = useContext(CartContext);
 
+  const [hasAddItemToCartErrors, setAddItemToCartErrors] = useState(null);
+  const [addItemToCartAlertMsg, setAddItemToCartAlertMsg] = useState("");
+
   const decreaseProductQuantity = () => {
     if (productQuantity > 1) {
       setProductQuantity(productQuantity - 1);
@@ -37,7 +48,14 @@ function ProductDetailsPage() {
 
   const handleAddProductsToCart = async () => {
     // localStorage.setItem("ProductQuantity", productQuantity);
-    await CartsService.addItemToCart(id, productQuantity);
+    const response = await CartsService.addItemToCart(id, productQuantity);
+    if (response.status === 204) {
+      setAddItemToCartErrors(false);
+      setAddItemToCartAlertMsg("Success: Item is added it into your cart");
+    } else {
+      setAddItemToCartErrors(true);
+      setAddItemToCartAlertMsg("Error: Item is not added it into your cart");
+    }
     const { products } = await CartsService.getCart();
     const totalQuantity = products.reduce(
       (accumulator, product) => accumulator + product.quantity,
@@ -64,6 +82,11 @@ function ProductDetailsPage() {
 
   return (
     <Container className="mt-4">
+      {hasAddItemToCartErrors === false && (
+        <Alert variant={hasAddItemToCartErrors ? "danger" : "success"}>
+          {addItemToCartAlertMsg}
+        </Alert>
+      )}
       <Row>
         <Col>
           <Image src={imageUrl} width="300px" />

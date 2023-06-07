@@ -16,8 +16,8 @@ const CartsService = {
       quantity,
     };
     try {
-      const { data } = await axios.post("/carts/add", body);
-      return data;
+      const response = await axios.post("/carts/add", body);
+      return response;
     } catch (error) {
       console.log(error);
       throw error;

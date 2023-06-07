@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Row, Stack, Table } from "react-bootstrap";
+import { Button, Col, Container, Row, Stack, Table } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { BsHouseDoorFill, BsFillTrash3Fill } from "react-icons/bs";
 import StepperButton from "../../components/StepperButton";
@@ -164,46 +164,85 @@ function CartPage() {
             </div>
           </Row>
           <Row>
-            <Table className="mt-3">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Item</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Subtotal</th>
-                  <th>Remove</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartItems.map((item, index) => (
-                  <tr key={item.productId}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{item.name}</td>
-                    <td>${item.price.toFixed(2)}</td>
-                    <td>
-                      <StepperButton
-                        amount={item.quantity}
-                        setDecrease={() =>
-                          decreaseProductQuantity(item.productId, item.quantity)
-                        }
-                        setIncrease={() =>
-                          increaseProductQuantity(item.productId, item.quantity)
-                        }
-                      />
-                    </td>
-                    <td>${(item.price * item.quantity).toFixed(2)}</td>
-                    <td>
-                      <IconContext.Provider value={trashIconStyle}>
-                        <BsFillTrash3Fill
-                          onClick={() => handleRemoveItemInCart(item.productId)}
-                        />
-                      </IconContext.Provider>
-                    </td>
+            <Col lg={9}>
+              <Table className="mt-3">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Remove</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {cartItems.map((item, index) => (
+                    <tr key={item.productId}>
+                      <th scope="row">{index + 1}</th>
+                      <td>{item.name}</td>
+                      <td>${item.price.toFixed(2)}</td>
+                      <td>
+                        <StepperButton
+                          amount={item.quantity}
+                          setDecrease={() =>
+                            decreaseProductQuantity(
+                              item.productId,
+                              item.quantity
+                            )
+                          }
+                          setIncrease={() =>
+                            increaseProductQuantity(
+                              item.productId,
+                              item.quantity
+                            )
+                          }
+                        />
+                      </td>
+                      <td>${(item.price * item.quantity).toFixed(2)}</td>
+                      <td>
+                        <IconContext.Provider value={trashIconStyle}>
+                          <BsFillTrash3Fill
+                            onClick={() =>
+                              handleRemoveItemInCart(item.productId)
+                            }
+                          />
+                        </IconContext.Provider>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+            <Col lg={3}>
+              <Stack className="mt-4" direction="horizontal" gap={3}>
+                <div className="delivery-summary-total ms-auto">
+                  <Row>
+                    <Stack direction="horizontal" gap={3}>
+                      <p>Subotal:</p>
+                      <p className="ms-auto">${subtotal.toFixed(2)}</p>
+                    </Stack>
+                  </Row>
+                  <Row>
+                    <Stack direction="horizontal" gap={3}>
+                      <p>Estimated Tax:</p>
+                      <p className="ms-auto">${estimatedTax.toFixed(2)}</p>
+                    </Stack>
+                  </Row>
+                  <Row>
+                    <div className="border border-primary border-bottom" />
+                  </Row>
+                  <Row>
+                    <Stack direction="horizontal" gap={3}>
+                      <h5>Estimated Total:</h5>
+                      <p className="mt-2 ms-auto">
+                        <b>${(subtotal + estimatedTax).toFixed(2)}</b>
+                      </p>
+                    </Stack>
+                  </Row>
+                </div>
+              </Stack>
+            </Col>
           </Row>
           <Row>
             <Stack direction="horizontal" gap={3}>
@@ -217,35 +256,6 @@ function CartPage() {
               >
                 Clear cart
               </Button>
-            </Stack>
-          </Row>
-          <Row>
-            <Stack className="mt-4" direction="horizontal" gap={3}>
-              <div className="delivery-summary-total ms-auto">
-                <Row>
-                  <Stack direction="horizontal" gap={3}>
-                    <p>Subotal:</p>
-                    <p className="ms-auto">${subtotal.toFixed(2)}</p>
-                  </Stack>
-                </Row>
-                <Row>
-                  <Stack direction="horizontal" gap={3}>
-                    <p>Estimated Tax:</p>
-                    <p className="ms-auto">${estimatedTax.toFixed(2)}</p>
-                  </Stack>
-                </Row>
-                <Row>
-                  <div className="border border-primary border-bottom" />
-                </Row>
-                <Row>
-                  <Stack direction="horizontal" gap={3}>
-                    <h5>Estimated Total:</h5>
-                    <p className="mt-2 ms-auto">
-                      <b>${(subtotal + estimatedTax).toFixed(2)}</b>
-                    </p>
-                  </Stack>
-                </Row>
-              </div>
             </Stack>
           </Row>
         </>

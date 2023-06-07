@@ -4,10 +4,12 @@ import { ListGroup } from "react-bootstrap";
 function ErrorList({ validated, value }) {
   const valueRules = [
     {
+      id: 1,
       rule: "Min 6 characters",
       validation: () => value.length >= 6,
     },
     {
+      id: 2,
       rule: "Max 20 characters",
       validation: () => value.length <= 20,
     },
@@ -24,7 +26,11 @@ function ErrorList({ validated, value }) {
       <ListGroup className="mt-3">
         {valueRules.map((obj) => {
           const variant = obj.validation(value) ? "success" : "danger";
-          return <ListGroup.Item variant={variant}>{obj.rule}</ListGroup.Item>;
+          return (
+            <ListGroup.Item key={obj.id} variant={variant}>
+              {obj.rule}
+            </ListGroup.Item>
+          );
         })}
       </ListGroup>
     )

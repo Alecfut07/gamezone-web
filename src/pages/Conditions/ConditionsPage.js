@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Card, Alert, Stack } from "react-bootstrap";
+import { Container, Row, Card, Alert, Stack } from "react-bootstrap";
 import DeleteConfirmation from "../../components/DeleteConfirmation";
 import ConditionsService from "../../services/ConditionsService";
 import ConditionsHelper from "../../helpers/ConditionsHelper";
@@ -83,7 +83,7 @@ function ConditionsPage() {
   }, []);
 
   return (
-    <>
+    <Container className="mt-3">
       <Row>
         <Card.Body>
           {isFormValid === true && (
@@ -93,26 +93,27 @@ function ConditionsPage() {
           )}
         </Card.Body>
       </Row>
-      <div>
-        <button
-          type="button"
-          onClick={handleNewConditionClick}
-          className="btn btn-primary"
-        >
-          Create new condition
-        </button>
-      </div>
-      <div className="">
+      <Row>
+        <div className="table-header p-2">
+          <span>Conditions</span>
+          <button
+            type="button"
+            onClick={handleNewConditionClick}
+            className="btn btn-primary conditions-add"
+          >
+            Create
+          </button>
+        </div>
         <table className="table table-hover table-responsive table-sm">
           <thead>
             <tr>
               <th className="col-1" scope="col">
                 #
               </th>
-              <th className="col-1" scope="col">
+              <th className="col-10" scope="col">
                 State
               </th>
-              <th className="col-1" style={{ width: "10px" }} scope="col">
+              <th className="col-1" scope="col">
                 Actions
               </th>
             </tr>
@@ -145,19 +146,17 @@ function ConditionsPage() {
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <DeleteConfirmation
-              showModal={displayConfirmationModal}
-              confirmModal={submitDeleteCondition}
-              hideModal={hideConfirmationModal}
-              type={condition}
-              id={condition && condition.id}
-              message={deleteMessage}
-            />
-          </tfoot>
         </table>
-      </div>
-    </>
+        <DeleteConfirmation
+          showModal={displayConfirmationModal}
+          confirmModal={submitDeleteCondition}
+          hideModal={hideConfirmationModal}
+          type={condition}
+          id={condition && condition.id}
+          message={deleteMessage}
+        />
+      </Row>
+    </Container>
   );
 }
 
