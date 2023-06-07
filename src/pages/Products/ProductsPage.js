@@ -6,8 +6,9 @@ import DeleteConfirmation from "../../components/DeleteConfirmation";
 import ProductsService from "../../services/ProductsService";
 import ConditionsHelper from "../../helpers/ConditionsHelper";
 import EditionsHelper from "../../helpers/EditionsHelper";
-
-import "./ProductsPage.css";
+import AddButton from "../../components/Buttons/AddButton/AddButton";
+import UpdateButton from "../../components/Buttons/UpdateButton/UpdateButton";
+import DeleteButton from "../../components/Buttons/DeleteButton/DeleteButton";
 
 function ProductsPage() {
   const accessToken = localStorage.getItem("access_token");
@@ -95,15 +96,9 @@ function ProductsPage() {
         </Card.Body>
       </Row>
       <Row>
-        <div className="table-header p-2">
+        <div className="table-header">
           <span>Products</span>
-          <button
-            type="button"
-            onClick={handleNewProductClick}
-            className="products-add btn btn-primary"
-          >
-            Create new product
-          </button>
+          <AddButton handleClick={handleNewProductClick} />
         </div>
         <table className="table table-hover">
           <thead>
@@ -131,22 +126,14 @@ function ProductsPage() {
                   <td>{EditionsHelper.formatType(pv.edition.type)}</td>
                   <td>
                     <Stack className="mt-auto" direction="horizontal" gap={3}>
-                      <button
-                        className="btn btn-info"
-                        type="button"
-                        onClick={() => handleUpdateProductClick(prod.id)}
-                      >
-                        Update
-                      </button>
-                      <button
-                        className="btn btn-danger"
-                        type="button"
-                        onClick={() =>
+                      <UpdateButton
+                        handleClick={() => handleUpdateProductClick(prod.id)}
+                      />
+                      <DeleteButton
+                        handleClick={() =>
                           showDeleteProductModal(prod.name, prod.id)
                         }
-                      >
-                        Delete
-                      </button>
+                      />
                     </Stack>
                   </td>
                 </tr>

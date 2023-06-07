@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stack, DropdownButton, Dropdown } from "react-bootstrap";
+import {
+  Row,
+  Stack,
+  DropdownButton,
+  Dropdown,
+  Container,
+} from "react-bootstrap";
 import CategoriesService from "../../services/CategoriesService";
-
-import "./CategoriesPage.css";
+import AddButton from "../../components/Buttons/AddButton/AddButton";
 
 function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -55,80 +60,77 @@ function CategoriesPage() {
   }, []);
 
   return (
-    <>
-      <div>
-        <button
-          type="button"
-          onClick={handleNewCategoryClick}
-          className="btn btn-primary"
-        >
-          Create new category
-        </button>
-      </div>
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Category Name</th>
-            <th scope="col">Subcategory Name</th>
-            <th scope="col">Parent Category</th>
-            <th scope="col">Category Handle</th>
-            <th scope="col">Subcategory Handle</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((category, index) =>
-            category.subcategories.map((subcategory) => (
-              <tr key={subcategory.id}>
-                <th scope="row">{index + 1}</th>
-                <td>{category.name}</td>
-                <td>{subcategory.name}</td>
-                <td>
-                  {subcategory.parent_category_id === category.id
-                    ? category.name
-                    : null}
-                </td>
-                <td>{category.handle}</td>
-                <td>{subcategory.handle}</td>
-                <td>
-                  <Stack direction="horizontal" gap={3}>
-                    <DropdownButton
-                      // as={ButtonGroup}
-                      title="Update"
-                      id="bg-nested-dropdown"
-                      variant="info"
-                    >
-                      <Dropdown.Item
-                        eventKey="1"
-                        onClick={() =>
-                          handleUpdateCategoryClick(
-                            subcategory.parent_category_id
-                          )
-                        }
+    <Container>
+      <Row>
+        <div className="table-header">
+          <span>Categories</span>
+          <AddButton handleClick={handleNewCategoryClick} />
+        </div>
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Category Name</th>
+              <th scope="col">Subcategory Name</th>
+              <th scope="col">Parent Category</th>
+              <th scope="col">Category Handle</th>
+              <th scope="col">Subcategory Handle</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.map((category, index) =>
+              category.subcategories.map((subcategory) => (
+                <tr key={subcategory.id}>
+                  <th scope="row">{index + 1}</th>
+                  <td>{category.name}</td>
+                  <td>{subcategory.name}</td>
+                  <td>
+                    {subcategory.parent_category_id === category.id
+                      ? category.name
+                      : null}
+                  </td>
+                  <td>{category.handle}</td>
+                  <td>{subcategory.handle}</td>
+                  <td>
+                    <Stack direction="horizontal" gap={3}>
+                      <DropdownButton
+                        // as={ButtonGroup}
+                        title="Update"
+                        id="bg-nested-dropdown"
+                        variant="info"
                       >
-                        Update category
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        eventKey="2"
-                        onClick={() =>
-                          handleUpdateSubCategoryClick(subcategory.id)
-                        }
-                      >
-                        Update subcategory
-                      </Dropdown.Item>
-                    </DropdownButton>
-                    <button className="btn btn-danger" type="button">
-                      Delete
-                    </button>
-                  </Stack>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </>
+                        <Dropdown.Item
+                          eventKey="1"
+                          onClick={() =>
+                            handleUpdateCategoryClick(
+                              subcategory.parent_category_id
+                            )
+                          }
+                        >
+                          Update category
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey="2"
+                          onClick={() =>
+                            handleUpdateSubCategoryClick(subcategory.id)
+                          }
+                        >
+                          Update subcategory
+                        </Dropdown.Item>
+                      </DropdownButton>
+                      <button className="btn btn-danger" type="button">
+                        Delete
+                      </button>
+                    </Stack>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </Row>
+    </Container>
   );
 }
 
