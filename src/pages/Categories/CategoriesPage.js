@@ -60,7 +60,7 @@ function CategoriesPage() {
   }, []);
 
   return (
-    <Container>
+    <Container className="mt-3">
       <Row>
         <div className="table-header">
           <span>Categories</span>
