@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Stack, DropdownButton, Dropdown } from "react-bootstrap";
 import CategoriesService from "../../services/CategoriesService";
 
+import "./CategoriesPage.css";
+
 function CategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [parentCategories, setParentCategories] = useState([]);

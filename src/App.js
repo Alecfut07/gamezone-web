@@ -11,6 +11,8 @@ import {
   SidebarProvider,
 } from "./context";
 
+import "./App.css";
+
 InitializeAxios();
 
 function App() {

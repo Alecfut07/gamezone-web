@@ -4,6 +4,9 @@ import { Container, Row, Card, Alert, Stack } from "react-bootstrap";
 import DeleteConfirmation from "../../components/DeleteConfirmation";
 import ConditionsService from "../../services/ConditionsService";
 import ConditionsHelper from "../../helpers/ConditionsHelper";
+import AddButton from "../../components/Buttons/AddButton/AddButton";
+import UpdateButton from "../../components/Buttons/UpdateButton/UpdateButton";
+import DeleteButton from "../../components/Buttons/DeleteButton/DeleteButton";
 
 function ConditionsPage() {
   const accessToken = localStorage.getItem("access_token");
@@ -94,15 +97,9 @@ function ConditionsPage() {
         </Card.Body>
       </Row>
       <Row>
-        <div className="table-header p-2">
+        <div className="table-header">
           <span>Conditions</span>
-          <button
-            type="button"
-            onClick={handleNewConditionClick}
-            className="btn btn-primary conditions-add"
-          >
-            Create
-          </button>
+          <AddButton handleClick={handleNewConditionClick} />
         </div>
         <table className="table table-hover table-responsive table-sm">
           <thead>
@@ -125,22 +122,14 @@ function ConditionsPage() {
                 <td>{ConditionsHelper.formatState(cond.state)}</td>
                 <td>
                   <Stack className="mt-auto" direction="horizontal" gap={3}>
-                    <button
-                      className="btn btn-info"
-                      type="button"
-                      onClick={() => handleUpdateConditionClick(cond.id)}
-                    >
-                      Update
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      type="button"
-                      onClick={() =>
+                    <UpdateButton
+                      handleClick={() => handleUpdateConditionClick(cond.id)}
+                    />
+                    <DeleteButton
+                      handleClick={() =>
                         showDeleteConditionModal(cond.state, cond.id)
                       }
-                    >
-                      Delete
-                    </button>
+                    />
                   </Stack>
                 </td>
               </tr>
