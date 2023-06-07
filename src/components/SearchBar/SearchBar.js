@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
+import "./SearchBar.css";
+
 function SearchBar() {
   const [input, setInput] = useState("");
 
@@ -45,7 +47,7 @@ function SearchBar() {
       <Form.Control
         type="search"
         placeholder="Search"
-        className="me-2"
+        className="search-bar me-2"
         aria-label="Search"
         onChange={onProductNameSearchBarChange}
         required

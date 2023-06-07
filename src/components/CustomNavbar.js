@@ -10,7 +10,7 @@ import {
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { GiConsoleController } from "react-icons/gi";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchBar/SearchBar";
 import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
 import AuthService from "../services/AuthService";
