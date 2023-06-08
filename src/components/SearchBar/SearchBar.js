@@ -13,12 +13,12 @@ function SearchBar() {
   const formRef = useRef(null);
 
   const [matchWindow, setMatchWindow] = useState(
-    window.matchMedia("(min-width: 768px)").matches
+    window.matchMedia("(min-width: 768px) and (min-width: 1400px)").matches
   );
   // 767 px width
 
   const searchbar = (isMatch) => ({
-    width: isMatch ? "600px" : "400px",
+    width: isMatch ? "600px" : "300px",
     height: "40px",
     // border: "none",
     // background: "#c0c0c0",
@@ -58,7 +58,7 @@ function SearchBar() {
 
   useEffect(() => {
     window
-      .matchMedia("(min-width: 768px)")
+      .matchMedia("(min-width: 768px) and (min-width: 1400px)")
       .addEventListener("change", (e) => setMatchWindow(e.matches));
   });
 
