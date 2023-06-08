@@ -2,11 +2,12 @@ import React, { useState, useEffect, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Container, Row, Stack, Table } from "react-bootstrap";
 import { IconContext } from "react-icons";
-import { BsHouseDoorFill, BsFillTrash3Fill } from "react-icons/bs";
+import { BsFillCartFill } from "react-icons/bs";
 import StepperButton from "../../components/StepperButton";
 import CartsService from "../../services/CartsService";
 import PaymentService from "../../services/PaymentService";
 import { CartContext } from "../../context";
+import DeleteButton from "../../components/Buttons/DeleteButton/DeleteButton";
 
 import "./CartPage.css";
 
@@ -19,16 +20,11 @@ function CartPage() {
 
   const navigateToCheckout = useNavigate();
 
-  const homeIconStyle = useMemo(() => ({
+  const cartIconStyle = useMemo(() => ({
     color: "#da362c",
     margin: "50px",
     width: "-29.125rem",
     height: "-0.625rem",
-  }));
-
-  const trashIconStyle = useMemo(() => ({
-    color: "#da362c",
-    size: "23px",
   }));
 
   const calculateSubtotal = (items) =>
@@ -147,18 +143,20 @@ function CartPage() {
   }, []);
 
   return (
-    <Container>
+    <Container className="mt-3">
       {cartTotal !== 0 ? (
         <>
           <Row className="delivery-summary">
             <div className="delivery-options">
               <div className="delivery-summary-home">
                 <Stack direction="horizontal" gap={3}>
-                  <IconContext.Provider value={homeIconStyle}>
-                    <BsHouseDoorFill />
+                  <IconContext.Provider value={cartIconStyle}>
+                    <BsFillCartFill />
                   </IconContext.Provider>
-                  <strong>Ship To Home: </strong>
-                  <span>{cartItems.length} Item</span>
+                  <strong>Cart: </strong>
+                  <span>
+                    {cartItems.length} {cartItems.length > 1 ? "Items" : "Item"}
+                  </span>
                 </Stack>
               </div>
             </div>
@@ -201,13 +199,11 @@ function CartPage() {
                       </td>
                       <td>${(item.price * item.quantity).toFixed(2)}</td>
                       <td>
-                        <IconContext.Provider value={trashIconStyle}>
-                          <BsFillTrash3Fill
-                            onClick={() =>
-                              handleRemoveItemInCart(item.productId)
-                            }
-                          />
-                        </IconContext.Provider>
+                        <DeleteButton
+                          handleClick={() =>
+                            handleRemoveItemInCart(item.productId)
+                          }
+                        />
                       </td>
                     </tr>
                   ))}

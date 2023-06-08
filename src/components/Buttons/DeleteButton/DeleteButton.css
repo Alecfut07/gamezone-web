@@ -10,7 +10,7 @@
   overflow: hidden;
   font-size: 18px;
   font-weight: 500;
-  float: right;
+  /* float: right; */
   cursor: pointer;
 }
 
