@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
+import { Form, InputGroup } from "react-bootstrap";
+import { BsSearch } from "react-icons/bs";
 
 import "./SearchBar.css";
 
@@ -19,6 +20,9 @@ function SearchBar() {
   const searchbar = (isMatch) => ({
     width: isMatch ? "600px" : "400px",
     height: "40px",
+    // border: "none",
+    // background: "#c0c0c0",
+    // boxShadow: "inset 1px 1px 1px green",
   });
 
   const handleSubmit = (event) => {
@@ -40,17 +44,17 @@ function SearchBar() {
     setInput(e.target.value);
   };
 
-  // const handleSearchClick = () => {
-  //   if (input.length > 0) {
-  //     const params = createSearchParams({ name: input });
-  //     navigateSearchProductsPage({
-  //       pathname: "/products/search",
-  //       search: `?${params}`,
-  //     });
-  //     formRef.current.reset();
-  //     setInput("");
-  //   }
-  // };
+  const handleSearchClick = () => {
+    if (input.length > 0) {
+      const params = createSearchParams({ name: input });
+      navigateSearchProductsPage({
+        pathname: "/products/search",
+        search: `?${params}`,
+      });
+      formRef.current.reset();
+      setInput("");
+    }
+  };
 
   useEffect(() => {
     window
@@ -60,15 +64,24 @@ function SearchBar() {
 
   return (
     <Form ref={formRef} className="d-flex" lg={3} onSubmit={handleSubmit}>
-      <Form.Control
-        type="search"
-        placeholder="Search"
-        className="me-2"
-        style={searchbar(matchWindow)}
-        aria-label="Search"
-        onChange={onProductNameSearchBarChange}
-        required
-      />
+      <InputGroup className="input-group-container">
+        <button
+          type="button"
+          className="search-icon-button"
+          onClick={handleSearchClick}
+        >
+          <BsSearch />
+        </button>
+        <Form.Control
+          type="search"
+          placeholder="Search"
+          className="me-2 shadow-none"
+          style={searchbar(matchWindow)}
+          aria-label="Search"
+          onChange={onProductNameSearchBarChange}
+          required
+        />
+      </InputGroup>
       {/* <Button variant="outline-success" onClick={handleSearchClick}>
         Search
       </Button> */}
