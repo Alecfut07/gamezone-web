@@ -74,6 +74,8 @@ function CustomNavbar() {
     getProfile();
   }, [isLoggedIn]);
 
+  console.log(loggedInUser);
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -101,15 +103,21 @@ function CustomNavbar() {
                 >
                   Your profile
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/admin/categories">
-                  Categories
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/admin/products">
-                  Products
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/admin/conditions">
-                  Conditions
-                </NavDropdown.Item>
+                {loggedInUser.is_admin && (
+                  <NavDropdown.Item as={Link} to="/admin/categories">
+                    Categories
+                  </NavDropdown.Item>
+                )}
+                {loggedInUser.is_admin && (
+                  <NavDropdown.Item as={Link} to="/admin/products">
+                    Products
+                  </NavDropdown.Item>
+                )}
+                {loggedInUser.is_admin && (
+                  <NavDropdown.Item as={Link} to="/admin/conditions">
+                    Conditions
+                  </NavDropdown.Item>
+                )}
                 <NavDropdown.Item onClick={() => handleSignOut()}>
                   Sign out
                 </NavDropdown.Item>
@@ -132,26 +140,6 @@ function CustomNavbar() {
                 Sign up
               </Button>
             </Stack>
-            // <Row>
-            //   <Col lg={6}>
-            //     <Button
-            //       style={{ width: "150px" }}
-            //       variant="outline-dark"
-            //       href="/users/sign_in"
-            //     >
-            //       Sign in
-            //     </Button>
-            //   </Col>
-            //   <Col lg={6}>
-            //     <Button
-            //       className="mr-sm-2"
-            //       variant="outline-dark"
-            //       href="/users/sign_up"
-            //     >
-            //       Sign up
-            //     </Button>
-            //   </Col>
-            // </Row>
           )}
         </Navbar.Collapse>
         <Nav /* className="ms-5" */ style={{ marginRight: "15px" }}>
