@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Button,
   Container,
@@ -6,10 +6,9 @@ import {
   NavDropdown,
   Navbar,
   Stack,
+  Image,
 } from "react-bootstrap";
 import { NavLink, useNavigate, Link } from "react-router-dom";
-import { IconContext } from "react-icons";
-import { GiConsoleController } from "react-icons/gi";
 import SearchBar from "./SearchBar/SearchBar";
 import Cart from "./Cart/Cart";
 import UsersService from "../services/UsersService";
@@ -17,11 +16,10 @@ import AuthService from "../services/AuthService";
 import CartsService from "../services/CartsService";
 import { AuthContext, CartContext } from "../context";
 import Sidebar from "./Sidebar/Sidebar";
+import GameZoneLogo from "../imgs/logos/gamezone_logo.png";
 
 function CustomNavbar() {
-  const title = "GameZone";
   const [loggedInUser, setLoggedInUser] = useState();
-  const logoStyle = useMemo(() => ({ color: "red", size: "50px" }), []);
 
   const navigateSignInPage = useNavigate();
 
@@ -81,10 +79,11 @@ function CustomNavbar() {
       <Container>
         <Sidebar />
         <Navbar.Brand as={NavLink} to="/">
-          <IconContext.Provider value={logoStyle}>
-            <GiConsoleController className="mx-4" />
-          </IconContext.Provider>
-          {title}
+          <Image
+            className="mx-4"
+            src={`${GameZoneLogo}`}
+            style={{ width: "120px" }}
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
