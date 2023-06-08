@@ -8,23 +8,26 @@ import SidebarData from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { SidebarContext } from "../../context";
 import CategoriesService from "../../services/CategoriesService";
+import Backdrop from "./Backdrop";
 
 function Sidebar() {
   // const accessToken = localStorage.getItem("access_token");
 
-  const [sidebar, setSidebar] = useState(false);
+  const [isSidebarVisible, setSidebarVisible] = useState(false);
   // const [categories, setCategories] = useState([]);
 
   const { categories, setCategories } = useContext(SidebarContext);
 
-  const showSidebar = () => setSidebar(!sidebar);
+  const toggleSidebar = () => setSidebarVisible(!isSidebarVisible);
 
   const path = "#";
 
   const sidebarNav = (sidebarToggle) => ({
-    background: "#15171c",
-    width: "250px",
-    height: "100vh",
+    // background: "#15171c",
+    background: "#f8f9fa",
+    boxShadow: "1px 0px 7px rgba(0, 0, 0, 0.5)",
+    width: "375px",
+    height: "100%",
     display: "flex",
     justifyContent: "center",
     position: "fixed",
@@ -49,15 +52,32 @@ function Sidebar() {
 
   return (
     <>
-      <Link className="menu-button" href={path} onClick={showSidebar}>
-        <FaBars />
-        <span className="menu-text">Menu</span>
+      <Link className="menu-button" href={path} onClick={toggleSidebar}>
+        <FaBars style={{ color: "#000000" }} />
       </Link>
-      <Nav style={sidebarNav(sidebar)}>
+      {isSidebarVisible && (
+        <Backdrop
+          isSidebarVisible={isSidebarVisible}
+          setSidebarVisible={setSidebarVisible}
+        />
+      )}
+      <Nav className="sidebar-menu" style={sidebarNav(isSidebarVisible)}>
         <div className="sidebar-wrap">
-          <Link className="menu-button" href={path}>
-            <AiOutlineClose onClick={showSidebar} />
-          </Link>
+          <div className="menu-header-container">
+            <p className="menu-header-label">
+              <b>Menu</b>
+            </p>
+            <Link
+              className="menu-button"
+              style={{ textDecoration: "none", color: "black" }}
+              href={path}
+            >
+              <AiOutlineClose
+                className="close-button"
+                onClick={toggleSidebar}
+              />
+            </Link>
+          </div>
           {categories.map((c) =>
             SidebarData(c).map((item) => <SubMenu key={item.id} item={item} />)
           )}

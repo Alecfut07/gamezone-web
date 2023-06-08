@@ -89,10 +89,10 @@ function ProductDetailsPage() {
         <Alert variant="danger">{addItemToCartAlertMsg}</Alert>
       )}
       <Row>
-        <Col>
+        <Col md={6}>
           <Image src={imageUrl} width="300px" />
         </Col>
-        <Col>
+        <Col md={6}>
           <Row>
             <h3>
               <b>{name}</b>

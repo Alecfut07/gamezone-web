@@ -1,3 +1,24 @@
+.menu-header-container {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  width: 100%;
+}
+
+.menu-header-container .menu-header-label {
+  padding: 1.25rem 1.5rem;
+  /* position: relative; */
+}
+
+.menu-header-label {
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.sidebar-menu {
+  flex-direction: row;
+}
+
 .menu-button {
   margin-left: 2rem;
   background-color: transparent;
@@ -6,6 +27,12 @@
   font-size: 25px;
   line-height: 1;
   padding: 0;
+}
+
+.close-button {
+  position: absolute;
+  right: 1.35rem;
+  top: 1.25rem;
 }
 
 .menu-text {

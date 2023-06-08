@@ -56,6 +56,7 @@ function SubMenu({ item }) {
       <Link
         className="sidebar-link"
         href={path}
+        style={{ textDecoration: "none", color: "black" }}
         onClick={() => item.subNav && showSubNav()}
       >
         <div>

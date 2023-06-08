@@ -83,7 +83,6 @@ function ProfilePage() {
           );
         }
       } else {
-        debugger;
         setSaveInformationErrors(true);
         setSaveInformationMsg(
           "Error: your phone number could not been updated."
