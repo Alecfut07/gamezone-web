@@ -125,13 +125,37 @@ function CustomNavbar() {
               >
                 Sign in
               </Button>
-              <Button variant="outline-dark" href="/users/sign_up">
+              <Button
+                // className="ms-auto"
+                variant="outline-dark"
+                href="/users/sign_up"
+              >
                 Sign up
               </Button>
             </Stack>
+            // <Row>
+            //   <Col lg={6}>
+            //     <Button
+            //       style={{ width: "150px" }}
+            //       variant="outline-dark"
+            //       href="/users/sign_in"
+            //     >
+            //       Sign in
+            //     </Button>
+            //   </Col>
+            //   <Col lg={6}>
+            //     <Button
+            //       className="mr-sm-2"
+            //       variant="outline-dark"
+            //       href="/users/sign_up"
+            //     >
+            //       Sign up
+            //     </Button>
+            //   </Col>
+            // </Row>
           )}
         </Navbar.Collapse>
-        <Nav className="ms-5">
+        <Nav /* className="ms-5" */ style={{ marginRight: "15px" }}>
           <Nav.Link as={NavLink} to="/cart">
             <div>
               <Cart />

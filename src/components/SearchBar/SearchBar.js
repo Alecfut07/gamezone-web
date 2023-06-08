@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 import "./SearchBar.css";
@@ -40,17 +40,17 @@ function SearchBar() {
     setInput(e.target.value);
   };
 
-  const handleSearchClick = () => {
-    if (input.length > 0) {
-      const params = createSearchParams({ name: input });
-      navigateSearchProductsPage({
-        pathname: "/products/search",
-        search: `?${params}`,
-      });
-      formRef.current.reset();
-      setInput("");
-    }
-  };
+  // const handleSearchClick = () => {
+  //   if (input.length > 0) {
+  //     const params = createSearchParams({ name: input });
+  //     navigateSearchProductsPage({
+  //       pathname: "/products/search",
+  //       search: `?${params}`,
+  //     });
+  //     formRef.current.reset();
+  //     setInput("");
+  //   }
+  // };
 
   useEffect(() => {
     window
@@ -69,9 +69,9 @@ function SearchBar() {
         onChange={onProductNameSearchBarChange}
         required
       />
-      <Button variant="outline-success" onClick={handleSearchClick}>
+      {/* <Button variant="outline-success" onClick={handleSearchClick}>
         Search
-      </Button>
+      </Button> */}
     </Form>
   );
 }
