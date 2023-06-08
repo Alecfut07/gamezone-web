@@ -1,17 +1,19 @@
 .menu-header-container {
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  /* box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08); */
   width: 100%;
 }
 
 .menu-header-container .menu-header-label {
-  padding: 1.25rem 1.5rem;
-  /* position: relative; */
+  /* padding: 1.25rem 1.5rem; */
+  padding: 0.25rem 2rem;
+  position: relative;
 }
 
 .menu-header-label {
   color: #000;
   font-size: 20px;
   font-weight: 700;
+  top: 13px;
   margin-bottom: 0;
 }
 
