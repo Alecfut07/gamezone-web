@@ -19,6 +19,8 @@ function ProfilePage() {
   const [phone, setPhone] = useState("");
   const maxPhoneLength = 14;
   const [hasPhoneError, setPhoneError] = useState(null);
+  // const [hasPhoneError] = useState(null);
+
   const [birthdate, setBirthdate] = useState();
 
   const accessToken = localStorage.getItem("access_token");
@@ -135,30 +137,36 @@ function ProfilePage() {
     // setPhone(phoneNumber);
 
     const phoneNumberLength = phoneNumber.length;
-
+    let formatedPhoneNumber = null;
     if (phoneNumberLength < 1) {
-      setPhone("");
+      formatedPhoneNumber = "";
+      setPhone(formatedPhoneNumber);
     } else if (phoneNumberLength < 4) {
-      setPhone(`(${phoneNumber.slice(0, 3)}`);
+      formatedPhoneNumber = `(${phoneNumber.slice(0, 3)}`;
+      setPhone(formatedPhoneNumber);
     } else if (phoneNumberLength < 7) {
-      setPhone(`(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`);
+      formatedPhoneNumber = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+        3
+      )}`;
+      setPhone(formatedPhoneNumber);
     } else {
-      setPhone(
-        `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-          3,
-          6
-        )}-${phoneNumber.slice(6, 10)}`
-      );
+      formatedPhoneNumber = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+        3,
+        6
+      )}-${phoneNumber.slice(6, 10)}`;
+      setPhone(formatedPhoneNumber);
     }
-  };
 
-  useEffect(() => {
-    if (isPhoneValid(phone)) {
+    if (isPhoneValid(formatedPhoneNumber)) {
       setPhoneError(false);
     } else {
       setPhoneError(true);
     }
-  }, [phone]);
+  };
+
+  // useEffect(() => {
+
+  // }, [phone]);
 
   useEffect(() => {
     getProfile();
@@ -220,8 +228,15 @@ function ProfilePage() {
               maxLength={maxPhoneLength}
               value={phone}
               onChange={onPhoneChange}
-              isInvalid={!isPhoneValid(phone) || phone.length < maxPhoneLength}
-              required
+              isValid={
+                hasFormSubmitted &&
+                isPhoneValid(phone) &&
+                phone.length === maxPhoneLength
+              }
+              isInvalid={
+                hasFormSubmitted &&
+                (!isPhoneValid(phone) || phone.length < maxPhoneLength)
+              }
             />
             <Form.Text className="text-muted">
               Phone pattern: (123) 456-7890

@@ -74,8 +74,6 @@ function CustomNavbar() {
     getProfile();
   }, [isLoggedIn]);
 
-  console.log(loggedInUser);
-
   return (
     <Navbar bg="light" expand="lg">
       <Container>
