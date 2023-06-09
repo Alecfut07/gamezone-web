@@ -103,17 +103,17 @@ function CustomNavbar() {
                 >
                   Your profile
                 </NavDropdown.Item>
-                {loggedInUser.is_admin && (
+                {loggedInUser?.is_admin && (
                   <NavDropdown.Item as={Link} to="/admin/categories">
                     Categories
                   </NavDropdown.Item>
                 )}
-                {loggedInUser.is_admin && (
+                {loggedInUser?.is_admin && (
                   <NavDropdown.Item as={Link} to="/admin/products">
                     Products
                   </NavDropdown.Item>
                 )}
-                {loggedInUser.is_admin && (
+                {loggedInUser?.is_admin && (
                   <NavDropdown.Item as={Link} to="/admin/conditions">
                     Conditions
                   </NavDropdown.Item>

@@ -44,6 +44,7 @@ import NotFoundPage from "../pages/NotFound";
 import Layout from "../pages/Layout";
 import CheckCartTotal from "./CheckCartTotal";
 import CheckPurchase from "./CheckPurchase";
+import PrivateRoute from "./PrivateRoute";
 
 function NavbarRouter({ children }) {
   return (
@@ -56,7 +57,14 @@ function NavbarRouter({ children }) {
           <Route path="/users/sign_up" element={<SignUpPage />} />
           <Route path="/users/profile" element={<ProfilePage />} />
         </Route>
-        <Route path="/admin/categories" element={<CategoriesWrapper />}>
+        <Route
+          path="/admin/categories"
+          element={
+            <PrivateRoute>
+              <CategoriesWrapper />
+            </PrivateRoute>
+          }
+        >
           <Route path="" element={<CategoriesPage />} />
           <Route path="new" element={<CreateNewCategoryPage />} />
           <Route path="update/category/:id" element={<UpdateCategoryPage />} />
@@ -68,14 +76,28 @@ function NavbarRouter({ children }) {
         <Route path="/:category" element={<SubCategoryWrapper />}>
           <Route path=":subcategory" element={<SubCategoryPage />} />
         </Route>
-        <Route path="/admin/products" element={<ProductsWrapper />}>
+        <Route
+          path="/admin/products"
+          element={
+            <PrivateRoute>
+              <ProductsWrapper />
+            </PrivateRoute>
+          }
+        >
           <Route path="" element={<ProductsPage />} />
           <Route path="new" element={<CreateNewProductPage />} />
           <Route path="update/:id" element={<UpdateProductPage />} />
         </Route>
         <Route path="/products/search" element={<SearchProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
-        <Route path="/admin/conditions" element={<ConditionsWrapper />}>
+        <Route
+          path="/admin/conditions"
+          element={
+            <PrivateRoute>
+              <ConditionsWrapper />
+            </PrivateRoute>
+          }
+        >
           <Route path="" element={<ConditionsPage />} />
           <Route path="new" element={<CreateNewConditionPage />} />
           <Route path=":id" element={<UpdateConditionPage />} />
