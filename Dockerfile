@@ -13,14 +13,12 @@ RUN npm run build
 
 
 # Stage 2
-FROM node:20.1.0-alpine AS final
+FROM nginx:1.25.0-alpine
 
-WORKDIR /app
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder /app/build .
+COPY --from=builder /app/build /usr/share/nginx/html
 
-EXPOSE 3000
+EXPOSE 80
 
-RUN npm install -g serve
-
-CMD serve -n -l 3000
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
