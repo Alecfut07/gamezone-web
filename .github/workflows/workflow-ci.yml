@@ -50,6 +50,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}
           file: Dockerfile
-          build-args: BASE_URL_ARG=${{ vars.REACT_APP_BASE_URL }}, \
-            STRIPE_PUBLISHABLE_KEY_ARG=${{ vars.REACT_APP_STRIPE_PUBLISHABLE_KEY }}, \
+          build-args: |
+            BASE_URL_ARG=${{ vars.REACT_APP_BASE_URL }}
+            STRIPE_PUBLISHABLE_KEY_ARG=${{ vars.REACT_APP_STRIPE_PUBLISHABLE_KEY }}
             STRIPE_SECRET_KEY_ARG=${{ vars.REACT_APP_STRIPE_SECRET_KEY }}
