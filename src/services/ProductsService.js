@@ -37,7 +37,7 @@ const ProductsService = {
   },
   getProductsByCollection: async () => {
     try {
-      const { data } = await axios.get("/collections");
+      const { data } = await axios.get("/products/collections");
       return data;
     } catch (error) {
       console.log(error);
