@@ -8,7 +8,7 @@ const CategoriesService = {
     //   },
     // };
     try {
-      const { data } = await axios.get("/admin/categories");
+      const { data } = await axios.get("/api/admin/categories");
       return data;
     } catch (error) {
       console.log(error);
@@ -17,7 +17,7 @@ const CategoriesService = {
   },
   getCategoryById: async (id) => {
     try {
-      const { data } = await axios.get(`/categories/${id}`);
+      const { data } = await axios.get(`/api/categories/${id}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -27,7 +27,7 @@ const CategoriesService = {
   getFilterCategories: async (showParents) => {
     try {
       const { data } = await axios.get(
-        `/categories?show_parents=${showParents}`
+        `/api/categories?show_parents=${showParents}`
       );
       return data;
     } catch (error) {
@@ -47,7 +47,11 @@ const CategoriesService = {
       },
     };
     try {
-      const { data } = await axios.post("/admin/categories", body, axiosConfig);
+      const { data } = await axios.post(
+        "/api/admin/categories",
+        body,
+        axiosConfig
+      );
       return data;
     } catch (error) {
       console.log(error);
@@ -67,7 +71,7 @@ const CategoriesService = {
     };
     try {
       const { data } = await axios.put(
-        `/admin/categories/${id}`,
+        `/api/admin/categories/${id}`,
         body,
         axiosConfig
       );
@@ -84,7 +88,7 @@ const CategoriesService = {
       },
     };
     try {
-      await axios.delete(`/admin/categories/${id}`, axiosConfig);
+      await axios.delete(`/api/admin/categories/${id}`, axiosConfig);
     } catch (error) {
       console.log(error);
       throw error;

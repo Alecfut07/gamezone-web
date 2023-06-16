@@ -8,7 +8,7 @@ const PaymentService = {
       creditCard,
     };
     try {
-      const { data } = await axios.post("/stripe/customer/add", body);
+      const { data } = await axios.post("/api/stripe/customer/add", body);
       return data;
     } catch (error) {
       console.log(error);
@@ -30,7 +30,7 @@ const PaymentService = {
       amount,
     };
     try {
-      const { data } = await axios.post("/stripe/payment/add", body);
+      const { data } = await axios.post("/api/stripe/payment/add", body);
       return data;
     } catch (error) {
       console.log(error);
@@ -43,7 +43,7 @@ const PaymentService = {
     };
     try {
       const { data } = await axios.post(
-        "/stripe/calculate_estimated_tax",
+        "/api/stripe/calculate_estimated_tax",
         body
       );
       return data;
@@ -62,7 +62,7 @@ const PaymentService = {
       country,
     };
     try {
-      const { data } = await axios.post("/stripe/calculate_tax", body);
+      const { data } = await axios.post("/api/stripe/calculate_tax", body);
       return data;
     } catch (error) {
       console.log(error);

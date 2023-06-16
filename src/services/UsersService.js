@@ -8,7 +8,7 @@ const UsersService = {
       },
     };
     try {
-      const { data } = await axios.get("/users/me", axiosConfig);
+      const { data } = await axios.get("/api/users/me", axiosConfig);
       return data;
     } catch (error) {
       console.log(error);
@@ -28,7 +28,7 @@ const UsersService = {
       birthdate: birthdate.toISOString(),
     };
     try {
-      const response = await axios.put("/users/me", body, axiosConfig);
+      const response = await axios.put("/api/users/me", body, axiosConfig);
       return response;
     } catch (error) {
       console.log(error);
