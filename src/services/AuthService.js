@@ -7,7 +7,7 @@ const AuthService = {
       password,
     };
     try {
-      const { headers } = await axios.post("/api/users/sign_in", body);
+      const { headers } = await axios.post("/users/sign_in", body);
       return headers.getAuthorization().split(" ").pop();
     } catch (error) {
       console.log(error);
@@ -20,7 +20,7 @@ const AuthService = {
       password,
     };
     try {
-      const { headers } = await axios.post("/api/users/sign_up", body);
+      const { headers } = await axios.post("/users/sign_up", body);
       return headers.getAuthorization().split(" ").pop();
     } catch (error) {
       console.log(error);
@@ -28,7 +28,7 @@ const AuthService = {
     }
   },
   signOut: async () => {
-    await axios.post("/api/users/sign_out", null, {
+    await axios.post("/users/sign_out", null, {
       headers: { Authorization: localStorage.getItem("access_token") },
     });
   },

@@ -20,7 +20,7 @@ const OrdersService = {
       },
     };
     try {
-      const { data } = await axios.post("/api/orders", body, axiosConfig);
+      const { data } = await axios.post("/orders", body, axiosConfig);
       return data;
     } catch (error) {
       console.log(error);

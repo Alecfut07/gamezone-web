@@ -7,7 +7,7 @@ const EditionsService = {
     };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/api/admin/editions`,
+        `${process.env.REACT_APP_BASE_URL}/admin/editions`,
         options
       );
       return response.json();
@@ -25,7 +25,7 @@ const EditionsService = {
     };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/api/editions/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/editions/${id}`,
         options
       );
       return response.json();
@@ -48,7 +48,7 @@ const EditionsService = {
     };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/api/admin/editions`,
+        `${process.env.REACT_APP_BASE_URL}/admin/editions`,
         options
       );
       return response.json();
@@ -71,7 +71,7 @@ const EditionsService = {
     };
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/api/admin/editions/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/admin/editions/${id}`,
         options
       );
       return response.json();
@@ -89,7 +89,7 @@ const EditionsService = {
       },
     };
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/api/admin/editions/${id}`,
+      `${process.env.REACT_APP_BASE_URL}/admin/editions/${id}`,
       options
     );
     if (response.ok) {

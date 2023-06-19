@@ -8,7 +8,7 @@ const ProductsService = {
       },
     };
     try {
-      const response = await axios.get("/api/admin/products", axiosConfig);
+      const response = await axios.get("/admin/products", axiosConfig);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -17,7 +17,7 @@ const ProductsService = {
   },
   getProductById: async (id) => {
     try {
-      const { data } = await axios.get(`/api/products/${id}`);
+      const { data } = await axios.get(`/products/${id}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -27,7 +27,7 @@ const ProductsService = {
   getProductsByPaging: async (pageNumber, pageSize) => {
     try {
       const { data, headers } = await axios.get(
-        `/api/products?pageNumber=${pageNumber}&pageSize=${pageSize}`
+        `/products?pageNumber=${pageNumber}&pageSize=${pageSize}`
       );
       return { data, pagination: JSON.parse(headers["x-pagination"]) };
     } catch (error) {
@@ -37,7 +37,7 @@ const ProductsService = {
   },
   getProductsByCollection: async () => {
     try {
-      const { data } = await axios.get("/api/products/collections");
+      const { data } = await axios.get("/products/collections");
       return data;
     } catch (error) {
       console.log(error);
@@ -51,7 +51,7 @@ const ProductsService = {
       if (category) {
         params.category = category;
       }
-      const { data, headers } = await axios.get("/api/products/search", {
+      const { data, headers } = await axios.get("/products/search", {
         params,
       });
       return { data, pagination: JSON.parse(headers["x-pagination"]) };
@@ -72,7 +72,7 @@ const ProductsService = {
     };
     try {
       const { data } = await axios.post(
-        "/api/admin/products/upload",
+        "/admin/products/upload",
         formData,
         axiosConfig
       );
@@ -103,11 +103,7 @@ const ProductsService = {
       },
     };
     try {
-      const { data } = await axios.post(
-        "/api/admin/products",
-        body,
-        axiosConfig
-      );
+      const { data } = await axios.post("/admin/products", body, axiosConfig);
       return data;
     } catch (error) {
       console.log(error);
@@ -139,7 +135,7 @@ const ProductsService = {
     };
     try {
       const { data } = await axios.put(
-        `/api/admin/products/${id}`,
+        `/admin/products/${id}`,
         body,
         axiosConfig
       );
@@ -156,7 +152,7 @@ const ProductsService = {
       },
     };
     try {
-      await axios.delete(`/api/admin/products/${id}`, axiosConfig);
+      await axios.delete(`/admin/products/${id}`, axiosConfig);
     } catch (error) {
       console.log(error);
       throw error;
