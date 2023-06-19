@@ -17,13 +17,46 @@ import PaymentService from "../../services/PaymentService";
 import UsersService from "../../services/UsersService";
 
 import "./PaymentMethodPage.css";
+import OrdersService from "../../services/OrdersService";
 
 function PaymentMethodPage() {
+  const accessToken = localStorage.getItem("access_token");
+
   const [validatedFormFlag, setValidatedFormFlag] = useState(false);
   const [hasErrors, setHasError] = useState(false);
 
+  const [customer, setCustomer] = useState({
+    email: "",
+    name: "",
+    credit_card: {},
+  });
+
+  const [address, setAddress] = useState({
+    line_1: "",
+    line_2: null,
+    zip_code: "",
+    state: "",
+    city: "",
+    country: "",
+  });
+
+  const [payment, setPayment] = useState({
+    receipt_email: "",
+    description: "Videogames",
+    currency: "USD",
+  });
+
+  // const [orderDetails, setOrderDetails] = useState({
+  //   price: 0,
+  //   subtotal: 0,
+  //   quantity: 0,
+  //   product_id: 0,
+  // });
+  // const [cart, setCart] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]);
+
   // const [paymentMethods, setPaymentMethods] = useState([]);
-  const [cardNumber, setCardNumber] = useState("");
+  // const [cardNumber, setCardNumber] = useState("");
   const [cardNumberFormat, setCardNumberFormat] = useState("");
   const [expirationDate, setExpirationDate] = useState(new Date());
   const [securityCode, setSecurityCode] = useState("");
@@ -37,14 +70,27 @@ function PaymentMethodPage() {
 
   const [tax, setTax] = useState(0);
 
-  const [loggedInUser, setLoggedInUser] = useState();
-  const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+  // const [loggedInUser, setLoggedInUser] = useState();
+  const { isLoggedIn, setLoggedIn, setLoggedInUser } = useContext(AuthContext);
   const { setPurchaseCompleted } = useContext(PurchaseContext);
   const { setCartTotal, subtotal } = useContext(CartContext);
+  // const [grandTotal, setGrandTotal] = useState();
 
-  const [grandTotal, setGrandTotal] = useState();
+  // const [email, setEmail] = useState(isLoggedIn ? loggedInUser.email : "");
+  const [email, setEmail] = useState("");
+  // console.log(email);
+  // console.log(loggedInUser);
 
   const navigateToSuccessfulPurchase = useNavigate();
+
+  const onEmailChange = (e) => {
+    const inputEmail = e.target.value;
+    setEmail(inputEmail);
+    customer.email = inputEmail;
+    setCustomer(customer);
+    payment.receipt_email = inputEmail;
+    setPayment(payment);
+  };
 
   const onCardNumberChange = (e) => {
     const inputCardNumber = e.target.value
@@ -55,11 +101,28 @@ function PaymentMethodPage() {
     for (let i = 0; i < inputCardNumber.length; i += 4) {
       cardNumberParts.push(inputCardNumber.substr(i, 4));
     }
-    setCardNumber(cardNumberParts.join(""));
+    // setCardNumber(cardNumberParts.join(""));
+    const formatedCardNumber =
+      cardNumberParts.length > 1 ? cardNumberParts.join("-") : inputCardNumber;
+    setCardNumberFormat(formatedCardNumber);
 
-    setCardNumberFormat(
-      cardNumberParts.length > 1 ? cardNumberParts.join("-") : inputCardNumber
-    );
+    customer.credit_card.card_number = formatedCardNumber;
+    setCustomer(customer);
+  };
+
+  const onDateChangeRaw = (e) => {
+    e.preventDefault();
+  };
+
+  const onExpirationDateChange = (date) => {
+    setExpirationDate(date);
+    customer.credit_card.expiration_year = date
+      .getFullYear()
+      .toString()
+      .slice(-2);
+    setCustomer(customer);
+    customer.credit_card.expiration_month = (date.getMonth() + 1).toString();
+    setCustomer(customer);
   };
 
   const onSecurityCodeChange = (e) => {
@@ -68,18 +131,31 @@ function PaymentMethodPage() {
       ""
     );
     setSecurityCode(inputSecurityCode);
+    customer.credit_card.cvc = inputSecurityCode;
+    setCustomer(customer);
   };
 
   const onFullNameChange = (e) => {
-    setFullName(e.target.value);
+    const inputFullName = e.target.value;
+    setFullName(inputFullName);
+    customer.name = inputFullName;
+    setCustomer(customer);
+    customer.credit_card.name = inputFullName;
+    setCustomer(customer);
   };
 
   const onLine1Change = (e) => {
-    setLine1(e.target.value);
+    const inputLine1 = e.target.value;
+    setLine1(inputLine1);
+    address.line_1 = inputLine1;
+    setAddress(address);
   };
 
   const onLine2Change = (e) => {
-    setLine2(e.target.value);
+    const inputLine2 = e.target.value;
+    setLine2(inputLine2);
+    address.line_2 = inputLine2;
+    setAddress(address);
   };
 
   const onZipCodeChange = (e) => {
@@ -88,19 +164,29 @@ function PaymentMethodPage() {
       ""
     );
     setZipCode(inputZipCode);
+    address.zip_code = inputZipCode;
+    setAddress(address);
   };
 
   const onStateChange = (e) => {
     const stateInput = e.target.value;
     setState(stateInput);
+    address.state = stateInput;
+    setAddress(address);
   };
 
   const onCityChange = (e) => {
-    setCity(e.target.value);
+    const inputCity = e.target.value;
+    setCity(inputCity);
+    address.city = inputCity;
+    setAddress(address);
   };
 
   const onCountryChange = (e) => {
-    setCountry(e.target.value);
+    const inputCountry = e.target.value;
+    setCountry(inputCountry);
+    address.country = inputCountry;
+    setAddress(address);
   };
 
   const onBlurForm = async () => {
@@ -119,33 +205,22 @@ function PaymentMethodPage() {
     }
   };
 
-  const calculateGrandTotal = (_subtotal, _tax) => {
-    const value = `${_subtotal + _tax}`;
-    const formatLongValue = value.split(".").join("");
-    setGrandTotal(parseInt(formatLongValue, 10));
-    return grandTotal;
-  };
+  // const calculateGrandTotal = (_subtotal, _tax) => {
+  //   const value = `${_subtotal + _tax}`;
+  //   const formatLongValue = value.split(".").join("");
+  //   setGrandTotal(parseInt(formatLongValue, 10));
+  //   return grandTotal;
+  // };
 
-  const addCustomerAndPayment = async () => {
+  const submitOrder = async () => {
     try {
-      await PaymentService.addCustomer(loggedInUser.email, fullName, {
-        name: fullName,
-        cardNumber,
-        expirationYear: expirationDate.getFullYear().toString(),
-        expirationMonth: (expirationDate.getMonth() + 1).toString(),
-        cvc: securityCode,
-      })
-        .then((responseCustomer) => responseCustomer)
-        .then(async (customer) => {
-          await PaymentService.addPayment(
-            customer.customerId,
-            loggedInUser.email,
-            "VideoGames",
-            "USD",
-            calculateGrandTotal(subtotal, tax)
-          );
-        })
-        .then((responsePayment) => responsePayment);
+      await OrdersService.submitOrder(
+        customer,
+        address,
+        payment,
+        orderDetails,
+        accessToken
+      );
       setHasError(false);
       await CartsService.removeAllItemsInCart();
       setCartTotal(0);
@@ -156,10 +231,41 @@ function PaymentMethodPage() {
     }
   };
 
+  // const addCustomerAndPayment = async () => {
+  //   try {
+  //     await PaymentService.addCustomer(loggedInUser.email, fullName, {
+  //       name: fullName,
+  //       cardNumber,
+  //       expirationYear: expirationDate.getFullYear().toString(),
+  //       expirationMonth: (expirationDate.getMonth() + 1).toString(),
+  //       cvc: securityCode,
+  //     })
+  //       .then((responseCustomer) => responseCustomer)
+  //       .then(async (customer) => {
+  //         await PaymentService.addPayment(
+  //           customer.customerId,
+  //           loggedInUser.email,
+  //           "VideoGames",
+  //           "USD",
+  //           calculateGrandTotal(subtotal, tax)
+  //         );
+  //       })
+  //       .then((responsePayment) => responsePayment);
+  //     setHasError(false);
+  //     await CartsService.removeAllItemsInCart();
+  //     setCartTotal(0);
+  //     setPurchaseCompleted(true);
+  //     navigateToSuccessfulPurchase("/success");
+  //   } catch (error) {
+  //     setHasError(true);
+  //   }
+  // };
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity()) {
-      addCustomerAndPayment();
+      submitOrder();
+      // addCustomerAndPayment();
     }
     event.preventDefault();
     event.stopPropagation();
@@ -167,57 +273,48 @@ function PaymentMethodPage() {
   };
 
   const getProfile = async () => {
-    const accessToken = localStorage.getItem("access_token");
+    // const accessToken = localStorage.getItem("access_token");
     try {
       if (accessToken !== null) {
         const user = await UsersService.getProfile(accessToken);
         setLoggedInUser(user);
         setLoggedIn(true);
+        setEmail(user.email);
+        customer.email = user.email;
+        setCustomer(customer);
+        payment.receipt_email = user.email;
+        setPayment(payment);
       }
     } catch (error) {
       setLoggedIn(false);
+      setEmail("");
+    }
+  };
+
+  const getCart = async () => {
+    try {
+      const results = await CartsService.getCart();
+      // setCart(results.products);
+      const order = results.products.map((item) => ({
+        price: item.price,
+        subtotal: item.price * item.quantity,
+        quantity: item.quantity,
+        product_id: item.productId,
+      }));
+      setOrderDetails(order);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    getProfile();
-  }, [isLoggedIn]);
+    getCart();
+  }, []);
 
-  // useEffect(() => {
-  //   (() => {
-  //     try {
-  //       const defaultPaymentMethods = [
-  //         {
-  //           id: 0,
-  //           selected: true,
-  //           disabled: true,
-  //           pay_method: "Choose payment method",
-  //         },
-  //         {
-  //           id: 1,
-  //           selected: false,
-  //           disabled: false,
-  //           pay_method: "Visa",
-  //         },
-  //         {
-  //           id: 2,
-  //           selected: false,
-  //           disabled: false,
-  //           pay_method: "MasterCard",
-  //         },
-  //         {
-  //           id: 3,
-  //           selected: false,
-  //           disabled: false,
-  //           pay_method: "American Express",
-  //         },
-  //       ];
-  //       setPaymentMethods(defaultPaymentMethods);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    getProfile();
+    getCart();
+  }, [isLoggedIn]);
 
   return (
     <Container className="mt-3">
@@ -233,24 +330,20 @@ function PaymentMethodPage() {
               validated={validatedFormFlag}
               onSubmit={handleSubmit}
             >
-              {/* <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="paymentMethodValidation">
-                <Form.Label>Please select a payment method</Form.Label>
-                <Form.Select required>
-                  {paymentMethods.map((payMethod) => (
-                    <option
-                      id={payMethod.id}
-                      key={payMethod.id}
-                      selected={payMethod.selected}
-                      disabled={payMethod.disabled}
-                    >
-                      {payMethod.pay_method}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Row> */}
               <Row>
+                <Form.Group className="mb-4" controlId="emailValidation">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    onChange={onEmailChange}
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid email.
+                  </Form.Control.Feedback>
+                </Form.Group>
                 <Form.Group as={Col} md="4" controlId="cardNumberValidation">
                   <Form.Label>Card number</Form.Label>
                   <Form.Control
@@ -269,7 +362,8 @@ function PaymentMethodPage() {
                   <Form.Label>Expiration date</Form.Label>
                   <ReactDatePicker
                     selected={expirationDate}
-                    onChange={(date) => setExpirationDate(date)}
+                    onChange={(date) => onExpirationDateChange(date)}
+                    onChangeRaw={onDateChangeRaw}
                     dateFormat="MM/yy"
                     showMonthYearPicker
                     required
