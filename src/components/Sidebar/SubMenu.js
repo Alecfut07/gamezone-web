@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SubMenu.css";
 import { Dropdown } from "react-bootstrap";
 
-function SubMenu({ item }) {
+function SubMenu({ item, setSidebarVisible }) {
   const [isSubnavOpened, setIsSubnavOpened] = useState(false);
 
   const path = "#";
@@ -34,6 +34,8 @@ function SubMenu({ item }) {
     navigateToSubCategoryPage({
       pathname: `/${category}/${subCategory}`,
     });
+    setIsSubnavOpened(false);
+    setSidebarVisible(false);
   };
 
   const showSubCategories = (subNavItems) => {

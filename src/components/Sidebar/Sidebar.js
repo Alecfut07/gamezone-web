@@ -79,7 +79,7 @@ function Sidebar() {
             </Link>
           </div>
           {categories.map((c) =>
-            SidebarData(c).map((item) => <SubMenu key={item.id} item={item} />)
+            SidebarData(c).map((item) => <SubMenu key={item.id} item={item} setSidebarVisible={setSidebarVisible} />)
           )}
         </div>
       </Nav>
