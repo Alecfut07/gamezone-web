@@ -49,9 +49,10 @@ function SignUpPage() {
   };
 
   return (
-    <Container>
+    <Container className="mt-3 container-center d-grid h-100">
       <Form
-        className="p-3 my-5 d-flex flex-column w-50"
+        // className="p-3 my-5 d-flex flex-column w-50"
+        className="sign-up-form w-100"
         noValidate
         validated={validated}
         onSubmit={handleSubmit}
@@ -90,15 +91,17 @@ function SignUpPage() {
       <Form.Check type="checkbox" label="Remember me" />
       <a href="!#">Forgot password?</a>
     </Form.Group> */}
-        <Button
-          id="sign-up-button"
-          className="mb-4"
-          // data-testid="sign-up-button"
-          variant="primary"
-          type="submit"
-        >
-          SIGN UP
-        </Button>
+        <div className="d-grid">
+          <Button
+            id="sign-up-button"
+            className="mb-4 d-flex justify-content-center"
+            // data-testid="sign-up-button"
+            variant="primary"
+            type="submit"
+          >
+            SIGN UP
+          </Button>
+        </div>
         <div className="text-center">
           <p>
             Already a member? <a href="/users/sign_in">Sign In</a>
