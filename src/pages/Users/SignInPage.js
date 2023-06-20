@@ -50,9 +50,10 @@ function SignInPage() {
   };
 
   return (
-    <Container>
+    <Container className="mt-3 container-center d-grid h-100">
       <Form
-        className="p-3 my-5 d-flex flex-column w-50"
+        // className="p-3 my-5 d-flex flex-column w-50"
+        className="sign-in-form w-100"
         noValidate
         validated={validated}
         onSubmit={handleSubmit}
@@ -88,14 +89,16 @@ function SignInPage() {
           <Form.Check type="checkbox" label="Remember me" />
           <a href="!#">Forgot password?</a>
         </Form.Group> */}
-        <Button
-          id="sign-in-button"
-          className="mb-4"
-          variant="primary"
-          type="submit"
-        >
-          SIGN IN
-        </Button>
+        <div className="d-grid">
+          <Button
+            id="sign-in-button"
+            className="mb-4 d-flex justify-content-center"
+            variant="primary"
+            type="submit"
+          >
+            SIGN IN
+          </Button>
+        </div>
         <div className="text-center">
           <p>
             Not a member? <a href="/users/sign_up">Register</a>
