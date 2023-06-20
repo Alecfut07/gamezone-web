@@ -25,3 +25,11 @@
   background: #ededed;
   padding: 1.4rem;
 }
+
+.table {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  table-layout: fixed;
+  white-space: nowrap;
+}

@@ -163,7 +163,7 @@ function CartPage() {
           </Row>
           <Row>
             <Col lg={9}>
-              <Table className="mt-3">
+              <Table className="table mt-3">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -241,7 +241,7 @@ function CartPage() {
             </Col>
           </Row>
           <Row>
-            <Stack direction="horizontal" gap={3}>
+            <Stack className="mt-3" direction="horizontal" gap={3}>
               <Button onClick={() => handleNavigateToCheckout()}>
                 Proceed to checkout
               </Button>
