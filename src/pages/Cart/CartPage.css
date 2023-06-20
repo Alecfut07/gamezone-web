@@ -28,8 +28,54 @@
 
 .table {
   width: 100%;
+  table-layout: fixed;
   display: block;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   table-layout: fixed;
   white-space: nowrap;
+}
+
+@media (min-width: 375px) and (max-width: 1200px) {
+  th {
+    display: none;
+  }
+
+  td {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: auto auto;
+    padding: 0.5rem 1rem;
+  }
+
+  /* td:first-child {
+    padding-top: 1rem;
+  } */
+
+  td:last-child {
+    padding-bottom: 2rem;
+  }
+
+  td::before {
+    content: attr(data-cell) ": ";
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+
+  /* td::after {
+    content: attr(data-cell) ": ";
+    font-weight: 700;
+    text-transform: capitalize;
+  } */
+
+  .delivery-summary-total {
+    margin: auto;
+  }
+
+  /* td:nth-of-type(1)::before {
+    content: "Name";
+  } */
+
+  .delete-button {
+    width: 14ch;
+  }
 }

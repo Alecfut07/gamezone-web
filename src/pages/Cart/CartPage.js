@@ -178,9 +178,9 @@ function CartPage() {
                   {cartItems.map((item, index) => (
                     <tr key={item.productId}>
                       <th scope="row">{index + 1}</th>
-                      <td>{item.name}</td>
-                      <td>${item.price.toFixed(2)}</td>
-                      <td>
+                      <td data-cell="Name">{item.name}</td>
+                      <td data-cell="Price">${item.price.toFixed(2)}</td>
+                      <td data-cell="Quantity">
                         <StepperButton
                           amount={item.quantity}
                           setDecrease={() =>
@@ -197,9 +197,12 @@ function CartPage() {
                           }
                         />
                       </td>
-                      <td>${(item.price * item.quantity).toFixed(2)}</td>
-                      <td>
+                      <td data-cell="Subtotal">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </td>
+                      <td data-cell="Action">
                         <DeleteButton
+                          className="delete-button"
                           handleClick={() =>
                             handleRemoveItemInCart(item.productId)
                           }
