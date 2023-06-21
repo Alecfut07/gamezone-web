@@ -35,12 +35,21 @@
   /* white-space: nowrap; */
 }
 
+th {
+  text-align: center;
+}
+
+td {
+  text-align: center;
+}
+
 @media (min-width: 375px) and (max-width: 1200px) {
   th {
     display: none;
   }
 
   td {
+    text-align: left;
     display: grid;
     gap: 0.5rem;
     grid-template-columns: auto auto;

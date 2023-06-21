@@ -261,7 +261,7 @@ function CartPage() {
       ) : (
         <>
           <div>
-            <h3>
+            <h3 style={{ textAlign: "center" }}>
               <b>Your Shopping Cart is Empty</b>
             </h3>
           </div>
