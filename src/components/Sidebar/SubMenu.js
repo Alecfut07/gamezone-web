@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./SubMenu.css";
 import { Dropdown } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import useScrollLock from "../useScrollLock";
+
+import "./SubMenu.css";
 
 function SubMenu({ item, setSidebarVisible }) {
   const [isSubnavOpened, setIsSubnavOpened] = useState(false);
+  const { unlockScroll } = useScrollLock();
 
   const path = "#";
 
@@ -36,6 +39,7 @@ function SubMenu({ item, setSidebarVisible }) {
     });
     setIsSubnavOpened(false);
     setSidebarVisible(false);
+    unlockScroll();
   };
 
   const showSubCategories = (subNavItems) => {

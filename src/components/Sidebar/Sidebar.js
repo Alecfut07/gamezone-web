@@ -9,16 +9,21 @@ import SubMenu from "./SubMenu";
 import { SidebarContext } from "../../context";
 import CategoriesService from "../../services/CategoriesService";
 import Backdrop from "./Backdrop";
+import useScrollLock from "../useScrollLock";
 
 function Sidebar() {
   // const accessToken = localStorage.getItem("access_token");
 
   const [isSidebarVisible, setSidebarVisible] = useState(false);
+  const { unlockScroll } = useScrollLock();
   // const [categories, setCategories] = useState([]);
 
   const { categories, setCategories } = useContext(SidebarContext);
 
-  const toggleSidebar = () => setSidebarVisible(!isSidebarVisible);
+  const toggleSidebar = () => {
+    setSidebarVisible(!isSidebarVisible);
+    unlockScroll();
+  };
 
   const path = "#";
 
@@ -35,6 +40,7 @@ function Sidebar() {
     left: sidebarToggle ? "0" : "-100%",
     transition: "350ms",
     zIndex: "10",
+    overflowY: "scroll",
   });
 
   const getCategories = async () => {
@@ -79,7 +85,13 @@ function Sidebar() {
             </Link>
           </div>
           {categories.map((c) =>
-            SidebarData(c).map((item) => <SubMenu key={item.id} item={item} setSidebarVisible={setSidebarVisible} />)
+            SidebarData(c).map((item) => (
+              <SubMenu
+                key={item.id}
+                item={item}
+                setSidebarVisible={setSidebarVisible}
+              />
+            ))
           )}
         </div>
       </Nav>

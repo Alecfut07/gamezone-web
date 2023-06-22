@@ -21,6 +21,11 @@
   flex-direction: row;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.sidebar-menu::-webkit-scrollbar {
+  display: none;
+}
+
 .menu-button {
   margin-left: 2rem;
   background-color: transparent;
