@@ -59,7 +59,7 @@ function Sidebar() {
   return (
     <>
       <Link className="menu-button" href={path} onClick={toggleSidebar}>
-        <FaBars style={{ color: "#000000" }} />
+        <FaBars className="FaBars-icon" />
       </Link>
       {isSidebarVisible && (
         <Backdrop
@@ -73,13 +73,14 @@ function Sidebar() {
             <p className="menu-header-label">
               <b>Menu</b>
             </p>
-            <Link
-              className="menu-button"
-              style={{ textDecoration: "none", color: "black" }}
-              href={path}
-            >
+            <Link className="close-menu-button" href={path}>
               <AiOutlineClose
                 className="close-button"
+                // style={{
+                //   textDecoration: "none",
+                //   color: "black",
+                //   fontWeight: "bold",
+                // }}
                 onClick={toggleSidebar}
               />
             </Link>

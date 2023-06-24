@@ -27,6 +27,45 @@
 }
 
 .menu-button {
+  /* OLD */
+  /* margin-left: 2rem;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 0;
+  font-size: 25px;
+  line-height: 1;
+  padding: 0; */
+
+  /* NEW */
+  margin-left: 2rem;
+  background-color: transparent;
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.375rem;
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.menu-button:focus {
+  text-decoration: none;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem;
+  color: #da362c;
+}
+
+.FaBars-icon {
+  color: #000000;
+}
+
+.FaBars-icon:hover {
+  text-decoration: none;
+  outline: 0;
+  /* box-shadow: 0 0 0 0.25rem; */
+  color: #da362c;
+}
+
+.close-menu-button {
   margin-left: 2rem;
   background-color: transparent;
   border: 1px solid transparent;
@@ -40,6 +79,24 @@
   position: absolute;
   right: 1.35rem;
   top: 1.25rem;
+  color: #000;
+}
+
+.close-button:hover {
+  text-decoration: none;
+  outline: 0;
+  /* box-shadow: 0 0 0 0.25rem; */
+  color: #da362c;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.375rem;
+}
+
+.close-button:active {
+  text-decoration: none;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem;
+  color: #da362c;
+  border-radius: 0.375rem;
 }
 
 .menu-text {
