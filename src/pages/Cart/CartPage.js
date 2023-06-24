@@ -214,33 +214,23 @@ function CartPage() {
               </Table>
             </Col>
             <Col lg={3}>
-              <Stack className="mt-4" direction="horizontal" gap={3}>
-                <div className="delivery-summary-total ms-auto">
-                  <Row>
-                    <Stack direction="horizontal" gap={3}>
-                      <p>Subotal:</p>
-                      <p className="ms-auto">${subtotal.toFixed(2)}</p>
-                    </Stack>
-                  </Row>
-                  <Row>
-                    <Stack direction="horizontal" gap={3}>
-                      <p>Estimated Tax:</p>
-                      <p className="ms-auto">${estimatedTax.toFixed(2)}</p>
-                    </Stack>
-                  </Row>
-                  <Row>
-                    <div className="border border-primary border-bottom" />
-                  </Row>
-                  <Row>
-                    <Stack direction="horizontal" gap={3}>
-                      <h5>Estimated Total:</h5>
-                      <p className="mt-2 ms-auto">
-                        <b>${(subtotal + estimatedTax).toFixed(2)}</b>
-                      </p>
-                    </Stack>
-                  </Row>
-                </div>
-              </Stack>
+              <div className="delivery-summary-total ms-auto mt-3">
+                <Stack direction="horizontal" gap={3}>
+                  <p>Subotal:</p>
+                  <p className="ms-auto">${subtotal.toFixed(2)}</p>
+                </Stack>
+                <Stack direction="horizontal" gap={3}>
+                  <p>Estimated Tax:</p>
+                  <p className="ms-auto">${estimatedTax.toFixed(2)}</p>
+                </Stack>
+                <div className="border border-primary border-bottom" />
+                <Stack direction="horizontal" gap={3}>
+                  <h5>Estimated Total:</h5>
+                  <p className="mt-2 ms-auto">
+                    <b>${(subtotal + estimatedTax).toFixed(2)}</b>
+                  </p>
+                </Stack>
+              </div>
             </Col>
           </Row>
           <Row>
