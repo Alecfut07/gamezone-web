@@ -45,6 +45,8 @@ import Layout from "../pages/Layout";
 import CheckCartTotal from "./CheckCartTotal";
 import CheckPurchase from "./CheckPurchase";
 import PrivateRoute from "./PrivateRoute";
+import Footer from "./Footer/Footer";
+import AboutMe from "../pages/AboutMe/AboutMe";
 
 function NavbarRouter({ children }) {
   return (
@@ -121,9 +123,10 @@ function NavbarRouter({ children }) {
             }
           />
         </Route>
-
+        <Route path="/about-me" element={<AboutMe />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
