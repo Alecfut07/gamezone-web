@@ -4,6 +4,11 @@
 
 .footer {
   background-color: #2d2d32;
+  position: relative;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .sb-footer {

@@ -18,6 +18,8 @@ import ProductsService from "../../services/ProductsService";
 import CartsService from "../../services/CartsService";
 import { CartContext } from "../../context";
 
+import "./ProductDetailsPage.css";
+
 function ProductDetailsPage() {
   const { id } = useParams();
 
@@ -81,7 +83,7 @@ function ProductDetailsPage() {
   }, []);
 
   return (
-    <Container className="mt-4">
+    <Container className="product-details-container mt-4">
       {hasAddItemToCartErrors === false && (
         <Alert variant="success">{addItemToCartAlertMsg}</Alert>
       )}

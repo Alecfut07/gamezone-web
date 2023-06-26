@@ -4,6 +4,7 @@ import CustomNavbar from "../../components/CustomNavbar";
 function Layout({ children }) {
   return (
     <>
+    
       <CustomNavbar />
       <Container>{children}</Container>
     </>
