@@ -41,19 +41,19 @@ import {
 // import PaymentMethodPage from "../pages/Checkout/PaymentMethodPage";
 // import SuccessfulPurchasePage from "../pages/Checkout/SuccessfulPurchasePage";
 import NotFoundPage from "../pages/NotFound";
-import Layout from "../pages/Layout";
 import CheckCartTotal from "./CheckCartTotal";
 import CheckPurchase from "./CheckPurchase";
 import PrivateRoute from "./PrivateRoute";
-import Footer from "./Footer/Footer";
 import AboutMe from "../pages/AboutMe/AboutMe";
+import Header from "./Header";
+// import Layout from "../pages/Layout";
 
-function NavbarRouter({ children }) {
+function NavbarRouter() {
   return (
     <BrowserRouter>
-      {children}
+      <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} layout={Layout} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/users" element={<UsersWrapper />}>
           <Route path="/users/sign_in" element={<SignInPage />} />
           <Route path="/users/sign_up" element={<SignUpPage />} />
@@ -126,7 +126,6 @@ function NavbarRouter({ children }) {
         <Route path="/about-me" element={<AboutMe />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }

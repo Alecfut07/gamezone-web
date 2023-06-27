@@ -1,14 +1,3 @@
-import React, { Container } from "react-bootstrap";
-import CustomNavbar from "../../components/CustomNavbar";
+import Layout from "./Layout";
 
-function Layout({ children }) {
-  return (
-    <>
-    
-      <CustomNavbar />
-      <Container>{children}</Container>
-    </>
-  );
-}
-
-export default { Layout };
+export default Layout;

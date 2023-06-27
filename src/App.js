@@ -1,8 +1,9 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import Cookies from "js-cookie";
-import CustomNavbar from "./components/CustomNavbar";
-import NavbarRouter from "./components/NavbarRouter";
+// import CustomNavbar from "./components/CustomNavbar";
+// import NavbarRouter from "./components/NavbarRouter";
+import Layout from "./pages/Layout/Layout";
 import InitializeAxios from "./foundation";
 import {
   AuthProvider,
@@ -23,11 +24,9 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <PurchaseProvider>
-          <NavbarRouter>
-            <SidebarProvider>
-              <CustomNavbar />
-            </SidebarProvider>
-          </NavbarRouter>
+          <SidebarProvider>
+            <Layout />
+          </SidebarProvider>
         </PurchaseProvider>
       </CartProvider>
     </AuthProvider>
