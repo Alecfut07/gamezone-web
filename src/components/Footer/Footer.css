@@ -48,9 +48,19 @@
   line-height: 15px;
 }
 
-a {
+.sb-footer-links-div a {
   color: rgb(175, 175, 179);
   text-decoration: none;
+}
+
+.sb-footer-links-div a:hover {
+  text-decoration: underline;
+  color: #da362c;
+}
+
+.sb-footer-links-div a:active {
+  position: relative;
+  top: 2px;
 }
 
 .socialmedia {

@@ -5,7 +5,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <div className="footer">
+    <div className="footer mt-3">
       <div className="sb-footer section-padding">
         <div className="sb-footer-links">
           <div className="sb-footer-links-div">
