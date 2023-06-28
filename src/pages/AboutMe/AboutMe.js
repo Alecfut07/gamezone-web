@@ -54,6 +54,90 @@ function AboutMe() {
               (B.S.) in Computer Science from CETYS University.
             </p>
           </div>
+          <div className="training-courses-container">
+            <h3>Training/Courses</h3>
+            <div className="course">
+              <Row>
+                <p>Platzi, 2022</p>
+              </Row>
+              <Row>
+                <Col>
+                  <div className="platzi-badge-frame">
+                    <a href="https://platzi.com/cursos/git-github/">
+                      <img
+                        className="platzi-badge"
+                        src="https://static.platzi.com/cdn-cgi/image/width=1024,quality=50,format=auto/media/achievements/badge-github-0b729570-934d-47d8-ba6b-610d7f15e0ec.png"
+                        alt="Course of Git and GitHub"
+                      />
+                      <p>Git and GitHub</p>
+                    </a>
+                  </div>
+                </Col>
+                <Col>
+                  <div className="platzi-badge-frame">
+                    <a href="https://platzi.com/cursos/docker/">
+                      <img
+                        className="platzi-badge"
+                        src="https://static.platzi.com/cdn-cgi/image/width=1024,quality=50,format=auto/media/achievements/badges-fundamentos-docker-c1277cec-3ef7-4557-9f83-2649bec9fe70.png"
+                        alt="Course of Docker"
+                      />
+                      <p>Docker</p>
+                    </a>
+                  </div>
+                </Col>
+                <Col>
+                  <div className="platzi-badge-frame">
+                    <a href="https://platzi.com/cursos/npm/">
+                      <img
+                        className="platzi-badge"
+                        src="https://static.platzi.com/cdn-cgi/image/width=1024,quality=50,format=auto/media/achievements/badge-npm-js-c48fb4c0-a4d3-4773-b3ca-e9f25c543d0e.png"
+                        alt="Course of NPM"
+                      />
+                      <p>NPM</p>
+                    </a>
+                  </div>
+                </Col>
+              </Row>
+              <Row className="mt-5 mb-5">
+                <Col>
+                  <div className="platzi-badge-frame">
+                    <a href="https://platzi.com/cursos/react/">
+                      <img
+                        className="platzi-badge"
+                        src="https://static.platzi.com/cdn-cgi/image/width=1024,quality=50,format=auto/media/achievements/piezas-landing-introduccion-react-js_badge-5cb7b891-69d3-4de4-bdab-1641b4c30312.png"
+                        alt="Course of React.js"
+                      />
+                      <p>React.js</p>
+                    </a>
+                  </div>
+                </Col>
+                <Col>
+                  <div className="platzi-badge-frame">
+                    <a href="https://platzi.com/cursos/html-css/">
+                      <img
+                        className="platzi-badge"
+                        src="https://static.platzi.com/cdn-cgi/image/width=1024,quality=50,format=auto/media/achievements/badges-html-css-afa64acb-64a4-486d-96a5-f930fbb7ee32.png"
+                        alt="Course of HTML and CSS"
+                      />
+                      <p>HTML and CSS</p>
+                    </a>
+                  </div>
+                </Col>
+                <Col>
+                  <div className="platzi-badge-frame">
+                    <a href="https://platzi.com/cursos/javascript-poo/">
+                      <img
+                        className="platzi-badge"
+                        src="https://static.platzi.com/cdn-cgi/image/width=1024,quality=50,format=auto/media/achievements/badges-curso-js-poo-51952eaf-1573-43d6-9b8a-4a19967aa5e9.png"
+                        alt="Basic Course on Object-Oriented Programming with JavaScript"
+                      />
+                      <p>OOP with JS</p>
+                    </a>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </div>
         </Col>
       </Row>
     </Container>
