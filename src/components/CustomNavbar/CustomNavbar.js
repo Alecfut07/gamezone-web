@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
+  Row,
+  Col,
   Button,
   Container,
   Nav,
@@ -9,6 +11,7 @@ import {
   Image,
 } from "react-bootstrap";
 import { NavLink, useNavigate, Link } from "react-router-dom";
+import { AiOutlineUser } from "react-icons/ai";
 import SearchBar from "../SearchBar/SearchBar";
 import Cart from "../Cart/Cart";
 import UsersService from "../../services/UsersService";
@@ -79,73 +82,109 @@ function CustomNavbar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Sidebar />
-        <Navbar.Brand as={NavLink} to="/">
-          <Image
-            className="gamezone-logo"
-            src={`${GameZoneLogo}`}
-            style={{ width: "120px" }}
-          />
-        </Navbar.Brand>
-        <SearchBar />
-        {isLoggedIn ? (
-          <Stack direction="horizontal" gap={3}>
-            <NavDropdown
-              // className="ms-5"
-              title={loggedInUser ? loggedInUser.email : ""}
-              id="user-nav-dropdown"
-            >
-              <NavDropdown.Item
-                as={Link}
-                to="/users/profile" /* href="/users/profile" */
-              >
-                Your profile
-              </NavDropdown.Item>
-              {loggedInUser?.is_admin && (
-                <NavDropdown.Item as={Link} to="/admin/categories">
-                  Categories
-                </NavDropdown.Item>
-              )}
-              {loggedInUser?.is_admin && (
-                <NavDropdown.Item as={Link} to="/admin/products">
-                  Products
-                </NavDropdown.Item>
-              )}
-              {loggedInUser?.is_admin && (
-                <NavDropdown.Item as={Link} to="/admin/conditions">
-                  Conditions
-                </NavDropdown.Item>
-              )}
-              <NavDropdown.Item onClick={() => handleSignOut()}>
-                Sign out
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Stack>
-        ) : (
-          <Stack className="mt-auto" direction="horizontal" gap={3}>
-            <Button
-              // className="ms-5"
-              variant="outline-dark"
-              href="/users/sign_in"
-            >
-              Sign in
-            </Button>
-            <Button
-              // className="ms-auto"
-              variant="outline-dark"
-              href="/users/sign_up"
-            >
-              Sign up
-            </Button>
-          </Stack>
-        )}
-        <Nav style={{ marginRight: "30px" }}>
+        <Row>
+          <Col
+            xs={{ span: 2, order: 1 }}
+            md={{ span: 1, order: 1 }}
+            lg={{ span: 1, order: 1 }}
+          >
+            <Sidebar />
+          </Col>
+          <Col
+            xs={{ span: 4, order: 2 }}
+            md={{ span: 2, order: 2 }}
+            lg={{ span: 0, order: 2 }}
+          >
+            <Navbar.Brand as={NavLink} to="/">
+              <Image className="gamezone-logo" src={`${GameZoneLogo}`} />
+            </Navbar.Brand>
+          </Col>
+          <Col
+            xs={{ span: 12, order: 5 }}
+            md={{ span: 8, order: 3 }}
+            lg={{ span: 7, order: 3 }}
+          >
+            <SearchBar />
+          </Col>
+          <Col
+            xs={{ span: 2, order: 2 }}
+            md={{ span: 1, order: 4 }}
+            lg={{ span: 3, order: 5 }}
+          >
+            {isLoggedIn ? (
+              <Stack direction="horizontal" gap={3}>
+                <NavDropdown
+                  // className="ms-5"
+                  // title={loggedInUser ? loggedInUser.email : ""}
+                  title={
+                    loggedInUser ? <AiOutlineUser className="user-icon" /> : ""
+                  }
+                  id="user-nav-dropdown"
+                >
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/users/profile" /* href="/users/profile" */
+                  >
+                    Your profile
+                  </NavDropdown.Item>
+                  {loggedInUser?.is_admin && (
+                    <NavDropdown.Item as={Link} to="/admin/categories">
+                      Categories
+                    </NavDropdown.Item>
+                  )}
+                  {loggedInUser?.is_admin && (
+                    <NavDropdown.Item as={Link} to="/admin/products">
+                      Products
+                    </NavDropdown.Item>
+                  )}
+                  {loggedInUser?.is_admin && (
+                    <NavDropdown.Item as={Link} to="/admin/conditions">
+                      Conditions
+                    </NavDropdown.Item>
+                  )}
+                  <NavDropdown.Item onClick={() => handleSignOut()}>
+                    Sign out
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Stack>
+            ) : (
+              <Stack className="mt-auto" direction="horizontal" gap={3}>
+                <Button
+                  // className="ms-5"
+                  className="sign-in-button"
+                  variant="outline-dark"
+                  href="/users/sign_in"
+                >
+                  Sign in
+                </Button>
+                <Button
+                  // className="ms-auto"
+                  className="sign-up-button"
+                  variant="outline-dark"
+                  href="/users/sign_up"
+                >
+                  Sign up
+                </Button>
+              </Stack>
+            )}
+          </Col>
+          <Col xs={{ span: 4, order: 3 }}>
+            <Nav style={{ marginRight: "30px" }}>
+              <Nav.Link as={NavLink} to="/cart">
+                <div>
+                  <Cart />
+                </div>
+              </Nav.Link>
+            </Nav>
+          </Col>
+        </Row>
+        {/* <Nav style={{ marginRight: "30px" }}>
           <Nav.Link as={NavLink} to="/cart">
             <div>
               <Cart />
             </div>
           </Nav.Link>
-        </Nav>
+        </Nav> */}
       </Container>
     </Navbar>
   );

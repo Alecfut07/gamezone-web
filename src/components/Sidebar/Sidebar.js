@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Sidebar.css";
-import { Nav } from "react-bootstrap";
+import { Nav, Stack, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
 import SidebarData from "./SidebarData";
 import SubMenu from "./SubMenu";
-import { SidebarContext } from "../../context";
+import { SidebarContext, AuthContext } from "../../context";
 import CategoriesService from "../../services/CategoriesService";
 import Backdrop from "./Backdrop";
 import useScrollLock from "../useScrollLock";
@@ -18,6 +18,7 @@ function Sidebar() {
   const { unlockScroll } = useScrollLock();
   // const [categories, setCategories] = useState([]);
 
+  const { isLoggedIn } = useContext(AuthContext);
   const { categories, setCategories } = useContext(SidebarContext);
 
   const toggleSidebar = () => {
@@ -85,6 +86,30 @@ function Sidebar() {
               />
             </Link>
           </div>
+          {!isLoggedIn && (
+            <Stack
+              className="sign-stack-buttons mt-auto"
+              direction="horizontal"
+              gap={3}
+            >
+              <Button
+                // className="ms-5"
+                className=""
+                variant="outline-dark"
+                href="/users/sign_in"
+              >
+                Sign in
+              </Button>
+              <Button
+                // className="ms-auto"
+                className=""
+                variant="outline-dark"
+                href="/users/sign_up"
+              >
+                Sign up
+              </Button>
+            </Stack>
+          )}
           {categories.map((c) =>
             SidebarData(c).map((item) => (
               <SubMenu

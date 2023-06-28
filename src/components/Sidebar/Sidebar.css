@@ -123,3 +123,7 @@
 .sidebar-wrap {
   width: 100%;
 }
+
+.sign-stack-buttons {
+  justify-content: center;
+}
