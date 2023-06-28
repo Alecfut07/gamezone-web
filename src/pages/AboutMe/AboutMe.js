@@ -41,22 +41,6 @@ function AboutMe() {
                 </a>
               </div>
             </div>
-            {/* <Col lg={6}>
-              <p>
-                <a href="https://github.com/Alecfut07">
-                  <AiFillGithub className="icon" />
-                  github.com/Alecfut07
-                </a>
-              </p>
-            </Col>
-            <Col lg={6}>
-              <p>
-                <a href="https://www.linkedin.com/in/alec-ortega/">
-                  <AiFillLinkedin className="icon" />
-                  linkedin.com/in/alec-ortega/
-                </a>
-              </p>
-            </Col> */}
           </Row>
         </Col>
         <Col lg={6}>

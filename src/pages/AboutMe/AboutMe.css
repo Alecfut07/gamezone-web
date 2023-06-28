@@ -51,6 +51,20 @@
   padding-bottom: 20px;
 }
 
+.social a {
+  text-decoration: none;
+}
+
+.social a:hover > .social-text {
+  text-decoration: underline;
+  color: #da362c;
+}
+
+.social a:active {
+  position: relative;
+  top: 2px;
+}
+
 .social-icon {
   display: flex;
   justify-content: center;
