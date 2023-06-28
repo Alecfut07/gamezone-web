@@ -58,7 +58,7 @@ function AboutMe() {
             <h3>Training/Courses</h3>
             <div className="course">
               <Row>
-                <p>Platzi, 2022</p>
+                <p className="course-title">Platzi, 2022</p>
               </Row>
               <Row>
                 <Col>

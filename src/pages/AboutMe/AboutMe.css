@@ -90,6 +90,12 @@
   padding: 1.4rem;
 }
 
+.course-title {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 .platzi-badge-frame {
   width: 50px;
   height: 50px;
