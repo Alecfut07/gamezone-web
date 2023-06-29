@@ -18,7 +18,7 @@ function SearchBar() {
   // 767 px width
 
   const searchbar = (isMatch) => ({
-    width: isMatch ? "600px" : "300px",
+    width: isMatch ? "380px" : "300px",
     height: "40px",
     // border: "none",
     // background: "#c0c0c0",

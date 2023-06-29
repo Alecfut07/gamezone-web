@@ -1,5 +1,14 @@
+.navbar-row {
+  justify-content: center;
+  justify-items: center;
+}
+
+.sidebar {
+  margin-top: 10px;
+}
+
 .gamezone-logo {
-  /* margin-right: 6rem; */
+  /* margin-right: 6rem;s */
   width: 120px;
 }
 

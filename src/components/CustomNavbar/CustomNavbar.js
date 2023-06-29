@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import {
   Row,
   Col,
-  Button,
   Container,
   Nav,
   NavDropdown,
@@ -81,37 +80,39 @@ function CustomNavbar() {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Container>
+      <Container className="navbar-container">
         <Row>
           <Col
+            className="sidebar"
             xs={{ span: 2, order: 1 }}
             md={{ span: 1, order: 1 }}
-            lg={{ span: 1, order: 1 }}
+            // lg={{ span: 1, order: 1 }}
           >
             <Sidebar />
           </Col>
           <Col
             xs={{ span: 4, order: 2 }}
-            md={{ span: 2, order: 2 }}
-            lg={{ span: 0, order: 2 }}
+            md={{ span: 3, order: 2 }}
+            // lg={{ span: 2, order: 2 }}
           >
             <Navbar.Brand as={NavLink} to="/">
               <Image className="gamezone-logo" src={`${GameZoneLogo}`} />
             </Navbar.Brand>
           </Col>
           <Col
+            className="searchbar"
             xs={{ span: 12, order: 5 }}
-            md={{ span: 8, order: 3 }}
-            lg={{ span: 7, order: 3 }}
+            md={{ span: 7, order: 3 }}
+            // lg={{ span: 9, order: 3 }}
           >
             <SearchBar />
           </Col>
-          <Col
-            xs={{ span: 2, order: 2 }}
-            md={{ span: 1, order: 4 }}
-            lg={{ span: 3, order: 5 }}
-          >
-            {isLoggedIn ? (
+          {isLoggedIn ? (
+            <Col
+              xs={{ span: 2, order: 2 }}
+              md={{ span: 1, order: 4 }}
+              // lg={{ span: 4, order: 4 }}
+            >
               <Stack direction="horizontal" gap={3}>
                 <NavDropdown
                   // className="ms-5"
@@ -121,10 +122,7 @@ function CustomNavbar() {
                   }
                   id="user-nav-dropdown"
                 >
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/users/profile" /* href="/users/profile" */
-                  >
+                  <NavDropdown.Item as={Link} to="/users/profile">
                     Your profile
                   </NavDropdown.Item>
                   {loggedInUser?.is_admin && (
@@ -146,8 +144,32 @@ function CustomNavbar() {
                     Sign out
                   </NavDropdown.Item>
                 </NavDropdown>
+                <Nav style={{ marginRight: "30px" }}>
+                  <Nav.Link as={NavLink} to="/cart">
+                    <div>
+                      <Cart />
+                    </div>
+                  </Nav.Link>
+                </Nav>
               </Stack>
-            ) : (
+            </Col>
+          ) : (
+            <Col
+              xs={{ span: 4, order: 3 }}
+              md={{ span: 1, order: 4 }}
+              // lg={{ span: 4, order: 3 }}
+            >
+              <Nav style={{ marginRight: "30px" }}>
+                <Nav.Link as={NavLink} to="/cart">
+                  <div>
+                    <Cart />
+                  </div>
+                </Nav.Link>
+              </Nav>
+            </Col>
+          )}
+        </Row>
+        {/* : (
               <Stack className="mt-auto" direction="horizontal" gap={3}>
                 <Button
                   // className="ms-5"
@@ -166,18 +188,7 @@ function CustomNavbar() {
                   Sign up
                 </Button>
               </Stack>
-            )}
-          </Col>
-          <Col xs={{ span: 4, order: 3 }}>
-            <Nav style={{ marginRight: "30px" }}>
-              <Nav.Link as={NavLink} to="/cart">
-                <div>
-                  <Cart />
-                </div>
-              </Nav.Link>
-            </Nav>
-          </Col>
-        </Row>
+            ) */}
         {/* <Nav style={{ marginRight: "30px" }}>
           <Nav.Link as={NavLink} to="/cart">
             <div>
