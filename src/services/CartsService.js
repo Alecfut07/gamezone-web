@@ -3,7 +3,7 @@ import axios from "axios";
 const CartsService = {
   getCart: async () => {
     try {
-      const { data } = await axios.get("/api/carts");
+      const { data } = await axios.get("/carts");
       return data;
     } catch (error) {
       console.log(error);
@@ -16,7 +16,7 @@ const CartsService = {
       quantity,
     };
     try {
-      const response = await axios.post("/api/carts/add", body);
+      const response = await axios.post("/carts/add", body);
       return response;
     } catch (error) {
       console.log(error);
@@ -29,7 +29,7 @@ const CartsService = {
       quantity,
     };
     try {
-      await axios.put("/api/carts/update", body);
+      await axios.put("/carts/update", body);
     } catch (error) {
       console.log(error);
       throw error;
@@ -37,7 +37,7 @@ const CartsService = {
   },
   removeAllItemsInCart: async () => {
     try {
-      await axios.delete("/api/carts/remove_all");
+      await axios.delete("/carts/remove_all");
     } catch (error) {
       console.log(error);
       throw error;
@@ -45,7 +45,7 @@ const CartsService = {
   },
   removeItemInCart: async (productId) => {
     try {
-      await axios.delete("/api/carts/remove", {
+      await axios.delete("/carts/remove", {
         data: { product_id: productId },
       });
     } catch (error) {
